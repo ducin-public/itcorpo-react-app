@@ -5,7 +5,7 @@ import './fadebox.css'
 
 /* tslint:disable */
 
-var id: NodeJS.Timeout
+var id: ReturnType<typeof setInterval>
 
 export class FadeBox extends React.Component {
   constructor(props: {}){

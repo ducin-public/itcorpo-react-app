@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 // import './App.css';
@@ -13,41 +13,38 @@ import { BenefitContainer } from './pages/benefits/BenefitContainer';
 import { NavigationBar } from './shared/navigation-bar/NavigationBar';
 import { FadeBox } from './shared/fadebox/fadebox';
 
-class App extends Component {
+function App() {
+  return (
+    <Router>
+      <div>
+        <strong>IT Corpo React App</strong>
+      </div>
+      <div className="App">
+        <FadeBox>
+          notification message goes here
+        </FadeBox>
 
-  render() {
-    return (
-      <Router>
-        <div>
-          <strong>IT Corpo React App</strong>
-        </div>
-        <div className="App">
-          <FadeBox>
-            notification message goes here
-          </FadeBox>
+        <NavigationBar />
 
-          <NavigationBar />
-
-          <Route exact path="/" component={Home} />
-          <Route exact path="/finances" render={
-            () => <FinancesContainer label="IT Corpo Finances" />
-          } />
-          <Route exact path="/offices" render={
-            () => <OfficeContainer label="IT Corpo Offices" />
-          } />
-          <Route exact path="/projects" render={
-            () => <ProjectContainer label="IT Corpo Projects" />
-          } />
-          <Route exact path="/employees" render={
-            () => <EmployeeContainer label="IT Corpo Employees" />
-          } />
-          <Route exact path="/benefits" render={
-            () => <BenefitContainer label="IT Corpo Benefits" />
-          } />
-        </div>
-      </Router>
-    );
-  }
+        <Route exact path="/" component={Home} />
+        <Route exact path="/finances" render={
+          () => <FinancesContainer label="IT Corpo Finances" />
+        } />
+        <Route exact path="/offices" render={
+          () => <OfficeContainer label="IT Corpo Offices" />
+        } />
+        <Route exact path="/projects" render={
+          () => <ProjectContainer label="IT Corpo Projects" />
+        } />
+        <Route exact path="/employees" render={
+          () => <EmployeeContainer label="IT Corpo Employees" />
+        } />
+        <Route exact path="/benefits" render={
+          () => <BenefitContainer label="IT Corpo Benefits" />
+        } />
+      </div>
+    </Router>
+  );
 }
 
 export default App;
