@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react'
 
 import { to2 } from '../../utils/math';
 
-import { EmployeeDetails } from './EmployeeDetails';
+import { EmployeeRow } from './EmployeeRow';
 import { Employee } from '../../typedef';
 import { getEmployees } from '../../api/EmployeeApi';
 
@@ -97,7 +97,7 @@ export class EmployeeContainer extends React.Component<
       {this.state.employees &&
         <ol>
         {this.state.employees.map(e =>
-          <li key={e.id}><EmployeeDetails employee={e}
+          <li key={e.id}><EmployeeRow employee={e}
             onBenefitClick={this.onEmployeeBenefitClicked}
             onDeleteClick={this.onEmployeeDeleted}
             onMoneyClick={this.onEmployeeMoneyBumped}  

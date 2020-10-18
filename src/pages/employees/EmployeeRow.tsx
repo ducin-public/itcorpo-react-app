@@ -5,15 +5,15 @@ import { Employee } from '../../typedef'
 import { EmployeeThumbnailImage } from './EmployeeImage'
 import { CurrencyFormat } from '../../shared/CurrencyFormat'
 
-type EmployeeDetailsProps = {
+type EmployeeRowProps = {
   employee: Employee
   onBenefitClick: (e: Employee) => void
   onDeleteClick: (e: Employee) => void
   onMoneyClick: (e: Employee) => void
 }
 
-export const EmployeeDetails =
-  ({ employee: e, onBenefitClick, onDeleteClick, onMoneyClick }: EmployeeDetailsProps) => <div>
+export const EmployeeRow =
+  ({ employee: e, onBenefitClick, onDeleteClick, onMoneyClick }: EmployeeRowProps) => <div>
     <EmployeeThumbnailImage employee={e} />
     {e.firstName} {e.lastName},
     {` `}
