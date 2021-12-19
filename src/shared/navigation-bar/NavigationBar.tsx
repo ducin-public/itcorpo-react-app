@@ -5,9 +5,11 @@ import './NavigationBar.css'
 
 import { Dropdown } from '../Dropdown';
 
+// eslint-disable-next-line
 type NavigationBarProps = {
 }
 
+// eslint-disable-next-line
 type NavigationBarState = {
 }
 
