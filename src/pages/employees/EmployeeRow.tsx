@@ -19,7 +19,7 @@ export const EmployeeRow =
     {` `}
     {e.title}
     {` `}
-    (<CurrencyFormat value={e.salary} displayType={'text'} thousandSeparator={true} prefix={'€'} />)
+    (<CurrencyFormat value={e.salary} />)
     <div>
       <button onClick={() => onBenefitClick(e)}>
         <span role="img" aria-label="benefits">🍕</span>

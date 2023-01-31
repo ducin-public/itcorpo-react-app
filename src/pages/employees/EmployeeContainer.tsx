@@ -75,12 +75,12 @@ export const EmployeeContainer: React.VFC<EmployeeContainerProps> = (props) => {
     <label htmlFor="displaySummary">display additional costs</label>
     <ul>
       <li>monthly salary cost: {` `}
-        <CurrencyFormat value={calculateTotalSalary()} displayType={'text'} thousandSeparator={true} prefix={'€'} /></li>
+        <CurrencyFormat value={calculateTotalSalary()} /></li>
       {displayAdditionalSummaries && <>
         <li>quarterly salary cost: {` `}
-          <CurrencyFormat value={calculateTotalSalary() * 3} displayType={'text'} thousandSeparator={true} prefix={'€'} /></li>
+          <CurrencyFormat value={calculateTotalSalary() * 3} /></li>
         <li>yearly salary cost: {` `}
-          <CurrencyFormat value={calculateTotalSalary() * 12} displayType={'text'} thousandSeparator={true} prefix={'€'} /></li>
+          <CurrencyFormat value={calculateTotalSalary() * 12} /></li>
       </>}
     </ul>
     {employees &&

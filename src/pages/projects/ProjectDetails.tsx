@@ -13,7 +13,7 @@ export const ProjectDetails =
   ({ project: p }: ProjectDetailsProps) => <div>
     <strong>{p.name}</strong>
     {` `}
-    (<CurrencyFormat value={p.budget} displayType={'text'} thousandSeparator={true} prefix={'€'} />)
+    (<CurrencyFormat value={p.budget} />)
       <div>
       {p.description}
     </div>

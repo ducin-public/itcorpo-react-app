@@ -26,7 +26,7 @@ export const EmployeeCard = memo(
       </div>
       <ul>
         <li>
-          earning: <CurrencyFormat value={e.salary} displayType={'text'} thousandSeparator={true} prefix={currency} />,
+          earning: <CurrencyFormat value={e.salary} />,
           {` `}
           {e.contractType}
         </li>

@@ -45,7 +45,7 @@ export class BenefitContainer extends React.Component<
       count: {this.state.benefits.length}
       {` `}
       ({to2(this.state.completedRate * 100)} %)
-      <h3>costs: {<CurrencyFormat value={this.costs} displayType={'text'} thousandSeparator={true} prefix={'€'} />}</h3>
+      <h3>costs: {<CurrencyFormat value={this.costs} />}</h3>
       {this.state.benefits &&
         <ol>
           {this.state.benefits.map(b =>

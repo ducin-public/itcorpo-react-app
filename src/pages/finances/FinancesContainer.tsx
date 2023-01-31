@@ -18,20 +18,20 @@ export const FinancesContainer: React.VFC<FinancesContainerProps> = (props) => {
       ['Cost Category', 'Total Monthly Expenses', 'Total Yearly Expenses']
     } rows={[
       ['Office Rentals',
-        <CurrencyFormat value={monthly} displayType="text" thousandSeparator={true} prefix={'€'} />,
-        <CurrencyFormat value={yearly} displayType={'text'} thousandSeparator={true} prefix={'€'} />
+        <CurrencyFormat value={monthly} />,
+        <CurrencyFormat value={yearly} />
       ],
       ['Employee Salaries',
-        <CurrencyFormat value={monthly} displayType="text" thousandSeparator={true} prefix={'€'} />,
-        <CurrencyFormat value={yearly} displayType={'text'} thousandSeparator={true} prefix={'€'} />
+        <CurrencyFormat value={monthly} />,
+        <CurrencyFormat value={yearly} />
       ],
       ['Employee Benefits',
-        <CurrencyFormat value={monthly} displayType="text" thousandSeparator={true} prefix={'€'} />,
-        <CurrencyFormat value={yearly} displayType={'text'} thousandSeparator={true} prefix={'€'} />
+        <CurrencyFormat value={monthly} />,
+        <CurrencyFormat value={yearly} />
       ],
       ['Total Expenses',
-        <CurrencyFormat value={monthly} displayType="text" thousandSeparator={true} prefix={'€'} />,
-        <CurrencyFormat value={yearly} displayType={'text'} thousandSeparator={true} prefix={'€'} />
+        <CurrencyFormat value={monthly} />,
+        <CurrencyFormat value={yearly} />
       ],
     ]} />     
   </>

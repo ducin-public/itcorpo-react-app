@@ -86,12 +86,12 @@ export class EmployeeContainer extends React.Component<
       <label htmlFor="displaySummary">display additional costs</label>
       <ul>
         <li>monthly salary cost: {` `}
-          <CurrencyFormat value={this.calculateTotalSalary()} displayType={'text'} thousandSeparator={true} prefix={'€'} /></li>
+          <CurrencyFormat value={this.calculateTotalSalary()} /></li>
         {this.state.displayAdditionalSummaries && <>
           <li>quarterly salary cost: {` `}
-            <CurrencyFormat value={this.calculateTotalSalary() * 3} displayType={'text'} thousandSeparator={true} prefix={'€'} /></li>
+            <CurrencyFormat value={this.calculateTotalSalary() * 3} /></li>
           <li>yearly salary cost: {` `}
-            <CurrencyFormat value={this.calculateTotalSalary() * 12} displayType={'text'} thousandSeparator={true} prefix={'€'} /></li>
+            <CurrencyFormat value={this.calculateTotalSalary() * 12} /></li>
         </>}
       </ul>
       {this.state.employees &&

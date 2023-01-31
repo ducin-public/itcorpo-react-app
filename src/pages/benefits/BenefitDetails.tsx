@@ -16,6 +16,6 @@ export const BenefitDetails =
     <div>
       {b.service}
       {` `}
-      (<CurrencyFormat value={b.monthlyFee} displayType={'text'} thousandSeparator={true} prefix={'€'} />)
+      (<CurrencyFormat value={b.monthlyFee} />)
       </div>
   </div>

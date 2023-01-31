@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ReactNode } from 'react';
 import classNames from 'classnames'
 
 import './fadebox.css'
 
 var id: ReturnType<typeof setInterval>
 
-export const FadeBox: React.FC = (props) => {
+export const FadeBox: React.FC<{ children: ReactNode }> = (props) => {
   const [fadeOut, setFadeOut] = useState(true)
 
   useEffect(() => {
@@ -22,7 +22,6 @@ export const FadeBox: React.FC = (props) => {
     'fade-in': true,
     'fade-out': fadeOut,
   });
-  console.log(boxClass)
 
   return <div className={boxClass}>
     {props.children}

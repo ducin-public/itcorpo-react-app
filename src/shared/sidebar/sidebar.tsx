@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 
 import './sidebar.css'
 
 type SidebarProps = {
+  children: ReactNode
   collapsed: boolean
   onCloseClick: () => void
 }

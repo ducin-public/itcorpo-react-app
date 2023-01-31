@@ -36,7 +36,7 @@ export const BenefitContainer: React.VFC<BenefitContainerProps> = (props) => {
     count: {benefits.length}
     {` `}
     ({to2(completedRate * 100)} %)
-    <h3>costs: {<CurrencyFormat value={costs} displayType={'text'} thousandSeparator={true} prefix={'€'} />}</h3>
+    <h3>costs: {<CurrencyFormat value={costs} />}</h3>
     {benefits &&
       <ol>
         {benefits.map(b =>

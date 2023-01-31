@@ -25,20 +25,20 @@ export class FinancesContainer extends React.Component<
         ['Cost Category', 'Total Monthly Expenses', 'Total Yearly Expenses']
       } rows={[
         ['Office Rentals',
-          <CurrencyFormat value={this.monthly} displayType="text" thousandSeparator={true} prefix={'€'} />,
-          <CurrencyFormat value={this.yearly} displayType={'text'} thousandSeparator={true} prefix={'€'} />
+          <CurrencyFormat value={this.monthly} />,
+          <CurrencyFormat value={this.yearly} />
         ],
         ['Employee Salaries',
-          <CurrencyFormat value={this.monthly} displayType="text" thousandSeparator={true} prefix={'€'} />,
-          <CurrencyFormat value={this.yearly} displayType={'text'} thousandSeparator={true} prefix={'€'} />
+          <CurrencyFormat value={this.monthly} />,
+          <CurrencyFormat value={this.yearly} />
         ],
         ['Employee Benefits',
-          <CurrencyFormat value={this.monthly} displayType="text" thousandSeparator={true} prefix={'€'} />,
-          <CurrencyFormat value={this.yearly} displayType={'text'} thousandSeparator={true} prefix={'€'} />
+          <CurrencyFormat value={this.monthly} />,
+          <CurrencyFormat value={this.yearly} />
         ],
         ['Total Expenses',
-          <CurrencyFormat value={this.monthly} displayType="text" thousandSeparator={true} prefix={'€'} />,
-          <CurrencyFormat value={this.yearly} displayType={'text'} thousandSeparator={true} prefix={'€'} />
+          <CurrencyFormat value={this.monthly} />,
+          <CurrencyFormat value={this.yearly} />
         ],
       ]} />     
     </>

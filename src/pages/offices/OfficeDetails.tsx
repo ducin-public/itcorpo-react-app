@@ -19,7 +19,7 @@ export const OfficeDetails =
       {o.address}
     </div>
     {` `}
-    (rental: <CurrencyFormat value={o.estate.monthlyRental} displayType={'text'} thousandSeparator={true} prefix={'€'} />)
+    (rental: <CurrencyFormat value={o.estate.monthlyRental} />)
       <div>
       <OfficeImage office={o} />
     </div>
