@@ -1,6 +1,4 @@
-import React from 'react'
-
-import { Employee } from '../../typedef'
+import { Employee } from '../../api/dto'
 
 import { EmployeeThumbnailImage } from './EmployeeImage'
 import { CurrencyFormat } from '../../shared/CurrencyFormat'

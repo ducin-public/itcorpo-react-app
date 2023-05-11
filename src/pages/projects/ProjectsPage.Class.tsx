@@ -4,31 +4,31 @@ import React, { ReactNode } from 'react'
 import { to2 } from '../../utils/math';
 
 import { ProjectDetails } from './ProjectDetails';
-import { Project } from '../../typedef';
+import { Project } from '../../api/dto';
 import { getProjects } from '../../api/ProjectApi';
 
 import { Loader } from '../../shared/Loader';
 
-type ProjectContainerProps = {
+type ProjectsPageProps = {
   label: string
   header?: ReactNode
 }
 
-type ProjectContainerState = {
+type ProjectsPageState = {
   projects: Project[]
   loading: boolean
   completedRate: number
 }
 
-export class ProjectContainer extends React.Component<
-  ProjectContainerProps,
-  ProjectContainerState
+export class ProjectsPage extends React.Component<
+  ProjectsPageProps,
+  ProjectsPageState
 >{
   state = {
     projects: [],
     loading: true,
     completedRate: 0
-  } as ProjectContainerState
+  } as ProjectsPageState
 
   componentDidMount(){
     getProjects()

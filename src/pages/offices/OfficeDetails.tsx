@@ -1,6 +1,4 @@
-import React from 'react'
-
-import { Office } from '../../typedef'
+import { Office } from '../../api/dto'
 
 import { CurrencyFormat } from '../../shared/CurrencyFormat';
 

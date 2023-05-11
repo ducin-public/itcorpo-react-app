@@ -1,7 +1,5 @@
-import React from 'react'
-
 import { API_URL } from '../../api/config';
-import { Employee } from '../../typedef';
+import { Employee } from '../../api/dto';
 
 import '../../shared/image.css'
 

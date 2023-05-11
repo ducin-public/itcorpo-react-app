@@ -4,18 +4,18 @@ import React, { ReactNode, useState, useEffect } from 'react'
 import { to2 } from '../../utils/math';
 
 import { BenefitDetails } from './BenefitDetails';
-import { Benefit } from '../../typedef';
+import { Benefit } from '../../api/dto';
 import { getBenefits } from '../../api/BenefitApi';
 
 import { Loader } from '../../shared/Loader';
 import { CurrencyFormat } from '../../shared/CurrencyFormat';
 
-type BenefitContainerProps = {
+type BenefitsPageProps = {
   label: string
   header?: ReactNode
 }
 
-export const BenefitContainer: React.VFC<BenefitContainerProps> = (props) => {
+export const BenefitsPage: React.FC<BenefitsPageProps> = (props) => {
   const [benefits, setBenefits] = useState<Benefit[]>([])
   const [isLoading, setLoading] = useState(true)
   const [completedRate, setCompletedRate] = useState(0)

@@ -1,11 +1,10 @@
 import React, { useState, memo } from 'react'
 
-import { Employee } from '../../typedef'
+import { Employee } from '../../api/dto'
 
 import { CurrencyFormat } from '../../shared/CurrencyFormat'
-import { Currencies } from '../../contexts/currencies';
 import { EmployeeImage } from './EmployeeImage';
-import { flag } from '../../contexts/nationalities';
+import { flag } from '../../providers/Country';
 
 type EmployeeCardProps = {
   employee: Employee
@@ -16,7 +15,6 @@ type EmployeeCardProps = {
 
 export const EmployeeCard = memo(
   ({ employee: e, onDeleteClick, onMoneyClick, onBenefitClick }: EmployeeCardProps) => {
-    const currency = Currencies.EUR
     const [skillsDisplayed, setSkillsDisplayed] = useState(false)
     return <div>
       <h2>{e.firstName} {e.lastName}</h2>

@@ -1,17 +1,14 @@
-import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
-// import './App.css';
-
 import { Home } from './pages/home/Home';
-import { FinancesContainer } from './pages/finances/FinancesContainer';
-import { OfficeContainer } from './pages/offices/OfficeContainer';
-import { ProjectContainer } from './pages/projects/ProjectContainer';
-import { EmployeeContainer } from './pages/employees/EmployeeContainer';
-import { BenefitContainer } from './pages/benefits/BenefitContainer';
+import { FinancesPage } from './pages/finances/FinancesPage';
+import { OfficesPage } from './pages/offices/OfficesPage';
+import { ProjectsPage } from './pages/projects/ProjectsPage';
+import { EmployeesPage } from './pages/employees/EmployeesPage';
+import { BenefitsPage } from './pages/benefits/BenefitsPage';
 
-import { NavigationBar } from './shared/navigation-bar/NavigationBar';
-import { FadeBox } from './shared/fadebox/fadebox';
+import { NavigationBar } from './layout/navigation-bar/NavigationBar';
+import { FadeBox } from './shared/fadebox/Fadebox';
 
 function App() {
   return (
@@ -28,19 +25,19 @@ function App() {
 
         <Route exact path="/" component={Home} />
         <Route exact path="/finances" render={
-          () => <FinancesContainer label="IT Corpo Finances" />
+          () => <FinancesPage label="IT Corpo Finances" />
         } />
         <Route exact path="/offices" render={
-          () => <OfficeContainer label="IT Corpo Offices" />
+          () => <OfficesPage label="IT Corpo Offices" />
         } />
         <Route exact path="/projects" render={
-          () => <ProjectContainer label="IT Corpo Projects" />
+          () => <ProjectsPage label="IT Corpo Projects" />
         } />
         <Route exact path="/employees" render={
-          () => <EmployeeContainer label="IT Corpo Employees" />
+          () => <EmployeesPage label="IT Corpo Employees" />
         } />
         <Route exact path="/benefits" render={
-          () => <BenefitContainer label="IT Corpo Benefits" />
+          () => <BenefitsPage label="IT Corpo Benefits" />
         } />
       </div>
     </Router>

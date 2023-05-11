@@ -1,17 +1,8 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 
 import './NavigationBar.css'
 
-import { Dropdown } from '../Dropdown';
-
-// eslint-disable-next-line
-type NavigationBarProps = {
-}
-
-// eslint-disable-next-line
-type NavigationBarState = {
-}
+import { Dropdown } from '../../shared/dropdown/Dropdown';
 
 const items = {
   'PL': "Poland",

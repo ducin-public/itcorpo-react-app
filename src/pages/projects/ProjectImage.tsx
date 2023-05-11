@@ -1,6 +1,4 @@
-import React from 'react';
-
-import { Project } from '../../typedef';
+import { Project } from '../../api/dto';
 
 import { hashCode } from '../../utils/hash';
 

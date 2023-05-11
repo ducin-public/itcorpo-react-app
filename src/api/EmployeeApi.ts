@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { API_URL } from './config';
-import { Employee } from '../typedef';
+import { Employee } from './dto';
 
 export const getEmployees = (): Promise<Employee[]> => {
   return fetch(`${API_URL}/employees`)

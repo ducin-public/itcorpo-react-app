@@ -4,32 +4,32 @@ import React, { ReactNode } from 'react'
 import { to2 } from '../../utils/math';
 
 import { BenefitDetails } from './BenefitDetails';
-import { Benefit } from '../../typedef';
+import { Benefit } from '../../api/dto';
 import { getBenefits } from '../../api/BenefitApi';
 
 import { Loader } from '../../shared/Loader';
 import { CurrencyFormat } from '../../shared/CurrencyFormat';
 
-type BenefitContainerProps = {
+type BenefitsPageProps = {
   label: string
   header?: ReactNode
 }
 
-type BenefitContainerState = {
+type BenefitsPageState = {
   benefits: Benefit[]
   loading: boolean
   completedRate: number
 }
 
-export class BenefitContainer extends React.Component<
-  BenefitContainerProps,
-  BenefitContainerState
+export class BenefitsPage extends React.Component<
+  BenefitsPageProps,
+  BenefitsPageState
 >{
   state = {
     benefits: [],
     loading: true,
     completedRate: 0
-  } as BenefitContainerState
+  } as BenefitsPageState
 
   costs = 123456789
 

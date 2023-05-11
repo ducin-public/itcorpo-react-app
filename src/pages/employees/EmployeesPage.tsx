@@ -3,19 +3,19 @@ import React, { ReactNode, useEffect, useState } from 'react'
 import { to2 } from '../../utils/math';
 
 import { EmployeeRow } from './EmployeeRow';
-import { Employee } from '../../typedef';
+import { Employee } from '../../api/dto';
 import { getEmployees } from '../../api/EmployeeApi';
 
 import { Loader } from '../../shared/Loader';
-import { Sidebar } from '../../shared/sidebar/sidebar';
+import { Sidebar } from '../../shared/sidebar/Sidebar';
 import { CurrencyFormat } from '../../shared/CurrencyFormat';
 
-type EmployeeContainerProps = {
+type EmployeesPageProps = {
   label: string
   header?: ReactNode
 }
 
-export const EmployeeContainer: React.VFC<EmployeeContainerProps> = (props) => {
+export const EmployeesPage: React.FC<EmployeesPageProps> = (props) => {
   const [employees, setEmployees] = useState<Employee[]>([])
   const [isLoading, setLoading] = useState(true)
   const [completedRate, setCompletedRate] = useState(0)

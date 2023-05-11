@@ -5,7 +5,7 @@ type DropdownProps = {
   onChanged: (key: string) => void
 }
 
-export const Dropdown: React.VFC<DropdownProps> = (props) => {
+export const Dropdown: React.FC<DropdownProps> = (props) => {
   const [value, setValue] = useState('')
   const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
     const value = (event.target as HTMLSelectElement).value

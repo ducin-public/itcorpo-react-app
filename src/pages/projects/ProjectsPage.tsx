@@ -4,17 +4,17 @@ import React, { ReactNode, useState, useEffect } from 'react'
 import { to2 } from '../../utils/math';
 
 import { ProjectDetails } from './ProjectDetails';
-import { Project } from '../../typedef';
+import { Project } from '../../api/dto';
 import { getProjects } from '../../api/ProjectApi';
 
 import { Loader } from '../../shared/Loader';
 
-type ProjectContainerProps = {
+type ProjectsPageProps = {
   label: string
   header?: ReactNode
 }
 
-export const ProjectContainer: React.VFC<ProjectContainerProps> = (props) => {
+export const ProjectsPage: React.FC<ProjectsPageProps> = (props) => {
   const [projects, setProjects] = useState<Project[]>([])
   const [isLoading, setLoading] = useState(true)
   const [completedRate, setCompletedRate] = useState(0)

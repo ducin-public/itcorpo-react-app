@@ -1,4 +1,4 @@
-import { Nationality } from '../typedef'
+import { Nationality } from '../api/dto'
 
 const flags = {
   US: "🇺🇸",

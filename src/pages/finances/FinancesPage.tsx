@@ -1,14 +1,14 @@
 import React, { ReactNode } from 'react'
 
 import { CurrencyFormat } from '../../shared/CurrencyFormat'
-import { Table } from '../../shared/table/table';
+import { Table } from '../../shared/table/Table';
 
-type FinancesContainerProps = {
+type FinancesPageProps = {
   label: string
   header?: ReactNode
 }
 
-export const FinancesContainer: React.VFC<FinancesContainerProps> = (props) => {
+export const FinancesPage: React.FC<FinancesPageProps> = (props) => {
   const monthly = 1234567890
   const yearly = 9876543210
 

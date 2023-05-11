@@ -1,7 +1,5 @@
-import React from 'react';
-
 import { API_URL } from '../../api/config';
-import { Office } from '../../typedef';
+import { Office } from '../../api/dto';
 
 import '../../shared/image.css'
 

@@ -1,19 +1,19 @@
 import React, { ReactNode } from 'react'
 
 import { CurrencyFormat } from '../../shared/CurrencyFormat'
-import { Table } from '../../shared/table/table';
+import { Table } from '../../shared/table/Table';
 
-type FinancesContainerProps = {
+type FinancesPageProps = {
   label: string
   header?: ReactNode
 }
 
-type FinancesContainerState = {
+type FinancesPageState = {
 }
 
-export class FinancesContainer extends React.Component<
-  FinancesContainerProps,
-  FinancesContainerState
+export class FinancesPage extends React.Component<
+  FinancesPageProps,
+  FinancesPageState
 >{
   monthly = 1234567890
   yearly = 9876543210

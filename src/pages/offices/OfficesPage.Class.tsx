@@ -2,29 +2,29 @@
 import React, { ReactNode } from 'react'
 
 import { OfficeDetails } from './OfficeDetails';
-import { Office } from '../../typedef';
+import { Office } from '../../api/dto';
 import { getOffices } from '../../api/OfficeApi';
 
 import { Loader } from '../../shared/Loader';
 
-type OfficeContainerProps = {
+type OfficesPageProps = {
   label: string
   header?: ReactNode
 }
 
-type OfficeContainerState = {
+type OfficesPageState = {
   offices: Office[]
   loading: boolean
 }
 
-export class OfficeContainer extends React.Component<
-  OfficeContainerProps,
-  OfficeContainerState
+export class OfficesPage extends React.Component<
+  OfficesPageProps,
+  OfficesPageState
 >{
   state = {
     offices: [],
     loading: true,
-  } as OfficeContainerState
+  } as OfficesPageState
 
   componentDidMount(){
     getOffices()

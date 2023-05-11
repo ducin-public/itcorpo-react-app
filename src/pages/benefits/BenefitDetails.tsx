@@ -1,6 +1,4 @@
-import React from 'react'
-
-import { Benefit } from '../../typedef'
+import { Benefit } from '../../api/dto'
 
 import { CurrencyFormat } from '../../shared/CurrencyFormat';
 

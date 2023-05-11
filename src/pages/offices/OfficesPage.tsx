@@ -2,17 +2,17 @@
 import React, { ReactNode, useState, useEffect } from 'react'
 
 import { OfficeDetails } from './OfficeDetails';
-import { Office } from '../../typedef';
+import { Office } from '../../api/dto';
 import { getOffices } from '../../api/OfficeApi';
 
 import { Loader } from '../../shared/Loader';
 
-type OfficeContainerProps = {
+type OfficesPageProps = {
   label: string
   header?: ReactNode
 }
 
-export const OfficeContainer: React.VFC<OfficeContainerProps> = (props) => {
+export const OfficesPage: React.FC<OfficesPageProps> = (props) => {
   const [offices, setOffices] = useState<Office[]>([])
   const [isLoading, setLoading] = useState(true)
 

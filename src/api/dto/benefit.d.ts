@@ -1,4 +1,4 @@
-import { Email } from './shared.d';
+import { Email } from './shared';
 
 export type Benefit = {
   "id": string;

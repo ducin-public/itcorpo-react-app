@@ -1,6 +1,4 @@
-import React from 'react'
-
-import './table.css'
+import './Table.css'
 
 type TableProps = {
   headers: string[]
