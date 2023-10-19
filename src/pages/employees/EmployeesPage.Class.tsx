@@ -7,7 +7,7 @@ import { Employee } from '../../api/dto';
 import { getEmployees } from '../../api/EmployeeApi';
 
 import { Loader } from '../../shared/Loader';
-import { Sidebar } from '../../shared/sidebar/Sidebar';
+import { Sidebar } from '../../shared/sidebar/sidebar';
 import { CurrencyFormat } from '../../shared/CurrencyFormat';
 
 type EmployeesPageProps = {

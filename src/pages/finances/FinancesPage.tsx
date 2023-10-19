@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
 
 import { CurrencyFormat } from '../../shared/CurrencyFormat'
-import { Table } from '../../shared/table/Table';
+import { Table } from '../../shared/table/table';
 
 type FinancesPageProps = {
   label: string

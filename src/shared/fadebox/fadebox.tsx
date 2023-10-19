@@ -1,7 +1,7 @@
 import React, { useState, useEffect, ReactNode } from 'react';
 import classNames from 'classnames'
 
-import './Fadebox.css'
+import './fadebox.css'
 
 var id: ReturnType<typeof setInterval>
 

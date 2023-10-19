@@ -1,4 +1,4 @@
-import './Table.css'
+import './table.css'
 
 type TableProps = {
   headers: string[]

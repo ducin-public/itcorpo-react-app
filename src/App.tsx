@@ -8,11 +8,13 @@ import { EmployeesPage } from './pages/employees/EmployeesPage';
 import { BenefitsPage } from './pages/benefits/BenefitsPage';
 
 import { NavigationBar } from './layout/navigation-bar/NavigationBar';
-import { FadeBox } from './shared/fadebox/Fadebox';
+import { FadeBox } from './shared/fadebox/fadebox';
+import { CurrencyProvider } from './providers/Currencies';
 
 function App() {
   return (
     <Router>
+      <CurrencyProvider>
       <div>
         <strong>IT Corpo React App</strong>
       </div>
@@ -40,6 +42,7 @@ function App() {
           () => <BenefitsPage label="IT Corpo Benefits" />
         } />
       </div>
+      </CurrencyProvider>
     </Router>
   );
 }
