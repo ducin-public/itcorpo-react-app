@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dropdown } from '../shared/dropdown/Dropdown';
-import { isCurrencyCode, useCurrency } from './Currencies';
+import { useCurrency } from './Currencies';
 
 export const CurrencyDropdown = () => {
     const { availableCurrencies, setCurrency } = useCurrency()
