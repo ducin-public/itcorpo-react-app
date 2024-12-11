@@ -1,0 +1,64 @@
+import React from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { Plus } from 'lucide-react';
+import { api } from '../../mock-utils/api';
+import { Spinner } from '../../components/Spinner';
+import { BenefitCard } from './BenefitCard';
+import { useNotifications } from '../../contexts/NotificationContext';
+import { AddBenefitModal } from './AddBenefitModal';
+
+export function BenefitList() {
+  const [isAddModalOpen, setIsAddModalOpen] = React.useState(false);
+  const { addNotification } = useNotifications();
+  
+  const { data: benefits, isLoading } = useQuery({
+    queryKey: ['benefits'],
+    queryFn: api.benefits.list
+  });
+
+  const handleDelete = async (id: string) => {
+    try {
+      await api.benefits.delete(id);
+      addNotification('notice', 'Benefit successfully deleted');
+    } catch (error) {
+      addNotification('error', 'Failed to delete benefit');
+    }
+  };
+
+  if (isLoading) return <Spinner />;
+
+  return (
+    <div>
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold text-gray-900">Benefits</h1>
+        <button
+          onClick={() => setIsAddModalOpen(true)}
+          className="bg-indigo-600 text-white px-4 py-2 rounded-lg flex items-center space-x-2 hover:bg-indigo-700"
+        >
+          <Plus className="h-5 w-5" />
+          <span>Add Benefit</span>
+        </button>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {benefits?.map((benefit) => (
+          <BenefitCard
+            key={benefit.id}
+            benefit={benefit}
+            onDelete={() => handleDelete(benefit.id)}
+          />
+        ))}
+      </div>
+
+      {isAddModalOpen && (
+        <AddBenefitModal
+          onClose={() => setIsAddModalOpen(false)}
+          onSuccess={() => {
+            setIsAddModalOpen(false);
+            addNotification('notice', 'Benefit successfully added');
+          }}
+        />
+      )}
+    </div>
+  );
+}

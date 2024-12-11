@@ -1,0 +1,1 @@
+export { BenefitList as Benefits } from './BenefitList';
