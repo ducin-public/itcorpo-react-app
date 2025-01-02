@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { observer } from 'mobx-react-lite';
 import { api } from '../../mock-utils/api';
-import { Spinner } from '../../components/Spinner';
+import { Spinner } from '../../components/Generic/Spinner';
 import { viewedEmployeesStore } from '../../stores/ViewedEmployeesStore';
 import { formatCurrency } from '../../mock-utils/format';
 import { format } from 'date-fns';

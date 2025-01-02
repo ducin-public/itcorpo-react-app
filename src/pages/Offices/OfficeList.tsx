@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Plus } from 'lucide-react';
-import { Spinner } from '../../components/Spinner';
+import { Spinner } from '../../components/Generic/Spinner';
 import { OfficeCard } from './OfficeCard';
 import { Office } from '../../api/data-contracts';
-import { getOffices } from '../../api/OfficeApi';
+import { getOffices } from '../../api/OfficeApi.axios';
+import { Button } from '../../components/Generic/Button';
 
 export function OfficeList() {
   const navigate = useNavigate();
@@ -26,13 +27,13 @@ export function OfficeList() {
     <div>
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold text-gray-900">Offices</h1>
-        <button
+        <Button
           onClick={() => navigate('/offices/new')}
-          className="bg-indigo-600 text-white px-4 py-2 rounded-lg flex items-center space-x-2 hover:bg-indigo-700"
+          className="flex items-center space-x-2"
         >
           <Plus className="h-5 w-5" />
           <span>Add Office</span>
-        </button>
+        </Button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

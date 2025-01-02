@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { Search, X } from 'lucide-react';
 import { api } from '../../mock-utils/api';
-import { Employee } from '../../types';
+import { Employee } from '../../mock-utils';
 import { useNotifications } from '../../contexts/NotificationContext';
+import { Button } from '../../components/Generic/Button';
 
 interface ProjectTeamMembersProps {
   projectId: string;
@@ -68,12 +69,9 @@ export function ProjectTeamMembers({ projectId, employees, onUpdateEmployees }: 
     <div>
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-lg font-semibold text-gray-900">Team Members</h2>
-        <button
-          onClick={() => setIsSearching(!isSearching)}
-          className="text-sm text-indigo-600 hover:text-indigo-700"
-        >
+        <Button onClick={() => setIsSearching(!isSearching)} >
           {isSearching ? 'Done' : 'Add Member'}
-        </button>
+        </Button>
       </div>
 
       {isSearching && (

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { getEmployeesCount } from '../api/EmployeeApi';
-import { getProjectsCount } from '../api/ProjectApi';
-import { getOfficesCount } from '../api/OfficeApi';
+import { getEmployeesCount } from '../api/EmployeeApi.axios';
+import { getProjectsCount } from '../api/ProjectApi.axios';
+import { getOfficesCount } from '../api/OfficeApi.axios';
 
 export function Welcome() {
   const [stats, setStats] = useState<Record<'employees' | 'projects' | 'offices', number>>();

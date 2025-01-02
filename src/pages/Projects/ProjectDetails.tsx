@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { api } from '../../mock-utils/api';
-import { Spinner } from '../../components/Spinner';
+import { Spinner } from '../../components/Generic/Spinner';
 import { formatCurrency } from '../../mock-utils/format';
 import { format } from 'date-fns';
 import { EditableProjectName } from './EditableProjectName';
 import { ProjectTeamMembers } from './ProjectTeamMembers';
 import { ProjectStatusChange } from './ProjectStatusChange';
-import { Employee } from '../../types';
+import { Employee } from '../../mock-utils';
 
 export function ProjectDetails() {
   const { id } = useParams();

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { api } from '../../mock-utils/api';
-import { Project } from '../../types';
+import { Project } from '../../mock-utils';
 import { useNotifications } from '../../contexts/NotificationContext';
 
 const statusColors = {

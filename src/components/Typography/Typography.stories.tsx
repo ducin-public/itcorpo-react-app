@@ -27,13 +27,13 @@ export const Typography: StoryObj = {
 
       <div className="space-y-4">
         <Paragraph size="LARGE">
-          Large Paragraph: Bright Smiles Architects provides comprehensive dental care with state-of-the-art technology and experienced professionals.
+          Large Paragraph: Our enterprise software development team specializes in building scalable solutions using cutting-edge technologies and cloud-native architectures.
         </Paragraph>
         <Paragraph>
-          Medium Large Paragraph (default): Our network of dental clinics offers a wide range of services from routine check-ups to advanced dental procedures.
+          Medium Paragraph (default): We manage over 200 active projects across different technology stacks, from legacy system modernization to greenfield cloud applications.
         </Paragraph>
         <Paragraph size="SMALL">
-          Small Large Paragraph: <A href="#">Schedule your appointment</A> today and experience our patient-centered approach to dental care.
+          Small Paragraph: <A href="#">View our technology stack</A> to learn about our expertise in React, Node.js, and cloud platforms.
         </Paragraph>
       </div>
 
@@ -63,7 +63,7 @@ export const Typography: StoryObj = {
       </div>
 
       <Blockquote>
-        "A smile is the universal welcome." - Max Eastman
+        "Code is like humor. When you have to explain it, it's bad." - Cory House
       </Blockquote>
     </div>
   ),
@@ -99,12 +99,12 @@ export const Link: StoryObj = {
 export const LinkInContext: StoryObj = {
   render: () => (
     <div className="space-y-4">
-      <H2>Links in various contexts</H2>
+      <H2>Project Documentation</H2>
       <Paragraph>
-        Here's a link to <A href="#">schedule an appointment</A> with one of our dental specialists.
+        Check out our <A href="#">deployment guidelines</A> for infrastructure setup instructions.
       </Paragraph>
       <Blockquote>
-        Visit our <A href="#">services page</A> to learn more about our treatments.
+        Visit the <A href="#">API documentation</A> for detailed endpoint specifications.
       </Blockquote>
     </div>
   ),

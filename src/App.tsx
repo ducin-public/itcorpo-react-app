@@ -16,7 +16,7 @@ import { RecentlyViewedEmployees } from './pages/RecentlyViewedEmployees';
 import { NotificationProvider } from './contexts/NotificationContext';
 import { ToastProvider } from './contexts/ToastContext';
 import { Welcome } from './components/Welcome';
-import { FadeBox } from './components/fadebox/fadebox';
+import { FadeBox } from './components/Legacy/fadebox/fadebox';
 
 const queryClient = new QueryClient();
 

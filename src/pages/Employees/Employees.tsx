@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { Plus, Search, Trash2, Edit, BookHeart } from 'lucide-react';
-import { api } from '../../mock-utils/api';
-import { Spinner } from '../../components/Spinner';
+
+import { Spinner } from '../../components/Generic/Spinner';
 import { useNotifications } from '../../contexts/NotificationContext';
-import { Employee } from '../../types';
+import { Employee } from '../../mock-utils';
 import { RecentlyViewedEmployees } from '../RecentlyViewedEmployees';
-import { Sidebar } from '../../components/sidebar/sidebar';
+import { Sidebar } from '../../components/Legacy/sidebar/sidebar';
+import { deleteEmployee, getEmployees } from '../../api/EmployeeApi.axios';
+import { Button } from '../../components/Generic/Button';
 
 export function Employees() {
   const navigate = useNavigate();
@@ -16,7 +18,7 @@ export function Employees() {
 
   const { data: employees, isLoading } = useQuery({
     queryKey: ['employees'],
-    queryFn: api.employees.list
+    queryFn: getEmployees
   });
 
   const filteredEmployees = employees?.filter(employee => 
@@ -25,9 +27,9 @@ export function Employees() {
     employee.department.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (id: Employee['id']) => {
     try {
-      await api.employees.delete(id);
+      await deleteEmployee(id);
       addNotification('notice', 'Employee successfully deleted');
     } catch (error) {
       addNotification('error', 'Failed to delete employee');
@@ -46,13 +48,13 @@ export function Employees() {
     <div>
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold text-gray-900">Employees</h1>
-        <button
+        <Button
           onClick={() => navigate('/employees/new')}
-          className="bg-indigo-600 text-white px-4 py-2 rounded-lg flex items-center space-x-2 hover:bg-indigo-700"
+          className="flex items-center space-x-2"
         >
           <Plus className="h-5 w-5" />
-          <span>Add Employee</span>
-        </button>
+          Add Employee
+        </Button>
       </div>
       <h3 className="mb-3 text-blue-600 cursor-auto">
         <BookHeart className='text-3xl cursor-auto' onClick={toggleSidebarCollapsed} /> Recently Viewed
@@ -153,12 +155,12 @@ function EmployeeCard({
         )}
       </div>
 
-      <button
+      <Button
         onClick={onView}
-        className="mt-4 text-sm text-indigo-600 hover:text-indigo-700 font-medium"
+        className="mt-4"
       >
         View Details
-      </button>
+      </Button>
     </div>
   );
 }

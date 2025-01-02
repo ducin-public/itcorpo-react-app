@@ -1,5 +1,5 @@
 import { makeAutoObservable } from 'mobx';
-import { Employee } from '../types';
+import { Employee } from '../mock-utils';
 import { generateEmployee } from '../mock-utils/mockData';
 
 class ViewedEmployeesStore {

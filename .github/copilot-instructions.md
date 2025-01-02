@@ -28,18 +28,25 @@ When reusing existing react components, import them from `./src/components/gener
 
 ## styling
 
-Use tailwind.css to provide very nice styling. Make the website look really nice and modern. Go crazy about being modern. Use purple/indigo colors mainly.
+Use tailwind.css to provide very nice styling. Make the website look really nice and modern. Go crazy about being modern.
+
+For emphasizing colors and certain pieces of UI, use colors defined in `src/components/DesignEnums/MessageType.tsx`, e.g.
+```
+className={`block text-sm font-medium ${styles.ACCENT.text} mb-1`
+```
+It's okay hardcode tailwind color classes in html for colors from white-gray-black palette. However anything from shades of purple, red, green, blue etc - should rather be used in `MessageType.tsx`. If a palette is missing, suggest adding it, but consistently throughout the whole `MessageType.tsx` file. Use `MessageType` docs for when to use which type of message.
 
 If icons are needed, use `lucide-react`, it's already there.
 
-Use existing typography, when possible: `./src/components/Typography`. If an important element of typography is missing, suggest adding it!
-
-Remember that there's no `<Text>` component. Use `<Paragraph>` instead.
+Use existing typography, when possible: `./src/components/Typography/*`. If an important element of typography is missing, suggest adding it!
 
 ## storybook
 
 Each non-global component (i.e. displaying entity list, entity details, a styled atom such as buttons, checkboxes, card etc) should have storybook stories defined:
-- use the `ITCORPO/<ENTITY>/<VIEW>` or `ITCORPO/<Atoms | Molecules | Forms> | Organisms/<VIEW>`
+- use onre of the following paths:
+  - `ITCORPO/<ENTITY>/<VIEW>`
+  - `ITCORPO/<Atoms | Molecules | Forms>`
+  - `Organisms/<VIEW>`
 
 Each component story, when requires callbacks, should either receive a meaningful callback from the parent, or provide the `action` from `@storybook/addon-actions`. You can use `MultiSelect.stories.tsx` as example of using actions addon, but you can also provide different APIs. Don't use console.log for this reason.
 

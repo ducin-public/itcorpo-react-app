@@ -6,7 +6,7 @@ import {
   Benefit, 
   BenefitType,
   FinancialSummary 
-} from '../types';
+} from '.';
 
 const SKILLS = [
   'JavaScript', 'TypeScript', 'React', 'Node.js', 'Python',

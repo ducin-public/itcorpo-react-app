@@ -1,6 +1,6 @@
 import React from 'react';
 import { Trash2, Calendar, DollarSign } from 'lucide-react';
-import { Benefit } from '../../types';
+import { Benefit } from '../../mock-utils';
 import { formatCurrency } from '../../mock-utils/format';
 import { format } from 'date-fns';
 

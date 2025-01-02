@@ -1,55 +1,68 @@
-import React from 'react';
-import { useQuery } from '@tanstack/react-query';
+import React, { useState } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-import { Plus, ChevronDown, ChevronUp } from 'lucide-react';
-import { api } from '../../mock-utils/api';
-import { Spinner } from '../../components/Spinner';
+import { Plus } from 'lucide-react';
+  
+import { Spinner } from '../../components/Generic/Spinner';
 import { ProjectCard } from './ProjectCard';
 import { useNotifications } from '../../contexts/NotificationContext';
+import { deleteProject, getProjects } from '../../api/ProjectApi.axios';
+import { ProjectSearchBar } from './ProjectSearchBar';
+import { ProjectSearchCriteria } from './ProjectSearchCriteria';
+import { Button } from '../../components/Generic/Button';
 
 export function ProjectList() {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const { addNotification } = useNotifications();
+  const [searchCriteria, setSearchCriteria] = useState<ProjectSearchCriteria>({ statuses: [] });
   
-  const { data: projects, isLoading } = useQuery({
-    queryKey: ['projects'],
-    queryFn: api.projects.list
+  const { data: projects, isFetching } = useQuery({
+    queryKey: ['projects', searchCriteria],
+    queryFn: getProjects
   });
 
-  const handleDelete = async (id: string) => {
-    try {
-      await api.projects.delete(id);
+  const deleteMutation = useMutation({
+    mutationFn: deleteProject,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['projects'] });
       addNotification('notice', 'Project successfully deleted');
-    } catch (error) {
-      addNotification('error', 'Failed to delete project');
-    }
-  };
-
-  if (isLoading) return <Spinner />;
+    },
+    onError: (error) => {
+      addNotification('error', `Failed to delete project: ${error}`);
+    },
+  });
 
   return (
-    <div>
+    <div className="px-2 py-2">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold text-gray-900">Projects</h1>
-        <button
+        <Button
           onClick={() => navigate('/projects/new')}
-          className="bg-indigo-600 text-white px-4 py-2 rounded-lg flex items-center space-x-2 hover:bg-indigo-700"
+          className="flex items-center space-x-2"
         >
-          <Plus className="h-5 w-5" />
-          <span>New Project</span>
-        </button>
+          <Plus className="h-5 w-5" /><span>New Project</span>
+        </Button>
       </div>
 
-      <div className="space-y-6">
-        {projects?.map((project) => (
-          <ProjectCard
-            key={project.id}
-            project={project}
-            onView={() => navigate(`/projects/${project.id}`)}
-            onEdit={() => navigate(`/projects/${project.id}/edit`)}
-            onDelete={() => handleDelete(project.id)}
-          />
-        ))}
+      <ProjectSearchBar onCriteriaUpdate={setSearchCriteria} />
+
+      <div className="relative min-h-[200px]">
+        {(isFetching) && (
+          <Spinner size='LARGE' layout='OVERLAY' />
+        )}
+
+        <div className={`space-y-6 ${isFetching ? 'pointer-events-none' : ''}`}>
+          {projects?.map((project) => (
+            <ProjectCard
+              key={project.id}
+              project={project}
+              onView={() => navigate(`/projects/${project.id}`)}
+              onEdit={() => navigate(`/projects/${project.id}/edit`)}
+              onDelete={() => deleteMutation.mutate(project.id)}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );

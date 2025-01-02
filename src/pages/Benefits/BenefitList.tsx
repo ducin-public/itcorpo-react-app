@@ -1,12 +1,13 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Plus } from 'lucide-react';
+
 import { api } from '../../mock-utils/api';
-import { Spinner } from '../../components/Spinner';
+import { Spinner } from '../../components/Generic/Spinner';
 import { BenefitCard } from './BenefitCard';
 import { useNotifications } from '../../contexts/NotificationContext';
 import { AddBenefitModal } from './AddBenefitModal';
-import { styles } from '../../components/DesignEnums/MessageType';
+import { Button } from '../../components/Generic/Button';
 
 export function BenefitList() {
   const [isAddModalOpen, setIsAddModalOpen] = React.useState(false);
@@ -32,13 +33,13 @@ export function BenefitList() {
     <div>
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold text-gray-900">Benefits</h1>
-        <button
+        <Button
           onClick={() => setIsAddModalOpen(true)}
-          className={`${styles.ACCENT.background} text-white px-4 py-2 rounded-lg flex items-center space-x-2 ${styles.ACCENT.backgroundHover}`}
+          className="flex items-center space-x-2"
         >
           <Plus className="h-5 w-5" />
-          <span>Add Benefit</span>
-        </button>
+          Add Benefit
+        </Button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 import { api } from '../mock-utils/api';
-import { Spinner } from '../components/Spinner';
+import { Spinner } from '../components/Generic/Spinner';
 import { COUNTRIES } from '../mock-utils/constants';
 import { styles } from '../components/DesignEnums/MessageType';
 

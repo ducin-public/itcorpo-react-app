@@ -1,6 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
 import { useNavigate } from 'react-router-dom';
+import { Button } from '../components/Generic/Button';
 
 import { viewedEmployeesStore } from '../stores/ViewedEmployeesStore';
 import { styles } from '../components/DesignEnums/MessageType';
@@ -12,12 +13,12 @@ export const RecentlyViewedEmployees = observer(() => {
     <div>
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold text-gray-900">Recently Viewed Employees</h1>
-        <button
+        <Button
           onClick={() => viewedEmployeesStore.clearViewedEmployees()}
-          className={`text-sm ${styles.ACCENT.text} ${styles.ACCENT.textHover}`}
+          variant="PRIMARY"
         >
           Clear History
-        </button>
+        </Button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-6">

@@ -4,7 +4,7 @@ import {
   Office, 
   Benefit, 
   FinancialSummary 
-} from '../types';
+} from '.';
 import { 
   generateEmployee, 
   generateProject, 
@@ -32,28 +32,6 @@ export const api = {
     update: async (id: string, data: Partial<Employee>): Promise<Employee> => {
       await delay();
       return { ...generateEmployee(), ...data, id };
-    },
-    delete: async (id: string): Promise<void> => {
-      await delay();
-    }
-  },
-  
-  projects: {
-    list: async (): Promise<Project[]> => {
-      await delay();
-      return Array.from({ length: 10 }, generateProject);
-    },
-    get: async (id: string): Promise<Project> => {
-      await delay();
-      return generateProject();
-    },
-    create: async (data: Partial<Project>): Promise<Project> => {
-      await delay();
-      return { ...generateProject(), ...data };
-    },
-    update: async (id: string, data: Partial<Project>): Promise<Project> => {
-      await delay();
-      return { ...generateProject(), ...data, id };
     },
     delete: async (id: string): Promise<void> => {
       await delay();
