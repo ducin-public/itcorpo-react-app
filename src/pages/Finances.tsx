@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { format } from 'date-fns';
+
 import { api } from '../mock-utils/api';
 import { Spinner } from '../components/Spinner';
 import { COUNTRIES } from '../mock-utils/constants';
+import { styles } from '../components/DesignEnums/MessageType';
 
 export function Finances() {
   const [selectedLocation, setSelectedLocation] = useState('USA');
@@ -22,7 +23,7 @@ export function Finances() {
         <select
           value={selectedLocation}
           onChange={(e) => setSelectedLocation(e.target.value)}
-          className="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+          className={`border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 ${styles.ACCENT.focusRing} focus:border-transparent`}
         >
           {COUNTRIES.map((country) => (
             <option key={country} value={country}>

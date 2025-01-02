@@ -1,7 +1,9 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
 import { useNavigate } from 'react-router-dom';
+
 import { viewedEmployeesStore } from '../stores/ViewedEmployeesStore';
+import { styles } from '../components/DesignEnums/MessageType';
 
 export const RecentlyViewedEmployees = observer(() => {
   const navigate = useNavigate();
@@ -12,7 +14,7 @@ export const RecentlyViewedEmployees = observer(() => {
         <h1 className="text-2xl font-bold text-gray-900">Recently Viewed Employees</h1>
         <button
           onClick={() => viewedEmployeesStore.clearViewedEmployees()}
-          className="text-sm text-gray-600 hover:text-indigo-600"
+          className={`text-sm ${styles.ACCENT.text} ${styles.ACCENT.textHover}`}
         >
           Clear History
         </button>

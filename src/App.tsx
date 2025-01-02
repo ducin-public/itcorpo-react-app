@@ -6,7 +6,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Layout } from './pages/Layout/Layout';
 import { Employees } from './pages/Employees/Employees';
 import { Projects } from './pages/Projects';
-import { Offices } from './pages/Offices';
+import { OfficeList } from './pages/Offices/OfficeList';
 import { Benefits } from './pages/Benefits';
 import { Finances } from './pages/Finances';
 import { EmployeeDetails } from './pages/Employees/EmployeeDetails';
@@ -34,7 +34,7 @@ function App() {
                 <Route path="/recently-viewed" element={<RecentlyViewedEmployees />} />
                 <Route path="/projects" element={<Projects />} />
                 <Route path="/projects/:id" element={<ProjectDetails />} />
-                <Route path="/offices" element={<Offices />} />
+                <Route path="/offices" element={<OfficeList />} />
                 <Route path="/offices/:id" element={<OfficeDetails />} />
                 <Route path="/benefits" element={<Benefits />} />
                 <Route path="/finances" element={<Finances />} />

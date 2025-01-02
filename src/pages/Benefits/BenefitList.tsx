@@ -6,6 +6,7 @@ import { Spinner } from '../../components/Spinner';
 import { BenefitCard } from './BenefitCard';
 import { useNotifications } from '../../contexts/NotificationContext';
 import { AddBenefitModal } from './AddBenefitModal';
+import { styles } from '../../components/DesignEnums/MessageType';
 
 export function BenefitList() {
   const [isAddModalOpen, setIsAddModalOpen] = React.useState(false);
@@ -21,7 +22,7 @@ export function BenefitList() {
       await api.benefits.delete(id);
       addNotification('notice', 'Benefit successfully deleted');
     } catch (error) {
-      addNotification('error', 'Failed to delete benefit');
+      addNotification('error', `Failed to delete benefit: ${error}`);
     }
   };
 
@@ -33,7 +34,7 @@ export function BenefitList() {
         <h1 className="text-2xl font-bold text-gray-900">Benefits</h1>
         <button
           onClick={() => setIsAddModalOpen(true)}
-          className="bg-indigo-600 text-white px-4 py-2 rounded-lg flex items-center space-x-2 hover:bg-indigo-700"
+          className={`${styles.ACCENT.background} text-white px-4 py-2 rounded-lg flex items-center space-x-2 ${styles.ACCENT.backgroundHover}`}
         >
           <Plus className="h-5 w-5" />
           <span>Add Benefit</span>

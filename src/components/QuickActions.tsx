@@ -1,5 +1,6 @@
 import React from 'react';
 import { UserPlus, FolderPlus, Building, ArrowRight } from 'lucide-react';
+import { styles } from './DesignEnums/MessageType';
 
 export function QuickActions() {
   return (
@@ -47,7 +48,7 @@ function ActionCard({
       </div>
       <h4 className="text-lg font-semibold text-gray-900 mb-2">{title}</h4>
       <p className="text-gray-600 mb-4">{description}</p>
-      <button className="flex items-center text-sm font-medium text-indigo-600 hover:text-indigo-500">
+      <button className={`flex items-center text-sm font-medium ${styles.ACCENT.text} ${styles.ACCENT.textHover}`}>
         Get Started
         <ArrowRight className="ml-2 h-4 w-4" />
       </button>
