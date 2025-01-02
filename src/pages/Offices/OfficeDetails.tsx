@@ -3,9 +3,8 @@ import { useParams } from 'react-router-dom';
 
 import { Spinner } from '../../components/Spinner';
 import { formatCurrency } from '../../mock-utils/format';
-import { Office } from '../../api/dto';
+import { Office } from '../../api/data-contracts';
 import { getOffices } from '../../api/OfficeApi';
-import { getAmenities } from './amenities';
 import { officeImageURL } from './officeImageURL';
 
 export function OfficeDetails() {
@@ -41,11 +40,11 @@ export function OfficeDetails() {
               <div className="space-y-2">
                 <p className="text-sm">
                   <span className="text-gray-500">Capacity:</span>{' '}
-                  <span className="text-gray-900">??? people</span>
+                  <span className="text-gray-900">{office.capacity}</span>
                 </p>
                 <p className="text-sm">
                   <span className="text-gray-500">Monthly Cost:</span>{' '}
-                  <span className="text-gray-900">{formatCurrency(office.estate.monthlyRental)}</span>
+                  <span className="text-gray-900">{formatCurrency(office.monthlyRental)}</span>
                 </p>
               </div>
             </div>
@@ -65,12 +64,12 @@ export function OfficeDetails() {
           <div>
             <h2 className="text-lg font-semibold text-gray-900 mb-4">Amenities</h2>
             <div className="flex flex-wrap gap-2">
-              {getAmenities().map((amenity) => (
+              {office.amenities.map((amenity) => (
                 <span
-                  key={amenity}
+                  key={amenity.code}
                   className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm"
                 >
-                  {amenity}
+                  {amenity.name}
                 </span>
               ))}
             </div>

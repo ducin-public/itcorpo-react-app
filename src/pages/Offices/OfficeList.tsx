@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Plus } from 'lucide-react';
 import { Spinner } from '../../components/Spinner';
 import { OfficeCard } from './OfficeCard';
-import { Office } from '../../api/dto';
+import { Office } from '../../api/data-contracts';
 import { getOffices } from '../../api/OfficeApi';
 
 export function OfficeList() {

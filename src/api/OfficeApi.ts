@@ -1,5 +1,5 @@
 import { API_URL } from './config';
-import { Office } from './dto';
+import { Office } from './data-contracts';
 
 export const getOffices = (): Promise<Office[]> => {
   return fetch(`${API_URL}/offices`)

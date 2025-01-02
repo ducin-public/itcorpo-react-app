@@ -1,7 +1,12 @@
 {
-  "name": "vite-react-typescript-starter",
+  "name": "itcorpo-angular-app",
+  "description": "Professional trainings on JavaScript, TypeScript and many more...",
   "private": true,
-  "version": "0.0.0",
+  "author": {
+    "name": "Tomasz Ducin",
+    "email": "tomasz@ducin.dev",
+    "url": "https://ducin.dev"
+  },
   "type": "module",
   "scripts": {
     "dev": "vite",

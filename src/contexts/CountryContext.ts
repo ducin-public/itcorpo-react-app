@@ -1,4 +1,4 @@
-import { Nationality } from '../api/dto'
+import { Nationality } from '../api/data-contracts'
 
 const flags = {
   US: "🇺🇸",

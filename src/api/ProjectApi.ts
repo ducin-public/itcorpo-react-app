@@ -1,5 +1,5 @@
 import { API_URL } from './config';
-import { Project } from './dto';
+import { Project } from './data-contracts';
 
 export const getProjects = (): Promise<Project[]> => {
   return fetch(`${API_URL}/projects`)

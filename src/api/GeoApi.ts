@@ -1,5 +1,5 @@
 import { API_URL } from './config';
-import { Geo } from './dto';
+import { Geo } from './data-contracts';
 
 export const getGeo = (): Promise<Geo> => {
   return fetch(`${API_URL}/geo`)

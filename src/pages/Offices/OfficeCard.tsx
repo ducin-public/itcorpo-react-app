@@ -2,8 +2,7 @@ import React from 'react';
 import { Edit, Users, DollarSign, Eye } from 'lucide-react';
 // import { Office } from '../../types';
 import { formatCurrency } from '../../mock-utils/format';
-import { Office } from '../../api/dto';
-import { getAmenities } from './amenities';
+import { Office } from '../../api/data-contracts';
 import { officeImageURL } from './officeImageURL';
 
 export function OfficeCard({
@@ -51,23 +50,23 @@ export function OfficeCard({
         <div className="mt-4 flex items-center space-x-4">
           <div className="flex items-center text-gray-600">
             <Users className="h-5 w-5 mr-1" />
-            <span className="text-sm">Capacity: ???</span>
+            <span className="text-sm">Capacity: {office.capacity}</span>
           </div>
           <div className="flex items-center text-gray-600">
             <DollarSign className="h-5 w-5 mr-1" />
             <span className="text-sm">
-              Monthly: {formatCurrency(office.estate.monthlyRental)}
+              Monthly: {formatCurrency(office.monthlyRental)}
             </span>
           </div>
         </div>
 
         <div className="mt-4 flex flex-wrap gap-2">
-          {getAmenities().map((amenity) => (
+          {office.amenities.map((amenity) => (
             <span
-              key={amenity}
+              key={amenity.code}
               className="px-2 py-1 bg-gray-100 text-gray-700 rounded-full text-xs"
             >
-              {amenity}
+              {amenity.name}
             </span>
           ))}
         </div>
