@@ -1,8 +1,9 @@
 import React from 'react';
 import { Trash2, Calendar, DollarSign } from 'lucide-react';
-import { Benefit } from '../../mock-utils';
-import { formatCurrency } from '../../mock-utils/format';
 import { format } from 'date-fns';
+
+import { Benefit } from '../../api/data-contracts';
+import { formatCurrency } from '../../contexts/CurrencyContext';
 
 const typeColors = {
   'health': 'bg-blue-100 text-blue-800',

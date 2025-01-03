@@ -34,7 +34,7 @@ export const createProject = async (project: ProjectInput): Promise<Project> => 
   return handleResponse<Project>(response);
 };
 
-export const updateProject = async (id: Project['id'], project: ProjectInput): Promise<Project> => {
+export const updateProject = async (id: Project['id'], project: Partial<ProjectInput>): Promise<Project> => {
   const response = await fetch(`${API_URL}/projects/${id}`, {
     method: 'PUT',
     headers: {

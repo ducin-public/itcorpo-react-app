@@ -1,9 +1,9 @@
 import React from 'react';
 import { Edit, Users, DollarSign, Eye } from 'lucide-react';
-// import { Office } from '../../types';
-import { formatCurrency } from '../../mock-utils/format';
+
 import { Office } from '../../api/data-contracts';
 import { officeImageURL } from './officeImageURL';
+import { formatCurrency } from '../../contexts/CurrencyContext';
 
 export function OfficeCard({
   office,

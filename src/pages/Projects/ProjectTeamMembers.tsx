@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { Search, X } from 'lucide-react';
-import { api } from '../../mock-utils/api';
-import { Employee } from '../../mock-utils';
+
 import { useNotifications } from '../../contexts/NotificationContext';
 import { Button } from '../../components/Generic/Button';
+import { updateProject } from '../../api/ProjectApi.axios';
+import { getEmployees } from '../../api/EmployeeApi.axios';
+import { Employee } from '../../api/data-contracts';
 
 interface ProjectTeamMembersProps {
   projectId: string;
@@ -27,7 +29,7 @@ export function ProjectTeamMembers({ projectId, employees, onUpdateEmployees }: 
     }
 
     try {
-      const allEmployees = await api.employees.list();
+      const allEmployees = await getEmployees();
       const filtered = allEmployees.filter(
         emp => 
           !employees.find(e => e.id === emp.id) &&
@@ -42,7 +44,7 @@ export function ProjectTeamMembers({ projectId, employees, onUpdateEmployees }: 
   const handleAddEmployee = async (employee: Employee) => {
     try {
       const updatedEmployees = [...employees, employee];
-      await api.projects.update(projectId, { employees: updatedEmployees });
+      await updateProject(projectId, { employees: updatedEmployees });
       onUpdateEmployees(updatedEmployees);
       queryClient.invalidateQueries({ queryKey: ['project', projectId] });
       addNotification('notice', `${employee.firstName} ${employee.lastName} added to the project`);
@@ -56,7 +58,7 @@ export function ProjectTeamMembers({ projectId, employees, onUpdateEmployees }: 
   const handleRemoveEmployee = async (employeeId: string) => {
     try {
       const updatedEmployees = employees.filter(emp => emp.id !== employeeId);
-      await api.projects.update(projectId, { employees: updatedEmployees });
+      await updateProject(projectId, { employees: updatedEmployees });
       onUpdateEmployees(updatedEmployees);
       queryClient.invalidateQueries({ queryKey: ['project', projectId] });
       addNotification('notice', 'Employee removed from project');

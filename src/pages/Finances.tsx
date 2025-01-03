@@ -1,20 +1,18 @@
 import React, { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
 
-import { api } from '../mock-utils/api';
-import { Spinner } from '../components/Generic/Spinner';
-import { COUNTRIES } from '../mock-utils/constants';
 import { styles } from '../components/DesignEnums/MessageType';
+
+const COUNTRIES = ['USA', 'UK', 'Germany', 'Poland', 'India', 'Japan'];
+
+const financialSummary = {
+  employeeCosts: 125000,
+  officeCosts: 45000,
+  benefitCosts: 30000,
+  total: 200000,
+};
 
 export function Finances() {
   const [selectedLocation, setSelectedLocation] = useState('USA');
-
-  const { data: financialSummary, isLoading } = useQuery({
-    queryKey: ['finances', selectedLocation],
-    queryFn: () => api.finances.getSummary(selectedLocation)
-  });
-
-  if (isLoading) return <Spinner />;
 
   return (
     <div>

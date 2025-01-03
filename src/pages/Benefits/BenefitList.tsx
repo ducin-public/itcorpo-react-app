@@ -2,12 +2,12 @@ import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Plus } from 'lucide-react';
 
-import { api } from '../../mock-utils/api';
 import { Spinner } from '../../components/Generic/Spinner';
 import { BenefitCard } from './BenefitCard';
 import { useNotifications } from '../../contexts/NotificationContext';
 import { AddBenefitModal } from './AddBenefitModal';
 import { Button } from '../../components/Generic/Button';
+import { deleteBenefit, getBenefits } from '../../api/BenefitApi.axios';
 
 export function BenefitList() {
   const [isAddModalOpen, setIsAddModalOpen] = React.useState(false);
@@ -15,12 +15,12 @@ export function BenefitList() {
   
   const { data: benefits, isLoading } = useQuery({
     queryKey: ['benefits'],
-    queryFn: api.benefits.list
+    queryFn: getBenefits
   });
 
   const handleDelete = async (id: string) => {
     try {
-      await api.benefits.delete(id);
+      await deleteBenefit(id);
       addNotification('notice', 'Benefit successfully deleted');
     } catch (error) {
       addNotification('error', `Failed to delete benefit: ${error}`);

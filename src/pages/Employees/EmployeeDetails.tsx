@@ -2,11 +2,12 @@ import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { observer } from 'mobx-react-lite';
-import { api } from '../../mock-utils/api';
+
 import { Spinner } from '../../components/Generic/Spinner';
 import { viewedEmployeesStore } from '../../stores/ViewedEmployeesStore';
-import { formatCurrency } from '../../mock-utils/format';
 import { format } from 'date-fns';
+import { getEmployee } from '../../api/EmployeeApi.axios';
+import { formatCurrency } from '../../contexts/CurrencyContext';
 
 export const EmployeeDetails = observer(() => {
   const { id } = useParams();
@@ -14,7 +15,7 @@ export const EmployeeDetails = observer(() => {
 
   const { data: employee, isLoading } = useQuery({
     queryKey: ['employee', id],
-    queryFn: () => api.employees.get(id!),
+    queryFn: () => getEmployee(Number(id!)),
     onSuccess: (data) => {
       viewedEmployeesStore.addViewedEmployee(data);
     },

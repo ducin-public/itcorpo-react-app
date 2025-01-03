@@ -1,11 +1,12 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { api } from '../../mock-utils/api';
-import { BenefitType } from '../../mock-utils';
+
+import { createBenefit } from '../../api/BenefitApi.axios';
+import { Benefit } from '../../api/data-contracts';
 
 interface AddBenefitForm {
-  type: BenefitType;
+  type: Benefit['service'];
   provider: string;
   description: string;
   monthlyFee: number;
@@ -25,7 +26,7 @@ export function AddBenefitModal({
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
-    mutationFn: (data: AddBenefitForm) => api.benefits.create(data),
+    mutationFn: (data: AddBenefitForm) => createBenefit(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['benefits'] });
       onSuccess();

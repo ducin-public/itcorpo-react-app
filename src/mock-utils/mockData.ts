@@ -14,7 +14,7 @@ const SKILLS = [
   'GraphQL', 'REST API', 'MongoDB', 'Redis', 'CI/CD'
 ];
 
-const COUNTRIES = ['USA', 'UK', 'Germany', 'France', 'Japan', 'Canada', 'Australia'];
+export const COUNTRIES = ['USA', 'UK', 'Germany', 'France', 'Japan', 'Canada', 'Australia'];
 
 const BENEFIT_PROVIDERS = {
   health: ['Blue Cross', 'Aetna', 'UnitedHealth'],

@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Plus, Search, Trash2, Edit, BookHeart } from 'lucide-react';
 
 import { Spinner } from '../../components/Generic/Spinner';
 import { useNotifications } from '../../contexts/NotificationContext';
-import { Employee } from '../../mock-utils';
 import { RecentlyViewedEmployees } from '../RecentlyViewedEmployees';
 import { Sidebar } from '../../components/Legacy/sidebar/sidebar';
 import { deleteEmployee, getEmployees } from '../../api/EmployeeApi.axios';
 import { Button } from '../../components/Generic/Button';
+import { Employee } from '../../api/data-contracts';
+import { employeeImageURL } from './employeeImageURL';
 
 export function Employees() {
   const navigate = useNavigate();
@@ -23,8 +24,7 @@ export function Employees() {
 
   const filteredEmployees = employees?.filter(employee => 
     `${employee.firstName} ${employee.lastName}`.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    employee.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    employee.department.toLowerCase().includes(searchTerm.toLowerCase())
+    employee.email.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const handleDelete = async (id: Employee['id']) => {
@@ -107,7 +107,7 @@ function EmployeeCard({
       <div className="flex items-start justify-between">
         <div className="flex items-center space-x-4">
           <img
-            src={employee.profileImage}
+            src={employeeImageURL(employee)}
             alt={`${employee.firstName} ${employee.lastName}`}
             className="h-12 w-12 rounded-full object-cover"
           />
@@ -115,7 +115,7 @@ function EmployeeCard({
             <h3 className="text-lg font-semibold text-gray-900">
               {employee.firstName} {employee.lastName}
             </h3>
-            <p className="text-sm text-gray-600">{employee.position}</p>
+            <p className="text-sm text-gray-600">{employee.title}</p>
           </div>
         </div>
         <div className="flex space-x-2">
@@ -136,7 +136,7 @@ function EmployeeCard({
 
       <div className="mt-4">
         <p className="text-sm text-gray-600">{employee.email}</p>
-        <p className="text-sm text-gray-600">{employee.department}</p>
+        <p className="text-sm text-gray-600">{employee.departmentId}</p>
       </div>
 
       <div className="mt-4 flex flex-wrap gap-2">

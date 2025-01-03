@@ -1,23 +1,20 @@
-import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { api } from '../../mock-utils/api';
+
 import { Spinner } from '../../components/Generic/Spinner';
-import { formatCurrency } from '../../mock-utils/format';
 import { format } from 'date-fns';
 import { EditableProjectName } from './EditableProjectName';
 import { ProjectTeamMembers } from './ProjectTeamMembers';
 import { ProjectStatusChange } from './ProjectStatusChange';
-import { Employee } from '../../mock-utils';
+import { getProject } from '../../api/ProjectApi.axios';
+import { formatCurrency } from '../../contexts/CurrencyContext';
 
 export function ProjectDetails() {
   const { id } = useParams();
-  const [employees, setEmployees] = useState<Employee[]>([]);
 
   const { data: project, isLoading } = useQuery({
     queryKey: ['project', id],
-    queryFn: () => api.projects.get(id!),
-    onSuccess: (data) => setEmployees(data.employees),
+    queryFn: () => getProject(id!),
   });
 
   if (isLoading) return <Spinner />;

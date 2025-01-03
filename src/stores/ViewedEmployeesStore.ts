@@ -1,9 +1,8 @@
 import { makeAutoObservable } from 'mobx';
-import { Employee } from '../mock-utils';
-import { generateEmployee } from '../mock-utils/mockData';
+import { Employee } from '../api/data-contracts';
 
 class ViewedEmployeesStore {
-  viewedEmployees: Employee[] = Array.from({ length: 5 }).map(generateEmployee)
+  viewedEmployees: Employee[] = []
 
   constructor() {
     makeAutoObservable(this);

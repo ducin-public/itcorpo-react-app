@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
-import { api } from '../../mock-utils/api';
+
 import { useNotifications } from '../../contexts/NotificationContext';
+import { updateProject } from '../../api/ProjectApi.axios';
 
 interface EditableProjectNameProps {
   id: string;
@@ -24,7 +25,7 @@ export function EditableProjectName({ id, name }: EditableProjectNameProps) {
 
   const handleSubmit = async () => {
     try {
-      await api.projects.update(id, { name: value });
+      await updateProject(id, { name: value });
       queryClient.invalidateQueries({ queryKey: ['project', id] });
       addNotification('notice', 'Project name updated successfully');
       setIsEditing(false);

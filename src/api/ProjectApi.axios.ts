@@ -21,7 +21,7 @@ export const createProject = (project: ProjectInput) => {
     .then(res => res.data);
 };
 
-export const updateProject = (id: Project['id'], project: ProjectInput) => {
+export const updateProject = (id: Project['id'], project: Partial<ProjectInput>) => {
   return apiClient.put<Project>(`/projects/${id}`, project)
     .then(res => res.data);
 };
