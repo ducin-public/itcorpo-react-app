@@ -1,10 +1,10 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '../components/Generic/Button';
+import { Button } from '../../components/Generic/Button';
 
-import { viewedEmployeesStore } from '../stores/ViewedEmployeesStore';
-import { styles } from '../components/DesignEnums/MessageType';
+import { viewedEmployeesStore } from './ViewedEmployeesStore';
+import { styles } from '../../components/DesignEnums/MessageType';
 
 export const RecentlyViewedEmployees = observer(() => {
   const navigate = useNavigate();

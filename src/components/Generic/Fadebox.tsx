@@ -1,7 +1,7 @@
 import React, { useState, useEffect, ReactNode } from 'react';
 import classNames from 'classnames';
 
-export const FadeBox: React.FC<{ children: ReactNode }> = (props) => {
+export const Fadebox: React.FC<{ children: ReactNode }> = (props) => {
   const [fadeOut, setFadeOut] = useState(true);
 
   useEffect(() => {

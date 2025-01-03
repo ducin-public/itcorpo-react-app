@@ -1,24 +1,29 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import { Layout } from './pages/Layout/Layout';
-import { Employees } from './pages/Employees/Employees';
-import { Projects } from './pages/Projects';
+import { EmployeesList } from './pages/Employees/EmployeesList';
+import { ProjectList } from './pages/Projects/ProjectList';
 import { OfficeList } from './pages/Offices/OfficeList';
-import { Benefits } from './pages/Benefits';
-import { Finances } from './pages/Finances';
+import { BenefitList } from './pages/Benefits/BenefitList';
+import { Dashboard } from './pages/Finances/Dashboard';
 import { EmployeeDetails } from './pages/Employees/EmployeeDetails';
 import { ProjectDetails } from './pages/Projects/ProjectDetails';
 import { OfficeDetails } from './pages/Offices/OfficeDetails';
-import { RecentlyViewedEmployees } from './pages/RecentlyViewedEmployees';
+import { RecentlyViewedEmployees } from './pages/Employees/RecentlyViewedEmployees';
 import { NotificationProvider } from './contexts/NotificationContext';
 import { ToastProvider } from './contexts/ToastContext';
 import { Welcome } from './components/Welcome';
-import { FadeBox } from './components/Legacy/fadebox/fadebox';
+import { Fadebox } from './components/Generic/Fadebox';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  queryCache: new QueryCache({
+    // onError: (error) =>
+      // toast.error(`Something went wrong: ${error.message}`),
+  }),
+});
 
 function App() {
   return (
@@ -29,24 +34,24 @@ function App() {
             <Routes>
               <Route path="/" element={<Layout />}>
                 <Route index element={<Welcome />} />
-                <Route path="/employees" element={<Employees />} />
+                <Route path="/employees" element={<EmployeesList />} />
                 <Route path="/employees/:id" element={<EmployeeDetails />} />
                 <Route path="/recently-viewed" element={<RecentlyViewedEmployees />} />
-                <Route path="/projects" element={<Projects />} />
+                <Route path="/projects" element={<ProjectList />} />
                 <Route path="/projects/:id" element={<ProjectDetails />} />
                 <Route path="/offices" element={<OfficeList />} />
                 <Route path="/offices/:id" element={<OfficeDetails />} />
-                <Route path="/benefits" element={<Benefits />} />
-                <Route path="/finances" element={<Finances />} />
+                <Route path="/benefits" element={<BenefitList />} />
+                <Route path="/finances" element={<Dashboard />} />
               </Route>
             </Routes>
           </ToastProvider>
         </NotificationProvider>
       </BrowserRouter>
       <ReactQueryDevtools />
-      <FadeBox>
+      <Fadebox>
         <div>Your content here</div>
-      </FadeBox>
+      </Fadebox>
     </QueryClientProvider>
   );
 }

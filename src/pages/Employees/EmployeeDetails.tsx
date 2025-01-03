@@ -1,13 +1,14 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
+import { format } from 'date-fns';
 import { observer } from 'mobx-react-lite';
 
 import { Spinner } from '../../components/Generic/Spinner';
-import { viewedEmployeesStore } from '../../stores/ViewedEmployeesStore';
-import { format } from 'date-fns';
+import { viewedEmployeesStore } from './ViewedEmployeesStore';
 import { getEmployee } from '../../api/EmployeeApi.axios';
 import { formatCurrency } from '../../contexts/CurrencyContext';
+import { employeeImageURL } from './employeeImageURL';
 
 export const EmployeeDetails = observer(() => {
   const { id } = useParams();
@@ -30,7 +31,7 @@ export const EmployeeDetails = observer(() => {
         <div className="p-6">
           <div className="flex items-center space-x-6">
             <img
-              src={employee.profileImage}
+              src={employeeImageURL(employee)}
               alt={`${employee.firstName} ${employee.lastName}`}
               className="h-24 w-24 rounded-full object-cover"
             />
@@ -38,8 +39,8 @@ export const EmployeeDetails = observer(() => {
               <h1 className="text-2xl font-bold text-gray-900">
                 {employee.firstName} {employee.lastName}
               </h1>
-              <p className="text-lg text-gray-600">{employee.position}</p>
-              <p className="text-sm text-gray-500">{employee.department}</p>
+              <p className="text-lg text-gray-600">{employee.title}</p>
+              <p className="text-sm text-gray-500">{employee.departmentId}</p>
             </div>
           </div>
 
@@ -53,7 +54,7 @@ export const EmployeeDetails = observer(() => {
                 </p>
                 <p className="text-sm">
                   <span className="text-gray-500">Phone:</span>{' '}
-                  <span className="text-gray-900">{employee.phone}</span>
+                  <span className="text-gray-900">{employee.personalInfo.phone}</span>
                 </p>
               </div>
             </div>
@@ -64,7 +65,7 @@ export const EmployeeDetails = observer(() => {
                 <p className="text-sm">
                   <span className="text-gray-500">Hire Date:</span>{' '}
                   <span className="text-gray-900">
-                    {format(new Date(employee.hireDate), 'MMM d, yyyy')}
+                    {format(new Date(employee.hiredAt), 'MMM d, yyyy')}
                   </span>
                 </p>
                 <p className="text-sm">
@@ -92,11 +93,9 @@ export const EmployeeDetails = observer(() => {
           <div className="mt-8">
             <h2 className="text-lg font-semibold text-gray-900 mb-4">Address</h2>
             <div className="space-y-1 text-sm text-gray-600">
-              <p>{employee.address.street}</p>
+              <p>{employee.personalInfo.address.street}</p>
               <p>
-                {employee.address.city}, {employee.address.state} {employee.address.zipCode}
-              </p>
-              <p>{employee.address.country}</p>
+                {employee.personalInfo.address.city}, {employee.personalInfo.address.country}</p>
             </div>
           </div>
         </div>

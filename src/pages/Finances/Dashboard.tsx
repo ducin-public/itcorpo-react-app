@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { styles } from '../components/DesignEnums/MessageType';
+import { styles } from '../../components/DesignEnums/MessageType';
 
 const COUNTRIES = ['USA', 'UK', 'Germany', 'Poland', 'India', 'Japan'];
 
@@ -11,7 +11,8 @@ const financialSummary = {
   total: 200000,
 };
 
-export function Finances() {
+export function Dashboard
+() {
   const [selectedLocation, setSelectedLocation] = useState('USA');
 
   return (
