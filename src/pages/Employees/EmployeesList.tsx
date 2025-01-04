@@ -49,7 +49,7 @@ export function EmployeesList() {
       .includes(filters.searchTerm.toLowerCase());
 
     const matchesDepartment = filters.departments.length === 0 || 
-      filters.departments.includes(employee.departmentId.toString());
+      filters.departments.includes(employee.department);
 
     const matchesSalary = (!filters.minSalary || employee.salary >= filters.minSalary) &&
       (!filters.maxSalary || employee.salary <= filters.maxSalary);
@@ -69,7 +69,7 @@ export function EmployeesList() {
   }
 
   return (
-    <div>
+    <div className='px-2 py-2'>
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold text-gray-900">Employees</h1>
         <Button

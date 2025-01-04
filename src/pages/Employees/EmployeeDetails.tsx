@@ -40,7 +40,7 @@ export const EmployeeDetails = observer(() => {
                 {employee.firstName} {employee.lastName}
               </h1>
               <p className="text-lg text-gray-600">{employee.title}</p>
-              <p className="text-sm text-gray-500">{employee.departmentId}</p>
+              <p className="text-sm text-gray-500">{employee.department}</p>
             </div>
           </div>
 

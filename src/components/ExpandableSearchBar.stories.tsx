@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
+
 import { ExpandableSearchBar } from './ExpandableSearchBar';
-import { TextInput } from '../../components/Forms/TextInput';
+import { TextInput } from './Forms/TextInput';
 
 const meta = {
   title: 'ITCORPO/Molecules/ExpandableSearchBar',

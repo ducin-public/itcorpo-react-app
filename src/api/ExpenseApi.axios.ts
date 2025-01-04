@@ -1,11 +1,6 @@
 import { apiClient } from './client';
 import type { Geo, Expense, ExpenseInput } from './data-contracts';
 
-export const getGeo = () => {
-  return apiClient.get<Geo>('/geo')
-    .then(res => res.data);
-};
-
 export const getExpenses = () => {
   return apiClient.get<Expense[]>('/expenses')
     .then(res => res.data);

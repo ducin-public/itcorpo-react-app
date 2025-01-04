@@ -51,7 +51,7 @@ export function EmployeeCard({
 
       <div className="mt-4">
         <p className="text-sm text-gray-600">{employee.email}</p>
-        <p className="text-sm text-gray-600">{employee.departmentId}</p>
+        <p className="text-sm text-gray-600">{employee.department}</p>
       </div>
 
       <div className="mt-4">

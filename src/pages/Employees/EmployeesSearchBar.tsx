@@ -4,9 +4,9 @@ import { Search } from 'lucide-react';
 
 import { MultiSelect } from '../../components/Forms/MultiSelect';
 import { NumberRangeInput } from '../../components/Forms/NumberRangeInput';
+import { ExpandableSearchBar } from '../../components/ExpandableSearchBar';
 import { getDepartments } from '../../api/DepartmentApi.axios';
 import type { EmployeeSearchCriteria } from './EmployeeSearchCriteria';
-import { ExpandableSearchBar } from '../Projects/ExpandableSearchBar';
 import { TextInput } from '../../components/Forms/TextInput';
 
 interface Props {

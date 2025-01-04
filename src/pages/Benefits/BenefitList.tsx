@@ -30,7 +30,7 @@ export function BenefitList() {
   if (isLoading) return <Spinner />;
 
   return (
-    <div>
+    <div className='px-2 py-2'>
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold text-gray-900">Benefits</h1>
         <Button

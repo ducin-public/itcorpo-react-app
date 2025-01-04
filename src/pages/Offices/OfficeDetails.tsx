@@ -6,6 +6,7 @@ import { Office } from '../../api/data-contracts';
 import { getOffices } from '../../api/OfficeApi.axios';
 import { officeImageURL } from './officeImageURL';
 import { formatCurrency } from '../../contexts/CurrencyContext';
+import { OfficeAmenitiesList } from './OfficeAmenitiesList';
 
 export function OfficeDetails() {
   const { id } = useParams();
@@ -63,16 +64,7 @@ export function OfficeDetails() {
 
           <div>
             <h2 className="text-lg font-semibold text-gray-900 mb-4">Amenities</h2>
-            <div className="flex flex-wrap gap-2">
-              {office.amenities.map((amenity) => (
-                <span
-                  key={amenity.code}
-                  className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm"
-                >
-                  {amenity.name}
-                </span>
-              ))}
-            </div>
+            <OfficeAmenitiesList amenities={office.amenities} />
           </div>
         </div>
       </div>

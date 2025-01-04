@@ -1,5 +1,6 @@
 import React from 'react';
 import { Edit, Users, DollarSign, Eye } from 'lucide-react';
+import { OfficeAmenitiesList } from './OfficeAmenitiesList';
 
 import { Office } from '../../api/data-contracts';
 import { officeImageURL } from './officeImageURL';
@@ -60,15 +61,8 @@ export function OfficeCard({
           </div>
         </div>
 
-        <div className="mt-4 flex flex-wrap gap-2">
-          {office.amenities.map((amenity) => (
-            <span
-              key={amenity.code}
-              className="px-2 py-1 bg-gray-100 text-gray-700 rounded-full text-xs"
-            >
-              {amenity.name}
-            </span>
-          ))}
+        <div className="mt-4">
+          <OfficeAmenitiesList amenities={office.amenities} />
         </div>
 
         <button

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Building2, Users, FolderKanban, Heart, DollarSign, Home } from 'lucide-react';
+import { Building2, Users, FolderKanban, DollarSign, Home, Pizza } from 'lucide-react';
 import { NavItem } from './NavItem';
 import { NavLink } from 'react-router-dom';
 
@@ -20,7 +20,7 @@ export function Header() {
             <NavItem icon={<Users className="h-5 w-5" />} text="Employees" to="/employees" />
             <NavItem icon={<FolderKanban className="h-5 w-5" />} text="Projects" to="/projects" />
             <NavItem icon={<Building2 className="h-5 w-5" />} text="Offices" to="/offices" />
-            <NavItem icon={<Heart className="h-5 w-5" />} text="Benefits" to="/benefits" />
+            <NavItem icon={<Pizza className="h-5 w-5" />} text="Benefits" to="/benefits" />
           </nav>
         </div>
       </div>
