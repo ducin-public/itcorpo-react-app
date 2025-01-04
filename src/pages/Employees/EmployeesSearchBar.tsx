@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Search } from 'lucide-react';
 
 import { MultiSelect } from '../../components/Forms/MultiSelect';
+import { NumberRangeInput } from '../../components/Forms/NumberRangeInput';
 import { getDepartments } from '../../api/DepartmentApi.axios';
 import type { EmployeeSearchCriteria } from './EmployeeSearchCriteria';
 import { ExpandableSearchBar } from '../Projects/ExpandableSearchBar';
@@ -27,75 +28,52 @@ export function EmployeesSearchBar({ onFiltersChange, filters }: Props) {
   return (
     <ExpandableSearchBar>
         <ExpandableSearchBar.BaseRow>
-            <TextInput
-                label='Employee Name'
-                value={filters.searchTerm || ''}
-                placeholder="Search employees..."
-                onChange={(searchTerm) => onFiltersChange({ ...filters, searchTerm })}
-            />
-            <ExpandableSearchBar.ToggleButton />
+          <div className="flex flex-1 gap-4">
+            <div className="flex-1">
+              <TextInput
+                  label='Employee Name'
+                  value={filters.searchTerm || ''}
+                  placeholder="Search employees..."
+                  onChange={(searchTerm) => onFiltersChange({ ...filters, searchTerm })}
+              />
+            </div>
+            <div className="flex-1">
+              <MultiSelect
+                label="Departments"
+                options={departmentOptions}
+                value={filters.departments}
+                onChange={(departments) => onFiltersChange({ ...filters, departments })}
+                placeholder="Select departments..."
+              />
+            </div>
+          </div>
+          <ExpandableSearchBar.ToggleButton />
         </ExpandableSearchBar.BaseRow>
       
       <ExpandableSearchBar.ExpandedContent>
         <div className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Departments
-            </label>
-            <MultiSelect
-              label="Departments"
-              options={departmentOptions}
-              value={filters.departments}
-              onChange={(departments) => onFiltersChange({ ...filters, departments })}
-              placeholder="Select departments..."
-            />
-          </div>
-          
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Min Salary
-              </label>
-              <input
-                type="number"
-                value={filters.minSalary || ''}
-                onChange={(e) => onFiltersChange({ 
-                  ...filters, 
-                  minSalary: e.target.value ? Number(e.target.value) : undefined 
-                })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                placeholder="Min salary..."
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Max Salary
-              </label>
-              <input
-                type="number"
-                value={filters.maxSalary || ''}
-                onChange={(e) => onFiltersChange({ 
-                  ...filters, 
-                  maxSalary: e.target.value ? Number(e.target.value) : undefined 
-                })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                placeholder="Max salary..."
-              />
-            </div>
-          </div>
+          <NumberRangeInput
+            label="Salary Range"
+            value={{
+              from: filters.minSalary || 0,
+              to: filters.maxSalary || 0
+            }}
+            onChange={({ from, to }) => onFiltersChange({
+              ...filters,
+              minSalary: from || undefined,
+              maxSalary: to || undefined
+            })}
+            fromPlaceholder="Min salary..."
+            toPlaceholder="Max salary..."
+            prefix="$"
+          />
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Skills (comma separated)
-            </label>
-            <input
-              type="text"
-              value={filters.skills}
-              onChange={(e) => onFiltersChange({ ...filters, skills: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md"
-              placeholder="React, TypeScript, Node.js..."
-            />
-          </div>
+          <TextInput
+            label="Skills (comma separated)"
+            value={filters.skills}
+            onChange={(value) => onFiltersChange({ ...filters, skills: value })}
+            placeholder="React, TypeScript, Node.js..."
+          />
         </div>
       </ExpandableSearchBar.ExpandedContent>
     </ExpandableSearchBar>

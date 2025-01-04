@@ -48,11 +48,11 @@ function ToggleButton() {
   return (
     <button
       onClick={context.toggleMode}
-      className={`mt-8 p-2 rounded-full transition-transform ${
+      className={`mt-6 p-2 rounded-full transition-transform ${
         context.mode === 'EXPANDED' ? 'rotate-90' : ''
       } ${styles.ACCENT.textHover}`}
     >
-      <ChevronRight className="h-5 w-5" />
+      <ChevronRight className="h-8 w-8" />
     </button>
   );
 }

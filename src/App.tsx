@@ -12,7 +12,7 @@ import { Dashboard } from './pages/Finances/Dashboard';
 import { EmployeeDetails } from './pages/Employees/EmployeeDetails';
 import { ProjectDetails } from './pages/Projects/ProjectDetails';
 import { OfficeDetails } from './pages/Offices/OfficeDetails';
-import { RecentlyViewedEmployees } from './pages/Employees/RecentlyViewedEmployees';
+import { RecentlyViewedEmployees } from './pages/Employees/TODO-RecentlyViewedEmployees';
 import { NotificationProvider } from './contexts/NotificationContext';
 import { ToastProvider } from './contexts/ToastContext';
 import { Welcome } from './components/Welcome';

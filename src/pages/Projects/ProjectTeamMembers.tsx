@@ -7,6 +7,8 @@ import { Button } from '../../components/Generic/Button';
 import { updateProject } from '../../api/ProjectApi.axios';
 import { getEmployees } from '../../api/EmployeeApi.axios';
 import { Employee } from '../../api/data-contracts';
+import { employeeImageURL } from '../Employees/employeeImageURL';
+import { EmployeeSkills } from '../Employees/EmployeeSkills';
 
 interface ProjectTeamMembersProps {
   projectId: string;
@@ -55,7 +57,7 @@ export function ProjectTeamMembers({ projectId, employees, onUpdateEmployees }: 
     }
   };
 
-  const handleRemoveEmployee = async (employeeId: string) => {
+  const handleRemoveEmployee = async (employeeId: Employee['id']) => {
     try {
       const updatedEmployees = employees.filter(emp => emp.id !== employeeId);
       await updateProject(projectId, { employees: updatedEmployees });
@@ -99,7 +101,7 @@ export function ProjectTeamMembers({ projectId, employees, onUpdateEmployees }: 
                 >
                   <div className="flex items-center space-x-3">
                     <img
-                      src={employee.profileImage}
+                      src={employeeImageURL(employee)}
                       alt={`${employee.firstName} ${employee.lastName}`}
                       className="h-8 w-8 rounded-full"
                     />
@@ -107,7 +109,7 @@ export function ProjectTeamMembers({ projectId, employees, onUpdateEmployees }: 
                       <p className="font-medium text-gray-900">
                         {employee.firstName} {employee.lastName}
                       </p>
-                      <p className="text-sm text-gray-500">{employee.position}</p>
+                      <p className="text-sm text-gray-500">{employee.title}</p>
                     </div>
                   </div>
                 </div>
@@ -124,7 +126,7 @@ export function ProjectTeamMembers({ projectId, employees, onUpdateEmployees }: 
             className="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg group"
           >
             <img
-              src={employee.profileImage}
+              src={employeeImageURL(employee)}
               alt={`${employee.firstName} ${employee.lastName}`}
               className="h-12 w-12 rounded-full object-cover"
             />
@@ -132,16 +134,9 @@ export function ProjectTeamMembers({ projectId, employees, onUpdateEmployees }: 
               <p className="font-medium text-gray-900">
                 {employee.firstName} {employee.lastName}
               </p>
-              <p className="text-sm text-gray-600">{employee.position}</p>
-              <div className="mt-1 flex flex-wrap gap-1">
-                {employee.skills.slice(0, 3).map((skill) => (
-                  <span
-                    key={skill}
-                    className="px-2 py-0.5 bg-indigo-50 text-indigo-700 rounded-full text-xs"
-                  >
-                    {skill}
-                  </span>
-                ))}
+              <p className="text-sm text-gray-600">{employee.title}</p>
+              <div className="mt-1">
+                <EmployeeSkills skills={employee.skills} expanded={false} collapseAbove={3} />
               </div>
             </div>
             <button
