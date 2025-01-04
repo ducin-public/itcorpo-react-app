@@ -19,19 +19,10 @@ export const OfficeList = () => {
   const { data: offices = [], isLoading, isFetching } = useQuery<Office[]>({
     queryKey: ['offices', searchPhrase, selectedCountries, selectedAmenities],
     queryFn: () => getOffices()
-    // queryFn: () => getOffices({
-    //   search: searchPhrase,
-    //   countries: selectedCountries,
-    //   amenities: selectedAmenities
-    // })
   });
 
-  if (isLoading) return <Spinner />;
-
   return (
-    <div className="relative">
-      {isFetching && <Spinner size='LARGE' layout='OVERLAY' />}
-      
+    <div className="px-2 py-2 relative">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold text-gray-900">Offices</h1>
         <Button
@@ -54,15 +45,21 @@ export const OfficeList = () => {
         />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {offices.map((office) => (
-          <OfficeCard
-            key={office.city}
-            office={office}
-            onView={() => navigate(`/offices/${office.city.toLowerCase()}`)}
-            onEdit={() => navigate(`/offices/${office.city.toLowerCase()}/edit`)}
-          />
-        ))}
+      <div className="relative min-h-[200px]">
+        {isFetching && (
+          <Spinner size='LARGE' layout='OVERLAY' />
+        )}
+
+        <div className={`grid grid-cols-1 md:grid-cols-2 gap-6 ${isFetching ? 'pointer-events-none' : ''}`}>
+          {offices.map((office) => (
+            <OfficeCard
+              key={office.city}
+              office={office}
+              onView={() => navigate(`/offices/${office.city.toLowerCase()}`)}
+              onEdit={() => navigate(`/offices/${office.city.toLowerCase()}/edit`)}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
