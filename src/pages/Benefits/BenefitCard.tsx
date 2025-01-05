@@ -24,7 +24,7 @@ export function BenefitCard({
       <div className="flex items-start justify-between">
         <div>
           <span className={`px-2 py-1 rounded-full text-xs font-medium ${typeColors[benefit.type]}`}>
-            {benefit.type.charAt(0).toUpperCase() + benefit.type.slice(1)}
+            {benefit.service}
           </span>
           <h3 className="text-lg font-semibold text-gray-900 mt-2">
             {benefit.provider}
@@ -38,8 +38,6 @@ export function BenefitCard({
         </button>
       </div>
 
-      <p className="mt-2 text-sm text-gray-600">{benefit.description}</p>
-
       <div className="mt-4 space-y-2">
         <div className="flex items-center text-sm text-gray-600">
           <DollarSign className="h-4 w-4 mr-2" />
@@ -47,7 +45,7 @@ export function BenefitCard({
         </div>
         <div className="flex items-center text-sm text-gray-600">
           <Calendar className="h-4 w-4 mr-2" />
-          Start Date: {format(new Date(benefit.startDate), 'MMM d, yyyy')}
+          Start Date: {format(new Date(benefit.subscribedAtDate), 'MMM d, yyyy')}
         </div>
         {benefit.endDate && (
           <div className="flex items-center text-sm text-gray-600">

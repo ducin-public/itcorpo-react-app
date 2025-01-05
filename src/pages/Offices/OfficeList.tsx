@@ -16,9 +16,15 @@ export const OfficeList = () => {
   const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
   const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
 
-  const { data: offices = [], isLoading, isFetching } = useQuery<Office[]>({
-    queryKey: ['offices', searchPhrase, selectedCountries, selectedAmenities],
-    queryFn: () => getOffices()
+  const searchCriteria = {
+    phrase: searchPhrase,
+    countries: selectedCountries,
+    amenities: selectedAmenities
+  }
+
+  const { data: offices = [], isLoading, isFetching } = useQuery({
+    queryKey: ['offices', searchCriteria] as const,
+    queryFn: ({ queryKey }) => getOffices(queryKey[1])
   });
 
   return (

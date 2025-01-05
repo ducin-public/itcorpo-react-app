@@ -1,8 +1,22 @@
 import { apiClient } from './client';
 import type { Office, OfficeInput, OfficeAmenity } from './data-contracts';
 
-export const getOffices = () => {
-  return apiClient.get<Office[]>('/offices')
+export interface OfficeSearchCriteria {
+  countries?: string[];
+  amenities?: OfficeAmenity['code'][];
+}
+
+export const getOffices = (criteria: OfficeSearchCriteria = {}) => {
+  const params = new URLSearchParams();
+  
+  if (criteria?.countries?.length) {
+    params.append('country', criteria.countries.join(','));
+  }
+  if (criteria?.amenities?.length) {
+    params.append('amenities', criteria.amenities.join(','));
+  }
+
+  return apiClient.get<Office[]>('/offices', { params })
     .then(res => res.data);
 };
 
@@ -11,8 +25,8 @@ export const getOfficesCount = () => {
     .then(res => res.data);
 };
 
-export const getOffice = (id: string) => {
-  return apiClient.get<Office>(`/offices/${id}`)
+export const getOffice = (code: string) => {
+  return apiClient.get<Office>(`/offices/${code}`)
     .then(res => res.data);
 };
 
@@ -21,13 +35,13 @@ export const createOffice = (office: OfficeInput) => {
     .then(res => res.data);
 };
 
-export const updateOffice = (id: string, office: Partial<OfficeInput>) => {
-  return apiClient.put<Office>(`/offices/${id}`, office)
+export const updateOffice = (code: string, office: Partial<OfficeInput>) => {
+  return apiClient.put<Office>(`/offices/${code}`, office)
     .then(res => res.data);
 };
 
-export const deleteOffice = (id: string) => {
-  return apiClient.delete<void>(`/offices/${id}`)
+export const deleteOffice = (code: string) => {
+  return apiClient.delete<void>(`/offices/${code}`)
     .then(() => undefined);
 };
 
