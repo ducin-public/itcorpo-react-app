@@ -16,9 +16,9 @@ const sizeStyles: Record<DesignSize, string> = {
   LARGE: 'px-6 py-3 text-xl'
 };
 
-const fillStyles: Record<DesignFill, (type: VariantType) => string> = {
-  SOLID: (type: VariantType) => `text-white border ${styles[type].backgroundGradientDark} ${styles[type].borderDark} ${styles[type].backgroundHover}`,
-  OUTLINED: (type: VariantType) => `${styles[type].text} border ${styles[type].border} ${styles[type].backgroundGradient} ${styles[type].backgroundDarkHover}`,
+const fillStyles: Record<DesignFill, (variant: VariantType) => string> = {
+  SOLID: (variant) => `text-white border ${styles[variant].backgroundGradientDark} ${styles[variant].borderDark} ${styles[variant].backgroundHover}`,
+  OUTLINED: (variant) => `${styles[variant].text} border ${styles[variant].border} ${styles[variant].backgroundGradient} ${styles[variant].backgroundDarkHover}`,
 };
 
 const disabledStyles = `opacity-50 cursor-not-allowed bg-gray-300 text-gray-500 border-gray-300`;

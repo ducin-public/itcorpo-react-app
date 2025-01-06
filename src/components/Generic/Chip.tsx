@@ -15,9 +15,9 @@ interface ChipProps {
   className?: string;
 }
 
-const fillStyles: Record<DesignFill, (type: VariantType) => string> = {
-  SOLID: (type) => `border ${styles[type].backgroundGradientDark} ${styles[type].borderDark} ${styles[type].borderDarkHover} text-white`,
-  OUTLINED: (type) => `border ${styles[type].background} ${styles[type].textDark} ${styles[type].border} `
+const fillStyles: Record<DesignFill, (variant: VariantType) => string> = {
+  SOLID: (variant) => `border ${styles[variant].backgroundGradientDark} ${styles[variant].borderDark} ${styles[variant].borderDarkHover} text-white`,
+  OUTLINED: (variant) => `border ${styles[variant].background} ${styles[variant].textDark} ${styles[variant].border} `
 };
 
 const sizeStyles: Record<DesignSize, string> = {
