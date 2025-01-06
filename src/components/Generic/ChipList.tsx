@@ -1,11 +1,14 @@
 import type { LucideIcon } from 'lucide-react';
-import { Chip, type ChipVariant } from './Chip';
+
+import { Chip, type ChipFill } from './Chip';
 import { cn } from '../cn';
 import { Size } from '../DesignEnums/Sizes';
+import { MessageType } from '../DesignEnums/MessageType';
 
 interface ChipListProps {
   items: string[];
-  variant?: ChipVariant;
+  fill?: ChipFill;
+  messageType?: MessageType;
   size?: Size;
   icon?: LucideIcon;
   onRemove?: (item: string) => void;
@@ -15,7 +18,8 @@ interface ChipListProps {
 
 export function ChipList({ 
   items, 
-  variant = 'PRIMARY', 
+  fill = 'SOLID',
+  messageType = 'ACCENT',
   size = 'MEDIUM',
   icon, 
   onRemove,
@@ -29,7 +33,8 @@ export function ChipList({
       {items.map((item) => (
         <Chip 
           key={item} 
-          variant={variant}
+          fill={fill}
+          messageType={messageType}
           size={size}
           icon={icon}
           onRemove={onRemove ? () => onRemove(item) : undefined}

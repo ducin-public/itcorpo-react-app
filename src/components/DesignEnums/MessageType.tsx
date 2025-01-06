@@ -58,6 +58,15 @@ export const textHoverStyle: StyleDictionary = {
   UPDATE: { hex: '#3B82F6', tailwindClass: 'hover:text-blue-500' },
 };
 
+export const textHoverLightStyle: StyleDictionary = {
+  DEFAULT: { hex: '#E5E7EB', tailwindClass: 'hover:text-gray-200' },
+  ACCENT: { hex: '#E9D5FF', tailwindClass: 'hover:text-purple-200' },
+  SUCCESS: { hex: '#BBF7D0', tailwindClass: 'hover:text-green-200' },
+  WARNING: { hex: '#FED7AA', tailwindClass: 'hover:text-orange-200' },
+  ALERT: { hex: '#FECACA', tailwindClass: 'hover:text-red-200' },
+  UPDATE: { hex: '#BFDBFE', tailwindClass: 'hover:text-blue-200' },
+};
+
 export const accentStyle: StyleDictionary = {
   DEFAULT: { hex: '#4B5563', tailwindClass: 'accent-gray-600' },
   ACCENT: { hex: '#9333EA', tailwindClass: 'accent-purple-600' },
@@ -158,18 +167,19 @@ export const backgroundGradientStyle: StyleDictionary = {
 };
 
 export const backgroundGradientDarkStyle: StyleDictionary = {
-  DEFAULT: { hex: '#4B5563', tailwindClass: 'bg-gradient-to-br from-gray-500 to-gray-700 hover:from-gray-600 hover:to-gray-800' },
-  ACCENT: { hex: '#9333EA', tailwindClass: 'bg-gradient-to-br from-purple-500 to-purple-700 hover:from-purple-600 hover:to-purple-800' },
-  SUCCESS: { hex: '#16A34A', tailwindClass: 'bg-gradient-to-br from-green-500 to-green-700 hover:from-green-600 hover:to-green-800' },
-  WARNING: { hex: '#EA580C', tailwindClass: 'bg-gradient-to-br from-orange-500 to-orange-700 hover:from-orange-600 hover:to-orange-800' },
-  ALERT: { hex: '#DC2626', tailwindClass: 'bg-gradient-to-br from-red-500 to-red-700 hover:from-red-600 hover:to-red-800' },
-  UPDATE: { hex: '#2563EB', tailwindClass: 'bg-gradient-to-br from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800' },
+  DEFAULT: { hex: '#4B5563', tailwindClass: 'bg-gradient-to-br from-gray-500 to-gray-800 hover:from-gray-600 hover:to-gray-800' },
+  ACCENT: { hex: '#9333EA', tailwindClass: 'bg-gradient-to-br from-purple-500 to-purple-800 hover:from-purple-600 hover:to-purple-800' },
+  SUCCESS: { hex: '#16A34A', tailwindClass: 'bg-gradient-to-br from-green-500 to-green-800 hover:from-green-600 hover:to-green-800' },
+  WARNING: { hex: '#EA580C', tailwindClass: 'bg-gradient-to-br from-orange-500 to-orange-800 hover:from-orange-600 hover:to-orange-800' },
+  ALERT: { hex: '#DC2626', tailwindClass: 'bg-gradient-to-br from-red-500 to-red-800 hover:from-red-600 hover:to-red-800' },
+  UPDATE: { hex: '#2563EB', tailwindClass: 'bg-gradient-to-br from-blue-500 to-blue-800 hover:from-blue-600 hover:to-blue-800' },
 };
 
 const allStyles = {
   textStyle,
   textDarkStyle,
   textHoverStyle,
+  textHoverLightStyle,
   accentStyle,
   borderStyle,
   borderHoverStyle,
@@ -201,6 +211,7 @@ const createStyleMap = (messageType: MessageType) => ({
   text: getClass('textStyle', messageType),
   textDark: getClass('textDarkStyle', messageType),
   textHover: getClass('textHoverStyle', messageType),
+  textHoverLight: getClass('textHoverLightStyle', messageType),
   accent: getClass('accentStyle', messageType),
   border: getClass('borderStyle', messageType),
   borderHover: getClass('borderHoverStyle', messageType),

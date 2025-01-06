@@ -3,13 +3,14 @@ import type { LucideIcon } from 'lucide-react';
 
 import { cn } from '../cn';
 import { Size } from '../DesignEnums/Sizes';
-import { Variant } from '../DesignEnums/Variants';
+import { MessageType, styles } from '../DesignEnums/MessageType';
 
-export type ChipVariant = Variant | 'WARNING' | 'ERROR';
+export type ChipFill = 'SOLID' | 'GRADIENT' | 'OUTLINED';
 
 interface ChipProps {
   children: ReactNode;
-  variant?: ChipVariant;
+  fill?: ChipFill;
+  messageType?: MessageType;
   size?: Size;
   icon?: LucideIcon;
   onClick?: () => void;
@@ -17,12 +18,10 @@ interface ChipProps {
   className?: string;
 }
 
-const variantStyles: Record<ChipVariant, string> = {
-  PRIMARY: 'bg-green-100 text-green-800 hover:bg-green-200',
-  SECONDARY: 'bg-gray-100 text-gray-800 hover:bg-gray-200',
-  OUTLINED: 'border border-green-300 text-green-700 hover:bg-green-50',
-  WARNING: 'bg-yellow-100 text-yellow-800 hover:bg-yellow-200',
-  ERROR: 'bg-red-100 text-red-800 hover:bg-red-200'
+const fillStyles: Record<ChipFill, (type: MessageType) => string> = {
+  SOLID: (type: MessageType) => `border ${styles[type].backgroundDark} ${styles[type].borderDark} ${styles[type].borderDarkHover} text-white`,
+  GRADIENT: (type: MessageType) => `border ${styles[type].backgroundGradientDark} ${styles[type].borderDark} ${styles[type].borderDarkHover} text-white`,
+  OUTLINED: (type: MessageType) => `border ${styles[type].background} ${styles[type].textDark} ${styles[type].border} `
 };
 
 const sizeStyles: Record<Size, string> = {
@@ -33,7 +32,8 @@ const sizeStyles: Record<Size, string> = {
 
 export function Chip({ 
   children, 
-  variant = 'PRIMARY', 
+  fill = 'SOLID',
+  messageType = 'ACCENT',
   size = 'MEDIUM',
   icon: Icon, 
   onClick,
@@ -44,10 +44,10 @@ export function Chip({
     <span 
       className={cn(
         'inline-flex items-center rounded-full font-medium transition-colors',
-        'focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-1',
-        variantStyles[variant],
+        `focus:outline-none focus:ring-2 focus:ring-offset-1 ${styles[messageType].focusRing}`,
+        fillStyles[fill](messageType),
         sizeStyles[size],
-        onClick && 'cursor-pointer hover:text-green-700',
+        (onClick || onRemove) && `cursor-pointer ${styles[messageType].textHoverLight}`,
         className
       )}
       onClick={onClick}

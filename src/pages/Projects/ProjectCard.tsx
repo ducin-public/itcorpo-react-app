@@ -4,6 +4,7 @@ import type { Project, ProjectStatus } from '../../api/data-contracts';
 import { Chip } from '../../components/Generic/Chip';
 import { formatDate } from 'date-fns/format';
 import { projectStatusDict } from './ProjectStatus';
+import { MessageType } from '../../components/DesignEnums/MessageType';
 
 interface ProjectCardProps {
   project: Project;
@@ -12,12 +13,12 @@ interface ProjectCardProps {
   onDelete: () => void;
 }
 
-const getStatusVariant = (status: ProjectStatus) => {
+const getStatusVariant = (status: ProjectStatus): MessageType => {
   switch (status) {
-    case 'ACTIVE': return 'PRIMARY';
-    case 'ON_HOLD': return 'WARNING';
-    case 'COMPLETED': return 'OUTLINED';
-    case 'PLANNING': return 'SECONDARY';
+    case 'ACTIVE': return 'ACCENT';
+    case 'ON_HOLD': return 'DEFAULT';
+    case 'COMPLETED': return 'SUCCESS';
+    case 'PLANNING': return 'UPDATE';
   }
 };
 
@@ -60,7 +61,7 @@ export function ProjectCard({ project, onView, onEdit, onDelete }: ProjectCardPr
 
       <div className="flex items-center space-x-4 text-sm text-gray-600">
         <Chip 
-          variant={getStatusVariant(project.status)}
+          messageType={getStatusVariant(project.status)}
           size='SMALL'
         >{projectStatusDict[project.status]}</Chip>
         <div className="flex items-center">

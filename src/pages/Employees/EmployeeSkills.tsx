@@ -19,7 +19,7 @@ export function EmployeeSkills({
     <div className="flex items-center gap-2">
       <ChipList
         items={visibleSkills}
-        variant="SECONDARY"
+        messageType="DEFAULT"
         size="SMALL"
       />
       {!expanded && remainingCount > 0 && (
