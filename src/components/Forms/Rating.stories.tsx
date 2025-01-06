@@ -61,7 +61,7 @@ export const WithHearts: Story = {
   }
 };
 
-export const WithPillsForDentalReview: Story = {
+export const WithPillsForMedicalReview: Story = {
   args: {
     value: 2,
     onChange: action('rating changed'),

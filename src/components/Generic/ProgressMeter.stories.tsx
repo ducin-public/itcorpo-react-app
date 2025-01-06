@@ -31,7 +31,7 @@ export const Sizes: Story = {
   )
 };
 
-export const Variants: Story = {
+export const Fills: Story = {
   render: () => (
     <div className="space-y-4 w-64">
       <ProgressMeter fill="SOLID" value={75} label="Primary" />

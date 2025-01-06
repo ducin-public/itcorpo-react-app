@@ -13,50 +13,50 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof TileList>;
 
-export const TreatmentsList: Story = {
+export const ProjectTypes: Story = {
   args: {
     items: [
       {
-        title: 'Root Canal Treatment',
-        description: 'Advanced procedure to treat severely damaged or infected tooth pulp',
-        link: '/treatments/root-canal',
+        title: 'Legacy System Migration',
+        description: 'Critical modernization of legacy systems to cloud infrastructure',
+        link: '/projects/migration',
         messageType: 'WARNING'
       },
       {
-        title: 'Dental Implants',
-        description: 'Permanent solution for missing teeth with titanium posts',
-        link: '/treatments/implants',
+        title: 'Digital Transformation',
+        description: 'End-to-end digital transformation of business processes',
+        link: '/projects/transformation',
         messageType: 'SUCCESS'
       },
       {
-        title: 'Teeth Whitening',
-        description: 'Professional teeth whitening for a brighter, more confident smile',
-        link: '/treatments/whitening',
+        title: 'Agile Development',
+        description: 'Iterative software development using Scrum methodology',
+        link: '/projects/agile',
         messageType: 'DEFAULT'
       }
     ]
   }
 };
 
-export const DoctorSpecialties: Story = {
+export const TechnicalSpecialties: Story = {
   args: {
     items: [
       {
-        title: 'Orthodontics',
-        description: 'Specialized treatment of teeth and jaw alignment irregularities',
-        link: '/specialties/orthodontics',
+        title: 'Cloud Architecture',
+        description: 'Design and implementation of scalable cloud solutions',
+        link: '/specialties/cloud',
         messageType: 'DEFAULT'
       },
       {
-        title: 'Periodontics',
-        description: 'Treatment of gum diseases and soft tissue management',
-        link: '/specialties/periodontics',
+        title: 'DevOps Engineering',
+        description: 'CI/CD pipeline optimization and infrastructure automation',
+        link: '/specialties/devops',
         messageType: 'DEFAULT'
       },
       {
-        title: 'Endodontics',
-        description: 'Root canal treatments and procedures involving tooth pulp',
-        link: '/specialties/endodontics',
+        title: 'Security Engineering',
+        description: 'Implementation of cybersecurity measures and protocols',
+        link: '/specialties/security',
         messageType: 'DEFAULT'
       }
     ]
@@ -67,18 +67,18 @@ export const ServicesWithoutLinks: Story = {
   args: {
     items: [
       {
-        title: 'Emergency Dental Care',
-        description: 'Available 24/7 for urgent dental emergencies',
+        title: '24/7 System Monitoring',
+        description: 'Round-the-clock infrastructure and application monitoring',
         messageType: 'UPDATE'
       },
       {
-        title: 'Dental Insurance',
-        description: 'We accept most major dental insurance plans',
+        title: 'Technical Support',
+        description: 'Enterprise-level IT support and maintenance',
         messageType: 'UPDATE'
       },
       {
-        title: 'Family Dentistry',
-        description: 'Comprehensive dental care for the whole family',
+        title: 'Consulting Services',
+        description: 'Expert technical consulting and architecture review',
         messageType: 'UPDATE'
       }
     ]
@@ -89,13 +89,13 @@ export const Alerts: Story = {
   args: {
     items: [
       {
-        title: 'Clinic Closure Notice',
-        description: 'Our clinic will be closed for maintenance this weekend',
+        title: 'System Maintenance',
+        description: 'Planned downtime for system upgrades this weekend',
         messageType: 'ALERT'
       },
       {
-        title: 'COVID-19 Protocols',
-        description: 'Updated safety measures in place for all visits',
+        title: 'Security Protocol Update',
+        description: 'Mandatory security measure updates for all projects',
         messageType: 'ALERT'
       }
     ]
@@ -106,55 +106,55 @@ export const MixedServices: Story = {
   args: {
     items: [
       {
-        title: 'Clinic Closure Notice',
-        description: 'Our clinic will be closed for maintenance this weekend',
+        title: 'Server Maintenance',
+        description: 'Critical server updates scheduled for deployment',
         messageType: 'ALERT'
       },
       {
-        title: 'New Treatment Available',
-        description: 'Introducing advanced laser teeth whitening',
+        title: 'New Framework Release',
+        description: 'Latest version of our development framework available',
         messageType: 'UPDATE'
       },
       {
-        title: 'Holiday Schedule',
-        description: 'Check our special holiday working hours',
+        title: 'Resource Planning',
+        description: 'Updated resource allocation for Q4 projects',
         messageType: 'DEFAULT'
       }
     ]
   }
 };
 
-export const AllVariants: Story = {
+export const All: Story = {
   args: {
     items: [
       {
-        title: 'General Dental Check-up',
-        description: 'Regular dental examination and cleaning service',
-        link: '/services/checkup',
+        title: 'Code Review Process',
+        description: 'Standard operating procedure for code reviews',
+        link: '/processes/code-review',
         messageType: 'DEFAULT'
       },
       {
-        title: 'Treatment Completed',
-        description: 'Your dental implant procedure has been successfully completed',
-        link: '/treatments/completed',
+        title: 'Deployment Success',
+        description: 'Production deployment completed successfully',
+        link: '/deployments/latest',
         messageType: 'SUCCESS'
       },
       {
-        title: 'Follow-up Required',
-        description: 'Please schedule a follow-up visit for your root canal treatment',
-        link: '/appointments/schedule',
+        title: 'Performance Issues',
+        description: 'Database optimization required for core services',
+        link: '/issues/performance',
         messageType: 'WARNING'
       },
       {
-        title: 'Emergency Notice',
-        description: 'Immediate attention needed for tooth infection cases',
-        link: '/emergency',
+        title: 'Security Breach',
+        description: 'Immediate action required: unauthorized access detected',
+        link: '/security/alerts',
         messageType: 'ALERT'
       },
       {
-        title: 'New Service Available',
-        description: 'Introducing advanced cosmetic dentistry procedures',
-        link: '/services/cosmetic',
+        title: 'New Feature Release',
+        description: 'Introducing advanced monitoring dashboard',
+        link: '/releases/monitoring',
         messageType: 'UPDATE'
       }
     ]
