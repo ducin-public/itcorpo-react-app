@@ -1,16 +1,16 @@
 import React from 'react';
 import type { PatientProfile } from '../../contract/types';
-import { Size } from '../DesignEnums/Sizes';
+import { DesignSize } from '../DesignEnums/designEnums';
 import { styles } from '../DesignEnums/MessageType';
 
 type AvatarProps =
   | { src: string }
   | { children: string; }
   & {
-    size?: Size
+    size?: DesignSize
   };
 
-const sizeClasses: Record<Size, string> = {
+const sizeClasses: Record<DesignSize, string> = {
   SMALL: 'w-8 h-8 text-sm',
   MEDIUM: 'w-12 h-12 text-lg',
   LARGE: 'w-16 h-16 text-xl',

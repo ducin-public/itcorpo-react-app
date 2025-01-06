@@ -1,9 +1,9 @@
-import { cn } from '../cn';
-import { ChevronDown } from 'lucide-react';
 import { useState } from 'react';
-import { Variant } from '../DesignEnums/Variants';
-import { Size } from '../DesignEnums/Sizes';
+import { ChevronDown } from 'lucide-react';
+
+import { DesignSize } from '../DesignEnums/designEnums';
 import { styles } from '../DesignEnums/MessageType';
+import { cn } from '../cn';
 
 interface DropdownProps {
   label: string;
@@ -13,22 +13,26 @@ interface DropdownProps {
   disabled?: boolean;
   error?: string;
   value?: string;
-  size?: Size;
-  variant?: Variant;
+  size?: DesignSize;
   className?: string;
 }
 
-const sizeClasses: Record<Size, string> = {
+const sizeClasses: Record<DesignSize, string> = {
   SMALL: 'h-8 text-sm',
   MEDIUM: 'h-10 text-base',
   LARGE: 'h-12 text-lg'
 };
 
-const variantClasses: Record<Variant, string> = {
-  PRIMARY: `${styles.ACCENT.backgroundDark} ${styles.ACCENT.text} ${styles.ACCENT.borderDark} ${styles.ACCENT.backgroundDarkHover}`,
-  SECONDARY: `${styles.ACCENT.background} ${styles.ACCENT.textDark} ${styles.ACCENT.border} ${styles.ACCENT.backgroundHover}`,
-  OUTLINED: `bg-white ${styles.ACCENT.textDark} ${styles.ACCENT.border} ${styles.ACCENT.borderHover}`
-};
+const generateStyles = ({ disabled, error }: Pick<DropdownProps, 'disabled' | 'error'>) => {
+  const pureDisabledStyles = 'opacity-50 cursor-not-allowed text-gray-500 bg-gray-100 border-gray-300'
+  const nonErrorStyles = `${styles.ACCENT.text} ${styles.ACCENT.border} ${styles.ACCENT.borderHover}`
+  const errorStyles = `${styles.ALERT.text} ${styles.ALERT.border} ${styles.ALERT.borderHover}`
+  return cn(
+    'bg-white',
+    disabled && pureDisabledStyles,
+    error ? errorStyles : nonErrorStyles,
+  )
+}
 
 export function Dropdown({
   label,
@@ -39,7 +43,6 @@ export function Dropdown({
   error,
   value = '',
   size = 'MEDIUM',
-  variant = 'OUTLINED',
   className
 }: DropdownProps) {
   const [localState, setLocalState] = useState(value);
@@ -52,7 +55,7 @@ export function Dropdown({
 
   return (
     <div className="relative">
-      <label htmlFor={selectId} className={`block text-sm font-medium ${styles.ACCENT.text} mb-1`}>
+      <label htmlFor={selectId} className={`block text-sm font-medium ${error ? styles.ALERT.text : styles.ACCENT.text} mb-1`}>
         {label}
         <div className="relative mt-1">
           <select
@@ -63,10 +66,8 @@ export function Dropdown({
             className={cn(
               'w-full rounded-lg border px-3 pr-10 appearance-none cursor-pointer',
               `focus:outline-none focus:ring-2 ${styles.ACCENT.focusRing} focus:border-transparent`,
-              'disabled:opacity-50 disabled:cursor-not-allowed',
+              generateStyles({ disabled, error }),
               sizeClasses[size],
-              variantClasses[variant],
-              error && styles.ALERT.border,
               className
             )}
           >

@@ -12,34 +12,32 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof ButtonGroup>;
 
-export const Primary: Story = {
+export const Default: Story = {
   args: {
-    variant: 'PRIMARY',
     items: [
       { id: '1', label: 'First Option', onClick: action('first-option-clicked') },
       { id: '2', label: 'Second Option', onClick: action('second-option-clicked') },
       { id: '3', label: 'Third Option', onClick: action('third-option-clicked'), disabled: true }
     ]
   }
-};
+}
 
-export const Secondary: Story = {
-  args: {
-    ...Primary.args,
-    variant: 'SECONDARY'
-  }
-};
-
-export const Outlined: Story = {
-  args: {
-    ...Primary.args,
-    variant: 'OUTLINED'
-  }
+export const ActionButtons: Story = {
+  render: () => (
+    <ButtonGroup 
+      items={[
+        { id: '1', label: 'Proceed', onClick: action('first-option-clicked') },
+        { id: '2', label: 'Go back', onClick: action('second-option-clicked'), disabled: true },
+        { id: '3', label: 'Restart', onClick: action('second-option-clicked'), fill: 'OUTLINED' },
+        { id: '4', label: 'Cancel', onClick: action('third-option-clicked'), messageType: 'ALERT' }
+      ]}
+    />
+  )
 };
 
 export const IconOnly: Story = {
   args: {
-    variant: 'SECONDARY',
+    fill: 'OUTLINED',
     items: [
       { 
         id: 'prev', 

@@ -1,15 +1,15 @@
 import type { LucideIcon } from 'lucide-react';
 
-import { Chip, type ChipFill } from './Chip';
+import { Chip } from './Chip';
 import { cn } from '../cn';
-import { Size } from '../DesignEnums/Sizes';
+import { DesignFill, DesignSize } from '../DesignEnums/designEnums';
 import { MessageType } from '../DesignEnums/MessageType';
 
 interface ChipListProps {
   items: string[];
-  fill?: ChipFill;
+  fill?: DesignFill;
   messageType?: MessageType;
-  size?: Size;
+  size?: DesignSize;
   icon?: LucideIcon;
   onRemove?: (item: string) => void;
   onClick?: (item: string) => void;

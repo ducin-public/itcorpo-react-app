@@ -1,5 +1,5 @@
 import { cn } from '../cn';
-import { Size } from '../DesignEnums/Sizes';
+import { DesignSize } from '../DesignEnums/designEnums';
 
 export type ProgressMeterFill = 'SOLID' | 'GRADIENT';
 
@@ -7,12 +7,12 @@ interface ProgressMeterProps {
   value: number;
   label?: string;
   className?: string;
-  size?: Size;
+  size?: DesignSize;
   fill?: ProgressMeterFill;
   showValue?: boolean;
 }
 
-const sizeClasses: Record<Size, string> = {
+const sizeClasses: Record<DesignSize, string> = {
   SMALL: 'h-1.5',
   MEDIUM: 'h-2.5',
   LARGE: 'h-4'

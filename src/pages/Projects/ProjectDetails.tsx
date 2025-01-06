@@ -39,7 +39,7 @@ export function ProjectDetails() {
         <div className="p-6">
           <div className="flex justify-between items-start mb-6">
             <EditableProjectName id={project.id} name={project.name} />
-            <Button variant="SECONDARY" onClick={() => navigate('/projects')}>
+            <Button fill="OUTLINED" onClick={() => navigate('/projects')}>
               Back to list
             </Button>
           </div>

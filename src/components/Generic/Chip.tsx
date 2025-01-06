@@ -2,29 +2,26 @@ import type { ReactNode } from 'react';
 import type { LucideIcon } from 'lucide-react';
 
 import { cn } from '../cn';
-import { Size } from '../DesignEnums/Sizes';
+import { DesignSize, DesignFill } from '../DesignEnums/designEnums';
 import { MessageType, styles } from '../DesignEnums/MessageType';
-
-export type ChipFill = 'SOLID' | 'GRADIENT' | 'OUTLINED';
 
 interface ChipProps {
   children: ReactNode;
-  fill?: ChipFill;
+  fill?: DesignFill;
+  size?: DesignSize;
   messageType?: MessageType;
-  size?: Size;
   icon?: LucideIcon;
   onClick?: () => void;
   onRemove?: () => void;
   className?: string;
 }
 
-const fillStyles: Record<ChipFill, (type: MessageType) => string> = {
-  SOLID: (type: MessageType) => `border ${styles[type].backgroundDark} ${styles[type].borderDark} ${styles[type].borderDarkHover} text-white`,
-  GRADIENT: (type: MessageType) => `border ${styles[type].backgroundGradientDark} ${styles[type].borderDark} ${styles[type].borderDarkHover} text-white`,
+const fillStyles: Record<DesignFill, (type: MessageType) => string> = {
+  SOLID: (type: MessageType) => `border ${styles[type].backgroundGradientDark} ${styles[type].borderDark} ${styles[type].borderDarkHover} text-white`,
   OUTLINED: (type: MessageType) => `border ${styles[type].background} ${styles[type].textDark} ${styles[type].border} `
 };
 
-const sizeStyles: Record<Size, string> = {
+const sizeStyles: Record<DesignSize, string> = {
   SMALL: 'text-xs px-2 py-0.5',
   MEDIUM: 'text-sm px-2.5 py-1',
   LARGE: 'text-base px-3 py-1.5'

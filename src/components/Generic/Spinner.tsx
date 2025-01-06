@@ -1,8 +1,8 @@
 import type { FC } from 'react';
-import { Size } from '../DesignEnums/Sizes';
+import { DesignSize } from '../DesignEnums/designEnums';
 
 interface SpinnerProps {
-  size?: Size;
+  size?: DesignSize;
   layout?: 'INLINE' | 'OVERLAY';
 }
 

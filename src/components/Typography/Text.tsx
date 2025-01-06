@@ -1,11 +1,11 @@
-import type { Size } from '../DesignEnums/Sizes';
+import type { DesignSize } from '../DesignEnums/designEnums';
 import { styles, type MessageType } from '../DesignEnums/MessageType';
 import { cn } from '../cn';
 
 interface TextProps {
   children: React.ReactNode;
   className?: string;
-  size?: Size;
+  size?: DesignSize;
   messageType?: MessageType;
 }
 

@@ -52,16 +52,6 @@ export const Sizes: Story = {
   ),
 };
 
-export const Variants: Story = {
-  render: () => (
-    <div className="space-y-4 w-64">
-      <Dropdown label="Primary Technology" items={programmingLanguages} variant="PRIMARY" onChanged={action('changed')} />
-      <Dropdown label="Secondary Technology" items={programmingLanguages} variant="SECONDARY" onChanged={action('changed')} />
-      <Dropdown label="Optional Technology" items={programmingLanguages} variant="OUTLINED" onChanged={action('changed')} />
-    </div>
-  ),
-};
-
 export const Disabled: Story = {
   args: {
     ...Default.args,

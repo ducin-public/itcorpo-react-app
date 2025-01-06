@@ -1,1 +1,0 @@
-export type Variant = 'PRIMARY' | 'SECONDARY' | 'OUTLINED';

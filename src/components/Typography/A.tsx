@@ -1,16 +1,16 @@
 import { ComponentPropsWithoutRef } from 'react';
 import { cn } from '../cn';
-import { Size } from '../DesignEnums/Sizes';
+import { DesignSize } from '../DesignEnums/designEnums';
 import { styles } from '../DesignEnums/MessageType';
 
-const sizeClasses: Record<Size, string> = {
+const sizeClasses: Record<DesignSize, string> = {
   SMALL: 'text-sm',
   MEDIUM: 'text-base',
   LARGE: 'text-lg',
 };
 
 type AProps = ComponentPropsWithoutRef<'a'> & {
-  size?: Size;
+  size?: DesignSize;
 };
 
 export function A({ size = 'MEDIUM', className, ...props }: AProps) {

@@ -20,6 +20,7 @@ export function EmployeeSkills({
       <ChipList
         items={visibleSkills}
         messageType="DEFAULT"
+        fill="OUTLINED"
         size="SMALL"
       />
       {!expanded && remainingCount > 0 && (

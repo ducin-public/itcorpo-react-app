@@ -66,14 +66,14 @@ export const Interactive = () => {
       <div className="flex gap-2">
         <Button
           size="SMALL"
-          variant="SECONDARY"
+          fill="OUTLINED"
           onClick={() => setProgress(Math.max(0, progress - 5))}
         >
           Decrease
         </Button>
         <Button
           size="SMALL"
-          variant="SECONDARY"
+          fill="OUTLINED"
           onClick={() => setProgress(Math.min(100, progress + 5))}
         >
           Increase

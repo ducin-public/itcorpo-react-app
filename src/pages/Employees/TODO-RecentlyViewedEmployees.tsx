@@ -13,10 +13,7 @@ export const RecentlyViewedEmployees = observer(() => {
     <div>
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold text-gray-900">Recently Viewed Employees</h1>
-        <Button
-          onClick={() => viewedEmployeesStore.clearViewedEmployees()}
-          variant="PRIMARY"
-        >
+        <Button onClick={() => viewedEmployeesStore.clearViewedEmployees()}>
           Clear History
         </Button>
       </div>

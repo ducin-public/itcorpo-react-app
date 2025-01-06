@@ -40,7 +40,6 @@ export function TileChooser<T extends WithId>({
           <Button
             key={item.id}
             onClick={() => handleSelect(item)}
-            variant="SECONDARY"
             size="SMALL"
             className="w-full text-left p-0 overflow-hidden"
           >

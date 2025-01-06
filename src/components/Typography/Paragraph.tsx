@@ -1,15 +1,15 @@
 
 import { cn } from '../cn';
 import { styles } from '../DesignEnums/MessageType';
-import { Size } from '../DesignEnums/Sizes';
+import { DesignSize } from '../DesignEnums/designEnums';
 
 interface ParagraphProps {
   children: React.ReactNode;
-  size?: Size;
+  size?: DesignSize;
   className?: string;
 }
 
-const sizeClasses: Record<Size, string> = {
+const sizeClasses: Record<DesignSize, string> = {
   SMALL: 'text-sm',
   MEDIUM: 'text-base',
   LARGE: 'text-lg',
