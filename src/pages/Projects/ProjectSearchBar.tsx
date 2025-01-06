@@ -5,7 +5,7 @@ import { TextInput } from '../../components/Forms/TextInput';
 import { projectStatusOptions } from './ProjectStatus';
 import { type ProjectSearchCriteria, initialProjectSearchCriteria } from './ProjectSearchCriteria';
 import { ProjectStatus } from '../../api/data-contracts';
-import { ExpandableSearchBar } from '../../components/ExpandableSearchBar';
+import { ExpandableSearchBar } from '../../components/Generic/ExpandableSearchBar';
 
 interface ProjectSearchBarProps {
   onCriteriaUpdate: (criteria: ProjectSearchCriteria) => void;

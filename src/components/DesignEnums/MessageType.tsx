@@ -11,6 +11,19 @@ import type { LucideIcon } from 'lucide-react';
  */
 export type MessageType = 'DEFAULT' | 'ACCENT' | 'SUCCESS' | 'WARNING' | 'ALERT' | 'UPDATE';
 
+type ColorDictionary = {
+  [key in MessageType]: string
+};
+
+export const mainColor: ColorDictionary = {
+  DEFAULT: 'gray',
+  ACCENT: 'purple',
+  SUCCESS: 'green',
+  WARNING: 'orange',
+  ALERT: 'red',
+  UPDATE: 'blue',
+};
+
 type StyleDictionary = {
   [key in MessageType]: {
     hex: string;
@@ -43,6 +56,15 @@ export const textHoverStyle: StyleDictionary = {
   WARNING: { hex: '#F97316', tailwindClass: 'hover:text-orange-500' },
   ALERT: { hex: '#EF4444', tailwindClass: 'hover:text-red-500' },
   UPDATE: { hex: '#3B82F6', tailwindClass: 'hover:text-blue-500' },
+};
+
+export const accentStyle: StyleDictionary = {
+  DEFAULT: { hex: '#4B5563', tailwindClass: 'accent-gray-600' },
+  ACCENT: { hex: '#9333EA', tailwindClass: 'accent-purple-600' },
+  SUCCESS: { hex: '#16A34A', tailwindClass: 'accent-green-600' },
+  WARNING: { hex: '#EA580C', tailwindClass: 'accent-orange-600' },
+  ALERT: { hex: '#DC2626', tailwindClass: 'accent-red-600' },
+  UPDATE: { hex: '#2563EB', tailwindClass: 'accent-blue-600' },
 };
 
 export const borderStyle: StyleDictionary = {
@@ -148,6 +170,7 @@ const allStyles = {
   textStyle,
   textDarkStyle,
   textHoverStyle,
+  accentStyle,
   borderStyle,
   borderHoverStyle,
   borderDarkStyle,
@@ -174,9 +197,11 @@ const getClass = (styleType: keyof typeof allStyles, type: MessageType) =>
   allStyles[styleType][type].tailwindClass;
 
 const createStyleMap = (messageType: MessageType) => ({
+  mainColor: mainColor[messageType],
   text: getClass('textStyle', messageType),
   textDark: getClass('textDarkStyle', messageType),
   textHover: getClass('textHoverStyle', messageType),
+  accent: getClass('accentStyle', messageType),
   border: getClass('borderStyle', messageType),
   borderHover: getClass('borderHoverStyle', messageType),
   borderDark: getClass('borderDarkStyle', messageType),

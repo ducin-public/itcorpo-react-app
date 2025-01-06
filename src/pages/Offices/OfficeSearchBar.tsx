@@ -6,7 +6,7 @@ import { TextInput } from '../../components/Forms/TextInput';
 import type { OfficeAmenity, Geo } from '../../api/data-contracts';
 import { getOfficeAmenities } from '../../api/OfficeApi.axios';
 import { getGeo } from '../../api/GeoApi.axios';
-import { ExpandableSearchBar } from '../../components/ExpandableSearchBar';
+import { ExpandableSearchBar } from '../../components/Generic/ExpandableSearchBar';
 
 export type OfficeSearchBarProps = {
   onSearchChange: (search: string) => void;

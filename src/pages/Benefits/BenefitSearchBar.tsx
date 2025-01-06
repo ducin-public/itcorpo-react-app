@@ -1,7 +1,7 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 
-import { ExpandableSearchBar } from '../../components/ExpandableSearchBar';
+import { ExpandableSearchBar } from '../../components/Generic/ExpandableSearchBar';
 import { TextInput } from '../../components/Forms/TextInput';
 import { MultiSelect } from '../../components/Forms/MultiSelect';
 import { Dropdown } from '../../components/Forms/Dropdown';

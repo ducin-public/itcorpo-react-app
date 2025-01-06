@@ -46,7 +46,7 @@ export const Switch = ({ checked, onChange, disabled = false, className = '', la
         />
       </button>
       {label && (
-        <span className={`text-sm ${disabled ? 'text-gray-400' : 'text-gray-700'}`}>
+        <span className={`text-sm ${disabled ? 'text-gray-400' : styles.DEFAULT.textDark}`}>
           {label}
         </span>
       )}

@@ -4,7 +4,7 @@ import { Search } from 'lucide-react';
 
 import { MultiSelect } from '../../components/Forms/MultiSelect';
 import { NumberRangeInput } from '../../components/Forms/NumberRangeInput';
-import { ExpandableSearchBar } from '../../components/ExpandableSearchBar';
+import { ExpandableSearchBar } from '../../components/Generic/ExpandableSearchBar';
 import { getDepartments } from '../../api/DepartmentApi.axios';
 import type { EmployeeSearchCriteria } from './EmployeeSearchCriteria';
 import { TextInput } from '../../components/Forms/TextInput';
