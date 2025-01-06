@@ -1,17 +1,28 @@
-import type { DateString, Employee, Money } from '../../api/data-contracts';
+import type { BenefitSubscriptionSearchStatus, DateString, Employee, Money } from '../../api/data-contracts';
 
-export enum BENEFIT_SUBSCRIPTION_STATUS {
-    ACTIVE = 'ACTIVE',
-    CANCELLED = 'CANCELLED'
+export const BenefitSubscriptionSearchStatusDict = {
+  'ALL': 'All',
+  'ACTIVE': 'Active',
+  'CANCELLED': 'Cancelled'
 }
 
 export interface BenefitSearchCriteria {
   service?: string;
-  fee?: Money;
+  fee?: {
+    from?: Money;
+    to?: Money;
+  }
   employeeIds?: Employee['id'][];
-  status?: BENEFIT_SUBSCRIPTION_STATUS;
+  status?: BenefitSubscriptionSearchStatus;
   activePeriod?: {
     from?: DateString;
     to?: DateString;
   };
+}
+
+export interface BenefitSearchState {
+  serviceName: string;
+  selectedEmployees: string[];
+  feeRange: { from?: number; to?: number };
+  selectedStatus: BenefitSubscriptionSearchStatus;
 }

@@ -1,8 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
+import { Search } from 'lucide-react';
 
 import { MultiSelect } from '../../components/Forms/MultiSelect';
+import { TextInput } from '../../components/Forms/TextInput';
 import type { OfficeAmenity, Geo } from '../../api/data-contracts';
-
 import { getOfficeAmenities } from '../../api/OfficeApi.axios';
 import { getGeo } from '../../api/GeoApi.axios';
 import { ExpandableSearchBar } from '../../components/ExpandableSearchBar';
@@ -35,26 +36,32 @@ export const OfficeSearchBar = ({
   });
 
   return (
-    <ExpandableSearchBar
-    >
+    <ExpandableSearchBar>
       <div className="flex gap-4 mt-4">
-        <MultiSelect
-          label="Countries"
-          options={geoData ? Object.entries(geoData).map(([code, name]) => ({
-            label: name,
-            value: code
-          })) : []}
-          value={selectedCountries}
-          onChange={onCountriesChange}
+        <TextInput
+            label="Search phrase"
+            placeholder="Search offices..."
+            size={30}
+            value={searchPhrase}
+            onChange={onSearchChange}
         />
         <MultiSelect
-          label="Amenities"
-          options={amenities.map(amenity => ({
+            label="Countries"
+            options={geoData ? Object.entries(geoData).map(([code, name]) => ({
+            label: name,
+            value: code
+            })) : []}
+            value={selectedCountries}
+            onChange={onCountriesChange}
+        />
+        <MultiSelect
+            label="Amenities"
+            options={amenities.map(amenity => ({
             label: amenity.name,
             value: amenity.code
-          }))}
-          value={selectedAmenities}
-          onChange={onAmenitiesChange}
+            }))}
+            value={selectedAmenities}
+            onChange={onAmenitiesChange}
         />
       </div>
     </ExpandableSearchBar>

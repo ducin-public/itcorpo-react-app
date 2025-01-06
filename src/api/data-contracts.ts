@@ -121,6 +121,7 @@ export interface BenefitSubscription {
     /** @format email */
     email: string;
   };
+  category: BenefitCategory;
   country: string;
   city: string;
   /** Monetary value in EUR */
@@ -146,6 +147,37 @@ export interface BenefitSubscriptionInput {
   subscribedAtDate: string;
   /** @format date */
   cancelledAtDate?: string;
+}
+
+/**
+ * Status filter for benefit subscriptions
+ * @example "ACTIVE"
+ */
+export type BenefitSubscriptionSearchStatus = "ALL" | "ACTIVE" | "CANCELLED";
+
+export interface BenefitsSearchCriteria {
+  /**
+   * Filter benefits by service name
+   * @example "MultiSport"
+   */
+  serviceName?: string;
+  /**
+   * Comma-separated list of employee IDs to filter by
+   * @example "123,456,789"
+   */
+  employeeIds?: string;
+  /**
+   * Minimum monthly fee amount
+   * @example "100"
+   */
+  feeFrom?: string;
+  /**
+   * Maximum monthly fee amount
+   * @example "500.50"
+   */
+  feeTo?: string;
+  /** Status filter for benefit subscriptions */
+  status?: BenefitSubscriptionSearchStatus;
 }
 
 /** @example {"code":"parking","name":"PARKING"} */
@@ -193,6 +225,24 @@ export interface OfficeInput {
   imgURL?: string;
 }
 
+export interface OfficesSearchCriteria {
+  /**
+   * Comma-separated list of country codes to filter by
+   * @example "PL,DE"
+   */
+  countries?: string;
+  /**
+   * Comma-separated list of amenity codes to filter by
+   * @example "PARKING,SHOWER"
+   */
+  amenities?: string;
+  /**
+   * Full text search across country, city, address and estate owner fields
+   * @example "Amsterdam central"
+   */
+  phrase?: string;
+}
+
 /** @example "ACTIVE" */
 export type ProjectStatus = "PLANNING" | "ACTIVE" | "COMPLETED" | "ON_HOLD";
 
@@ -230,6 +280,34 @@ export interface ProjectInput {
   }[];
   manager: number;
   description: string;
+}
+
+export interface ProjectsSearchCriteria {
+  /**
+   * Filter projects by name
+   * @example "Cloud migration"
+   */
+  projectName?: string;
+  /**
+   * Filter projects by status
+   * @example "ACTIVE"
+   */
+  status?: ProjectStatus;
+  /**
+   * Filter projects by team member IDs
+   * @example "123,456,789"
+   */
+  teamMembers?: string;
+  /**
+   * Minimum project budget amount
+   * @example "10000"
+   */
+  budgetFrom?: string;
+  /**
+   * Maximum project budget amount
+   * @example "50000"
+   */
+  budgetTo?: string;
 }
 
 /** @example "US" */
@@ -362,4 +440,32 @@ export interface EmployeeInput {
   skills: Skill[];
   bio: string;
   imgURL?: string;
+}
+
+export interface EmployeesSearchCriteria {
+  /**
+   * Filter employees by name
+   * @example "John Doe"
+   */
+  employeeName?: string;
+  /**
+   * Filter employees by department ID
+   * @example "123"
+   */
+  departmentId?: string;
+  /**
+   * Filter employees by skills
+   * @example "JavaScript,React"
+   */
+  skills?: string;
+  /**
+   * Minimum salary amount
+   * @example "5000"
+   */
+  salaryFrom?: string;
+  /**
+   * Maximum salary amount
+   * @example "10000"
+   */
+  salaryTo?: string;
 }

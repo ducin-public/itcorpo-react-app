@@ -54,6 +54,15 @@ export const borderStyle: StyleDictionary = {
   UPDATE: { hex: '#BFDBFE', tailwindClass: 'border-blue-200' },
 };
 
+export const borderHoverStyle: StyleDictionary = {
+  DEFAULT: { hex: '#9CA3AF', tailwindClass: 'hover:border-gray-400' },
+  ACCENT: { hex: '#C084FC', tailwindClass: 'hover:border-purple-400' },
+  SUCCESS: { hex: '#4ADE80', tailwindClass: 'hover:border-green-400' },
+  WARNING: { hex: '#FB923C', tailwindClass: 'hover:border-orange-400' },
+  ALERT: { hex: '#F87171', tailwindClass: 'hover:border-red-400' },
+  UPDATE: { hex: '#60A5FA', tailwindClass: 'hover:border-blue-400' },
+};
+
 export const borderDarkStyle: StyleDictionary = {
   DEFAULT: { hex: '#4B5563', tailwindClass: 'border-gray-600' },
   ACCENT: { hex: '#9333EA', tailwindClass: 'border-purple-600' },
@@ -61,6 +70,15 @@ export const borderDarkStyle: StyleDictionary = {
   WARNING: { hex: '#EA580C', tailwindClass: 'border-orange-600' },
   ALERT: { hex: '#DC2626', tailwindClass: 'border-red-600' },
   UPDATE: { hex: '#2563EB', tailwindClass: 'border-blue-600' },
+};
+
+export const borderDarkHoverStyle: StyleDictionary = {
+  DEFAULT: { hex: '#1F2937', tailwindClass: 'hover:border-gray-800' },
+  ACCENT: { hex: '#6B21A8', tailwindClass: 'hover:border-purple-800' },
+  SUCCESS: { hex: '#166534', tailwindClass: 'hover:border-green-800' },
+  WARNING: { hex: '#9A3412', tailwindClass: 'hover:border-orange-800' },
+  ALERT: { hex: '#991B1B', tailwindClass: 'hover:border-red-800' },
+  UPDATE: { hex: '#1E40AF', tailwindClass: 'hover:border-blue-800' },
 };
 
 export const focusRingStyle: StyleDictionary = {
@@ -131,7 +149,9 @@ const allStyles = {
   textDarkStyle,
   textHoverStyle,
   borderStyle,
+  borderHoverStyle,
   borderDarkStyle,
+  borderDarkHoverStyle,
   focusRingStyle,
   backgroundStyle,
   backgroundHoverStyle,
@@ -158,7 +178,9 @@ const createStyleMap = (messageType: MessageType) => ({
   textDark: getClass('textDarkStyle', messageType),
   textHover: getClass('textHoverStyle', messageType),
   border: getClass('borderStyle', messageType),
+  borderHover: getClass('borderHoverStyle', messageType),
   borderDark: getClass('borderDarkStyle', messageType),
+  borderDarkHover: getClass('borderDarkHoverStyle', messageType),
   focusRing: getClass('focusRingStyle', messageType),
   background: getClass('backgroundStyle', messageType),
   backgroundHover: getClass('backgroundHoverStyle', messageType),

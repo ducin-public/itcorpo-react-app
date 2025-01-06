@@ -1,0 +1,78 @@
+import React from 'react';
+import { useQuery } from '@tanstack/react-query';
+
+import { ExpandableSearchBar } from '../../components/ExpandableSearchBar';
+import { TextInput } from '../../components/Forms/TextInput';
+import { MultiSelect } from '../../components/Forms/MultiSelect';
+import { Dropdown } from '../../components/Forms/Dropdown';
+import { DateRangePicker } from '../../components/Forms/DateRangePicker';
+import { getEmployees } from '../../api/EmployeeApi.axios';
+import { BenefitSubscriptionSearchStatusDict, type BenefitSearchState } from './BenefitSearchCriteria';
+import type { Employee } from '../../api/data-contracts';
+import { NumberRangeInput } from '../../components/Forms/NumberRangeInput';
+
+interface BenefitSearchBarProps {
+  searchState: BenefitSearchState;
+  onCriteriaUpdate: (criteria: BenefitSearchState) => void;
+}
+
+export function BenefitSearchBar({ searchState, onCriteriaUpdate }: BenefitSearchBarProps) {
+  const { data: employees = [] } = useQuery({
+    queryKey: ['employees'],
+    queryFn: getEmployees
+  });
+
+  const employeeOptions = employees.map((emp: Employee) => ({
+    value: String(emp.id),
+    label: `${emp.firstName} ${emp.lastName}`
+  }));
+
+  const handleChange = (updates: Partial<BenefitSearchState>) => {
+    const newCriteria = { ...searchState, ...updates };
+    onCriteriaUpdate(newCriteria);
+  };
+
+  return (
+    <div className="space-y-4">
+      <ExpandableSearchBar>
+        <ExpandableSearchBar.BaseRow>
+            <TextInput
+            label='Service Name'
+            placeholder="Search by service name..."
+            value={searchState.serviceName || ''}
+            onChange={(serviceName) => handleChange({ serviceName })}
+            />
+            <MultiSelect
+            label="Employees"
+            placeholder="Select employees..."
+            options={employeeOptions}
+            value={searchState.selectedEmployees?.map(String) || []}
+            onChange={(selectedEmployees) => handleChange({ selectedEmployees })}
+            />
+            <ExpandableSearchBar.ToggleButton />
+        </ExpandableSearchBar.BaseRow>
+
+        <ExpandableSearchBar.ExpandedContent>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <NumberRangeInput
+                    label="Fee Range"
+                    value={searchState.feeRange}
+                    onChange={(range) => handleChange({ 
+                        feeRange: range
+                    })}
+                />
+                <Dropdown
+                    label="Status"
+                    placeholder="Select status..."
+                    items={BenefitSubscriptionSearchStatusDict}
+                    value={searchState.selectedStatus || ''}
+                    onChanged={(value) => handleChange({ 
+                        selectedStatus: value as (keyof typeof BenefitSubscriptionSearchStatusDict)
+                    })}
+                />
+            </div>
+        </ExpandableSearchBar.ExpandedContent>
+      </ExpandableSearchBar>
+    </div>
+  );
+}

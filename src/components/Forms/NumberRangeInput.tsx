@@ -1,14 +1,25 @@
 import { useState, useEffect } from 'react';
 import { styles } from '../DesignEnums/MessageType';
 
-export interface NumberRange {
-  from: number;
-  to: number;
+export interface NumberRangeStrOrNumber {
+  from?: number | string;
+  to?: number | string;
+}
+
+export interface NumberRangeUpdate {
+  from?: number;
+  to?: number;
+}
+
+const toNumberOrUndefined = (value: number | string | undefined): number | undefined => {
+  if (typeof value === 'number') return value;
+  if (typeof value === 'string') return value === '' ? undefined : parseFloat(value);
+  return undefined;
 }
 
 interface NumberRangeInputProps {
-  value: NumberRange;
-  onChange: (range: NumberRange) => void;
+  value: NumberRangeStrOrNumber;
+  onChange: (range: NumberRangeUpdate) => void;
   label: string;
   fromPlaceholder?: string;
   toPlaceholder?: string;
@@ -37,28 +48,36 @@ export const NumberRangeInput = ({
   prefix,
   suffix,
 }: NumberRangeInputProps) => {
-  const [localValue, setLocalValue] = useState<NumberRange>(value);
+  const [localValue, setLocalValue] = useState<NumberRangeStrOrNumber>(value);
 
   useEffect(() => {
     setLocalValue(value);
   }, [value]);
 
   const handleFromChange = (fromStr: string) => {
-    const from = fromStr === '' ? 0 : Number(fromStr);
-    const newValue = { ...localValue, from };
-    setLocalValue(newValue);
-    if (!isNaN(from)) {
-      onChange(newValue);
+    const from = fromStr === '' ? undefined : Number(fromStr);
+    if (typeof from == 'number' && isNaN(from)) {
+      throw new Error('Invalid number'); // TODO: error handling
     }
+    const newValue = {
+      to: toNumberOrUndefined(localValue.to),
+      from: toNumberOrUndefined(from),
+    };
+    setLocalValue(newValue);
+    onChange(newValue);
   };
 
   const handleToChange = (toStr: string) => {
-    const to = toStr === '' ? 0 : Number(toStr);
-    const newValue = { ...localValue, to };
-    setLocalValue(newValue);
-    if (!isNaN(to)) {
-      onChange(newValue);
+    const to = toStr === '' ? undefined : Number(toStr);
+    if (typeof to == 'number' && isNaN(to)) {
+      throw new Error('Invalid number'); // TODO: error handling
     }
+    const newValue = {
+      to: toNumberOrUndefined(to),
+      from: toNumberOrUndefined(localValue.from),
+    };
+    setLocalValue(newValue);
+    onChange(newValue);
   };
 
   const inputWrapperClassName = `
@@ -72,9 +91,6 @@ export const NumberRangeInput = ({
     focus:outline-none
     focus:ring-2 ${styles.ACCENT.focusRing}
     ${disabled ? 'cursor-not-allowed bg-gray-50' : ''}
-    [appearance:textfield]
-    [&::-webkit-outer-spin-button]:appearance-none
-    [&::-webkit-inner-spin-button]:appearance-none
   `;
 
   const affixClassName = `
@@ -86,7 +102,7 @@ export const NumberRangeInput = ({
   `;
 
   const InputWithAffixes = ({ value, onChange, placeholder, id }: { 
-    value: number, 
+    value: number | string, 
     onChange: (value: string) => void, 
     placeholder?: string,
     id?: string
@@ -137,7 +153,7 @@ export const NumberRangeInput = ({
         <div className="flex-1">
           <InputWithAffixes
             id="range-from"
-            value={localValue.from}
+            value={localValue.from || ''}
             onChange={handleFromChange}
             placeholder={fromPlaceholder}
           />
@@ -147,7 +163,7 @@ export const NumberRangeInput = ({
 
         <div className="flex-1">
           <InputWithAffixes
-            value={localValue.to}
+            value={localValue.to || ''}
             onChange={handleToChange}
             placeholder={toPlaceholder}
           />

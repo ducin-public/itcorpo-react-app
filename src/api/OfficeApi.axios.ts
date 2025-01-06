@@ -1,27 +1,31 @@
 import { apiClient } from './client';
-import type { Office, OfficeInput, OfficeAmenity } from './data-contracts';
+import type { Office, OfficeInput, OfficeAmenity, OfficesSearchCriteria } from './data-contracts';
 
-export interface OfficeSearchCriteria {
-  countries?: string[];
-  amenities?: OfficeAmenity['code'][];
-}
-
-export const getOffices = (criteria: OfficeSearchCriteria = {}) => {
+const buildOfficeSearchParams = (criteria: OfficesSearchCriteria = {}): URLSearchParams => {
   const params = new URLSearchParams();
   
-  if (criteria?.countries?.length) {
-    params.append('country', criteria.countries.join(','));
+  if (criteria.countries?.length) {
+    params.append('countries', criteria.countries);
   }
-  if (criteria?.amenities?.length) {
-    params.append('amenities', criteria.amenities.join(','));
+  if (criteria.amenities?.length) {
+    params.append('amenities', criteria.amenities);
+  }
+  if (criteria.phrase){
+    params.append('phrase', criteria.phrase);
   }
 
+  return params;
+};
+
+export const getOffices = (criteria: OfficesSearchCriteria = {}) => {
+  const params = buildOfficeSearchParams(criteria);
   return apiClient.get<Office[]>('/offices', { params })
     .then(res => res.data);
 };
 
-export const getOfficesCount = () => {
-  return apiClient.get<number>('/offices/count')
+export const getOfficesCount = (criteria: OfficesSearchCriteria = {}) => {
+  const params = buildOfficeSearchParams(criteria);
+  return apiClient.get<number>('/offices/count', { params })
     .then(res => res.data);
 };
 

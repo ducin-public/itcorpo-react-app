@@ -2,10 +2,18 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { Dropdown } from './Dropdown';
 
-const sampleItems = {
-  '1': 'Dr. John Smith - General Dentistry',
-  '2': 'Dr. Sarah Wilson - Orthodontics',
-  '3': 'Dr. Michael Brown - Periodontics',
+const projectTypes = {
+  'WEB': 'Web Development Project',
+  'MOBILE': 'Mobile App Development',
+  'CLOUD': 'Cloud Infrastructure',
+  'ML': 'Machine Learning Solution',
+};
+
+const programmingLanguages = {
+  'TS': 'TypeScript',
+  'JAVA': 'Java Enterprise',
+  'PYTHON': 'Python',
+  'GO': 'Golang',
 };
 
 const meta = {
@@ -16,8 +24,8 @@ const meta = {
   },
   tags: ['autodocs'],
   args: {
-    label: 'Select Dentist',
-    items: sampleItems,
+    label: 'Project Type',
+    items: projectTypes,
     onChanged: action('changed'),
   }
 } satisfies Meta<typeof Dropdown>;
@@ -30,16 +38,16 @@ export const Default: Story = {};
 export const WithPlaceholder: Story = {
   args: {
     ...Default.args,
-    placeholder: 'Choose your dentist',
+    placeholder: 'Select project type',
   },
 };
 
 export const Sizes: Story = {
   render: () => (
     <div className="space-y-4 w-64">
-      <Dropdown label="Quick Select" items={sampleItems} size="SMALL" onChanged={action('changed')} />
-      <Dropdown label="Standard Select" items={sampleItems} size="MEDIUM" onChanged={action('changed')} />
-      <Dropdown label="Large Select" items={sampleItems} size="LARGE" onChanged={action('changed')} />
+      <Dropdown label="Quick Project Select" items={projectTypes} size="SMALL" onChanged={action('changed')} />
+      <Dropdown label="Standard Project Select" items={projectTypes} size="MEDIUM" onChanged={action('changed')} />
+      <Dropdown label="Large Project Select" items={projectTypes} size="LARGE" onChanged={action('changed')} />
     </div>
   ),
 };
@@ -47,9 +55,9 @@ export const Sizes: Story = {
 export const Variants: Story = {
   render: () => (
     <div className="space-y-4 w-64">
-      <Dropdown label="Primary Style" items={sampleItems} variant="PRIMARY" onChanged={action('changed')} />
-      <Dropdown label="Secondary Style" items={sampleItems} variant="SECONDARY" onChanged={action('changed')} />
-      <Dropdown label="Outline Style" items={sampleItems} variant="OUTLINED" onChanged={action('changed')} />
+      <Dropdown label="Primary Technology" items={programmingLanguages} variant="PRIMARY" onChanged={action('changed')} />
+      <Dropdown label="Secondary Technology" items={programmingLanguages} variant="SECONDARY" onChanged={action('changed')} />
+      <Dropdown label="Optional Technology" items={programmingLanguages} variant="OUTLINED" onChanged={action('changed')} />
     </div>
   ),
 };
@@ -58,19 +66,21 @@ export const Disabled: Story = {
   args: {
     ...Default.args,
     disabled: true,
+    label: 'Archived Projects',
   },
 };
 
 export const WithError: Story = {
   args: {
     ...Default.args,
-    error: 'Please select a dentist',
+    error: 'Project type is required for budget estimation',
   },
 };
 
 export const WithValue: Story = {
   args: {
     ...Default.args,
-    value: '2',
+    value: 'WEB',
+    label: 'Active Project Type',
   },
 };

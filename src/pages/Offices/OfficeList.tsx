@@ -4,28 +4,39 @@ import { Plus } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { Spinner } from '../../components/Generic/Spinner';
 import { OfficeCard } from './OfficeCard';
-import type { Office } from '../../api/data-contracts';
 import { getOffices } from '../../api/OfficeApi.axios';
 import { Button } from '../../components/Generic/Button';
 import { OfficeSearchBar } from './OfficeSearchBar';
 
+export interface OfficeSearchState {
+  searchPhrase: string;
+  selectedCountries: string[];
+  selectedAmenities: string[];
+}
+
 export const OfficeList = () => {
   const navigate = useNavigate();
   
-  const [searchPhrase, setSearchPhrase] = useState('');
-  const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
-  const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
+  const [searchState, setSearchState] = useState<OfficeSearchState>({
+    searchPhrase: '',
+    selectedCountries: [],
+    selectedAmenities: []
+  });
 
-  const searchCriteria = {
-    phrase: searchPhrase,
-    countries: selectedCountries,
-    amenities: selectedAmenities
-  }
+  const { searchPhrase, selectedCountries, selectedAmenities } = searchState;
 
   const { data: offices = [], isLoading, isFetching } = useQuery({
-    queryKey: ['offices', searchCriteria] as const,
-    queryFn: ({ queryKey }) => getOffices(queryKey[1])
+    queryKey: ['offices', searchState] as const,
+    queryFn: () => getOffices({
+      countries: searchState.selectedCountries.join(','),
+      amenities: searchState.selectedAmenities.join(','),
+      phrase: searchState.searchPhrase
+    })
   });
+
+  const handleSearchUpdate = (updates: Partial<OfficeSearchState>) => {
+    setSearchState(prev => ({ ...prev, ...updates }));
+  };
 
   return (
     <div className="px-2 py-2 relative">
@@ -43,11 +54,11 @@ export const OfficeList = () => {
       <div className="mb-6">
         <OfficeSearchBar
           searchPhrase={searchPhrase}
-          onSearchChange={setSearchPhrase}
+          onSearchChange={(searchPhrase) => handleSearchUpdate({ searchPhrase })}
           selectedCountries={selectedCountries}
-          onCountriesChange={setSelectedCountries}
+          onCountriesChange={(selectedCountries) => handleSearchUpdate({ selectedCountries })}
           selectedAmenities={selectedAmenities}
-          onAmenitiesChange={setSelectedAmenities}
+          onAmenitiesChange={(selectedAmenities) => handleSearchUpdate({ selectedAmenities })}
         />
       </div>
 
