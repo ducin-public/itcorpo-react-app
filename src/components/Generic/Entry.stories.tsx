@@ -12,7 +12,7 @@ type Story = StoryObj<typeof Entry>;
 
 export const Info: Story = {
   args: {
-    messageType: 'DEFAULT',
+    variant: 'DEFAULT',
     label: 'Project Status',
     children: 'Sprint planning meeting scheduled for tomorrow at 10:00 AM',
   },
@@ -20,7 +20,7 @@ export const Info: Story = {
 
 export const Success: Story = {
   args: {
-    messageType: 'SUCCESS',
+    variant: 'SUCCESS',
     label: 'Deployment',
     children: 'Application successfully deployed to production environment',
   },
@@ -28,7 +28,7 @@ export const Success: Story = {
 
 export const Warning: Story = {
   args: {
-    messageType: 'WARNING',
+    variant: 'WARNING',
     label: 'Resource Usage',
     children: 'Server CPU usage approaching 80% threshold',
   },
@@ -36,7 +36,7 @@ export const Warning: Story = {
 
 export const Alert: Story = {
   args: {
-    messageType: 'ALERT',
+    variant: 'ALERT',
     label: 'Security Alert',
     children: 'Critical security patch requires immediate system update',
   },
@@ -44,7 +44,7 @@ export const Alert: Story = {
 
 export const Update: Story = {
   args: {
-    messageType: 'UPDATE',
+    variant: 'UPDATE',
     label: 'System Update',
     children: 'New features deployed: Enhanced API performance and monitoring tools',
   },
@@ -52,7 +52,7 @@ export const Update: Story = {
 
 export const WithLink: Story = {
   args: {
-    messageType: 'SUCCESS',
+    variant: 'SUCCESS',
     label: 'Project Dashboard',
     children: 'View detailed sprint metrics and team velocity',
     to: '/project/dashboard',

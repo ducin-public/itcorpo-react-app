@@ -1,5 +1,5 @@
 import { FC, useState, useEffect } from 'react';
-import { styles } from '../DesignEnums/MessageType';
+import { styles } from '../DesignLanguage';
 
 type RadioProps = {
   id: string;

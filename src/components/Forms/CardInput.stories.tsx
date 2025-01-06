@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { CardInput } from './CardInput';
-import { styles } from '../DesignEnums/MessageType';
+import { styles } from '../DesignLanguage';
 import { Button } from '../Generic/Button';
 import { H3 } from '../Typography/Headings';
 

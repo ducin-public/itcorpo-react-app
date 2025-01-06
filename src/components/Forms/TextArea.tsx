@@ -1,5 +1,5 @@
 import type { TextareaHTMLAttributes } from 'react';
-import { styles } from '../DesignEnums/MessageType';
+import { styles } from '../DesignLanguage';
 
 interface TextAreaProps extends Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, 'onChange'> {
   label: string;

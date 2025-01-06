@@ -10,7 +10,7 @@ export const OfficeAmenitiesList = ({ amenities, className }: OfficeAmenitiesLis
   return (
     <ChipList
       items={amenities}
-      messageType="DEFAULT"
+      variant="DEFAULT"
       size="SMALL"
       className={className}
     />

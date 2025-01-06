@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ChevronDown, X } from 'lucide-react';
-import { styles } from '../DesignEnums/MessageType';
+import { styles } from '../DesignLanguage';
 
 interface MultiSelectProps {
   options: Array<{ label: string; value: string }>;

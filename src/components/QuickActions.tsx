@@ -1,6 +1,6 @@
 import React from 'react';
 import { UserPlus, FolderPlus, Building, ArrowRight } from 'lucide-react';
-import { styles } from './DesignEnums/MessageType';
+
 import { Button } from './Generic/Button';
 
 export function QuickActions() {

@@ -1,7 +1,6 @@
 import React from 'react';
 import type { PatientProfile } from '../../contract/types';
-import { DesignSize } from '../DesignEnums/designEnums';
-import { styles } from '../DesignEnums/MessageType';
+import { DesignSize, styles } from '../DesignLanguage';
 
 type AvatarProps =
   | { src: string }

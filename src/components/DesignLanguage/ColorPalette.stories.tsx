@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { borderStyle, backgroundStyle, backgroundHoverStyle, textHoverStyle, textStyle, MessageType } from './MessageType';
+
+import { borderStyle, backgroundStyle, backgroundHoverStyle, textHoverStyle, textStyle } from './ColorVariants';
+import { VariantType } from './designEnums';
 
 const isColorDark = (hex: string): boolean => {
   // Remove the hash if it exists
@@ -37,15 +39,15 @@ const ColorPalette = () => {
       <div className="space-y-2">
         <h3 className="text-lg font-medium mb-3">All Together</h3>
         <div className="flex">
-          {(Object.keys(textStyle) as MessageType[]).map((type) => (
+          {(Object.keys(textStyle) as VariantType[]).map((type) => (
             <div
               key={type}
-              className={`flex-1 p-4 ${borderStyle[type as MessageType].tailwindClass} border-2 
-                ${backgroundStyle[type as MessageType].tailwindClass} 
-                ${backgroundHoverStyle[type as MessageType].tailwindClass}`}
+              className={`flex-1 p-4 ${borderStyle[type as VariantType].tailwindClass} border-2 
+                ${backgroundStyle[type as VariantType].tailwindClass} 
+                ${backgroundHoverStyle[type as VariantType].tailwindClass}`}
             >
-              <div className={`${textStyle[type as MessageType].tailwindClass} 
-                ${textHoverStyle[type as MessageType].tailwindClass}`}>
+              <div className={`${textStyle[type as VariantType].tailwindClass} 
+                ${textHoverStyle[type as VariantType].tailwindClass}`}>
                 {type}
               </div>
             </div>

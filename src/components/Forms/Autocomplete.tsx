@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { TextInput } from './TextInput';
-import { styles } from '../DesignEnums/MessageType';
+import { styles } from '../DesignLanguage';
 
 type Option = {
   id: string;

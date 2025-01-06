@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Card } from './Card';
-import { styles } from '../DesignEnums/MessageType';
+import { styles } from '../DesignLanguage';
 import { Paragraph } from '../Typography/Paragraph';
 
 const meta = {

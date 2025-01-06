@@ -1,8 +1,8 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
+import { format } from 'date-fns';
 
 import { Spinner } from '../../components/Generic/Spinner';
-import { format } from 'date-fns';
 import { EditableProjectName } from './EditableProjectName';
 import { ProjectTeamMembers } from './ProjectTeamMembers';
 import { ProjectStatusChange } from './ProjectStatusChange';

@@ -1,22 +1,22 @@
 import type { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
-import { MessageType, borderStyle, typeIcons } from '../DesignEnums/MessageType';
+import { VariantType, borderStyle, typeIcons } from '../DesignLanguage';
 
 export interface EntryProps {
-  messageType: MessageType;
+  variant: VariantType;
   label: string;
   children: ReactNode;
   to?: string;
 }
 
-export const Entry = ({ messageType, label, children, to }: EntryProps) => {
+export const Entry = ({ variant, label, children, to }: EntryProps) => {
   // Ensure IconComponent exists and is valid
-  if (!typeIcons[messageType]) {
-    console.error(`No icon found for message type: ${messageType}`);
+  if (!typeIcons[variant]) {
+    console.error(`No icon found for message type: ${variant}`);
     return null;
   }
 
-  const IconComponent = typeIcons[messageType];
+  const IconComponent = typeIcons[variant];
   const content = (
     <>
       <div className="flex items-center gap-2">
@@ -31,7 +31,7 @@ export const Entry = ({ messageType, label, children, to }: EntryProps) => {
     return (
       <Link 
         to={to} 
-        className={`block border-l-4 pl-4 ${borderStyle[messageType]} hover:bg-gray-50 transition-colors cursor-pointer`}
+        className={`block border-l-4 pl-4 ${borderStyle[variant]} hover:bg-gray-50 transition-colors cursor-pointer`}
       >
         {content}
       </Link>
@@ -39,7 +39,7 @@ export const Entry = ({ messageType, label, children, to }: EntryProps) => {
   }
 
   return (
-    <div className={`block border-l-4 pl-4 ${borderStyle[messageType]}`}>
+    <div className={`block border-l-4 pl-4 ${borderStyle[variant]}`}>
       {content}
     </div>
   );

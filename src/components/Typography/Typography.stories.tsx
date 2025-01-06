@@ -39,27 +39,27 @@ export const Typography: StoryObj = {
 
       <div className="space-y-2">
         <div>Status DEFAULT: <Text size="SMALL">Operation pending</Text></div>
-        <div>Status ACCENT: <Text size="SMALL" messageType="ACCENT">Operation accented</Text></div>
-        <div>Status SUCCESS: <Text size="SMALL" messageType="SUCCESS">Operation successful</Text></div>
-        <div>Status ALERT: <Text size="SMALL" messageType="ALERT">Operation failed</Text></div>
-        <div>Status WARNING: <Text size="SMALL" messageType="WARNING">Operation warning</Text></div>
-        <div>Status UPDATE: <Text size="SMALL" messageType="UPDATE">Operation update</Text></div>
+        <div>Status ACCENT: <Text size="SMALL" variant="ACCENT">Operation accented</Text></div>
+        <div>Status SUCCESS: <Text size="SMALL" variant="SUCCESS">Operation successful</Text></div>
+        <div>Status ALERT: <Text size="SMALL" variant="ALERT">Operation failed</Text></div>
+        <div>Status WARNING: <Text size="SMALL" variant="WARNING">Operation warning</Text></div>
+        <div>Status UPDATE: <Text size="SMALL" variant="UPDATE">Operation update</Text></div>
       </div>
       <div className="space-y-2">
         <div>Status DEFAULT: <Text size="MEDIUM">Operation pending</Text></div>
-        <div>Status ACCENT: <Text size="MEDIUM" messageType="ACCENT">Operation accented</Text></div>
-        <div>Status SUCCESS: <Text size="MEDIUM" messageType="SUCCESS">Operation successful</Text></div>
-        <div>Status ALERT: <Text size="MEDIUM" messageType="ALERT">Operation failed</Text></div>
-        <div>Status WARNING: <Text size="MEDIUM" messageType="WARNING">Operation warning</Text></div>
-        <div>Status UPDATE: <Text size="MEDIUM" messageType="UPDATE">Operation update</Text></div>
+        <div>Status ACCENT: <Text size="MEDIUM" variant="ACCENT">Operation accented</Text></div>
+        <div>Status SUCCESS: <Text size="MEDIUM" variant="SUCCESS">Operation successful</Text></div>
+        <div>Status ALERT: <Text size="MEDIUM" variant="ALERT">Operation failed</Text></div>
+        <div>Status WARNING: <Text size="MEDIUM" variant="WARNING">Operation warning</Text></div>
+        <div>Status UPDATE: <Text size="MEDIUM" variant="UPDATE">Operation update</Text></div>
       </div>
       <div className="space-y-2">
         <div>Status DEFAULT: <Text size="LARGE">Operation pending</Text></div>
-        <div>Status ACCENT: <Text size="LARGE" messageType="ACCENT">Operation accented</Text></div>
-        <div>Status SUCCESS: <Text size="LARGE" messageType="SUCCESS">Operation successful</Text></div>
-        <div>Status ALERT: <Text size="LARGE" messageType="ALERT">Operation failed</Text></div>
-        <div>Status WARNING: <Text size="LARGE" messageType="WARNING">Operation warning</Text></div>
-        <div>Status UPDATE: <Text size="LARGE" messageType="UPDATE">Operation update</Text></div>
+        <div>Status ACCENT: <Text size="LARGE" variant="ACCENT">Operation accented</Text></div>
+        <div>Status SUCCESS: <Text size="LARGE" variant="SUCCESS">Operation successful</Text></div>
+        <div>Status ALERT: <Text size="LARGE" variant="ALERT">Operation failed</Text></div>
+        <div>Status WARNING: <Text size="LARGE" variant="WARNING">Operation warning</Text></div>
+        <div>Status UPDATE: <Text size="LARGE" variant="UPDATE">Operation update</Text></div>
       </div>
 
       <Blockquote>

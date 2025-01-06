@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom';
-import { styles } from '../../components/DesignEnums/MessageType';
+
+import { styles } from '../../components/DesignLanguage';
 
 export function NavItem({ icon, text, to }: { icon: React.ReactNode; text: string; to: string }) {
   return (

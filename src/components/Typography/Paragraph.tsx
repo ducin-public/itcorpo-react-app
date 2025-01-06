@@ -1,7 +1,6 @@
 
 import { cn } from '../cn';
-import { styles } from '../DesignEnums/MessageType';
-import { DesignSize } from '../DesignEnums/designEnums';
+import { styles, DesignSize } from '../DesignLanguage';
 
 interface ParagraphProps {
   children: React.ReactNode;

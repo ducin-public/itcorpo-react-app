@@ -1,5 +1,5 @@
 import { cn } from '../cn';
-import { DesignSize } from '../DesignEnums/designEnums';
+import { DesignSize } from '../DesignLanguage';
 
 export type ProgressMeterFill = 'SOLID' | 'GRADIENT';
 

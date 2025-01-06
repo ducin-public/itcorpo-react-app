@@ -2,23 +2,22 @@ import type { ReactNode } from 'react';
 import type { LucideIcon } from 'lucide-react';
 
 import { cn } from '../cn';
-import { DesignSize, DesignFill } from '../DesignEnums/designEnums';
-import { MessageType, styles } from '../DesignEnums/MessageType';
+import { DesignSize, DesignFill, VariantType, styles } from '../DesignLanguage';
 
 interface ChipProps {
   children: ReactNode;
   fill?: DesignFill;
   size?: DesignSize;
-  messageType?: MessageType;
+  variant?: VariantType;
   icon?: LucideIcon;
   onClick?: () => void;
   onRemove?: () => void;
   className?: string;
 }
 
-const fillStyles: Record<DesignFill, (type: MessageType) => string> = {
-  SOLID: (type: MessageType) => `border ${styles[type].backgroundGradientDark} ${styles[type].borderDark} ${styles[type].borderDarkHover} text-white`,
-  OUTLINED: (type: MessageType) => `border ${styles[type].background} ${styles[type].textDark} ${styles[type].border} `
+const fillStyles: Record<DesignFill, (type: VariantType) => string> = {
+  SOLID: (type) => `border ${styles[type].backgroundGradientDark} ${styles[type].borderDark} ${styles[type].borderDarkHover} text-white`,
+  OUTLINED: (type) => `border ${styles[type].background} ${styles[type].textDark} ${styles[type].border} `
 };
 
 const sizeStyles: Record<DesignSize, string> = {
@@ -30,7 +29,7 @@ const sizeStyles: Record<DesignSize, string> = {
 export function Chip({ 
   children, 
   fill = 'SOLID',
-  messageType = 'ACCENT',
+  variant = 'ACCENT',
   size = 'MEDIUM',
   icon: Icon, 
   onClick,
@@ -41,10 +40,10 @@ export function Chip({
     <span 
       className={cn(
         'inline-flex items-center rounded-full font-medium transition-colors',
-        `focus:outline-none focus:ring-2 focus:ring-offset-1 ${styles[messageType].focusRing}`,
-        fillStyles[fill](messageType),
+        `focus:outline-none focus:ring-2 focus:ring-offset-1 ${styles[variant].focusRing}`,
+        fillStyles[fill](variant),
         sizeStyles[size],
-        (onClick || onRemove) && `cursor-pointer ${styles[messageType].textHoverLight}`,
+        (onClick || onRemove) && `cursor-pointer ${styles[variant].textHoverLight}`,
         className
       )}
       onClick={onClick}

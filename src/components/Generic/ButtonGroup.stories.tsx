@@ -29,7 +29,7 @@ export const ActionButtons: Story = {
         { id: '1', label: 'Proceed', onClick: action('first-option-clicked') },
         { id: '2', label: 'Go back', onClick: action('second-option-clicked'), disabled: true },
         { id: '3', label: 'Restart', onClick: action('second-option-clicked'), fill: 'OUTLINED' },
-        { id: '4', label: 'Cancel', onClick: action('third-option-clicked'), messageType: 'ALERT' }
+        { id: '4', label: 'Cancel', onClick: action('third-option-clicked'), variant: 'ALERT' }
       ]}
     />
   )

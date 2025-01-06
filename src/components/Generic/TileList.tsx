@@ -3,13 +3,13 @@ import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { H3 } from '../Typography/Headings';
 import { Paragraph } from '../Typography/Paragraph';
-import { borderStyle, backgroundHoverStyle, type MessageType } from '../DesignEnums/MessageType';
+import { borderStyle, backgroundHoverStyle, type VariantType } from '../DesignLanguage';
 
 interface TileItem {
   title: string;
   description: string;
   link?: string;
-  messageType?: MessageType;
+  variant?: VariantType;
 }
 
 interface TileListProps {
@@ -21,7 +21,7 @@ export const TileList: React.FC<TileListProps> = ({ items, className = '' }) => 
   return (
     <div className={`grid grid-cols-1 gap-4 ${className}`}>
       {items.map((item, index) => {
-        const type = item.messageType ?? 'DEFAULT';
+        const type = item.variant ?? 'DEFAULT';
         return (
           <div 
             key={index} 

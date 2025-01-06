@@ -2,8 +2,7 @@ import { ReactNode } from 'react';
 
 import { Button } from './Button';
 import { cn } from '../cn';
-import { DesignFill, DesignSize } from '../DesignEnums/designEnums';
-import { MessageType } from '../DesignEnums/MessageType';
+import { DesignFill, DesignSize, VariantType } from '../DesignLanguage';
 
 type ButtonGroupItem = {
   id: string;
@@ -11,14 +10,14 @@ type ButtonGroupItem = {
   onClick: () => void;
   disabled?: boolean;
   fill?: DesignFill;
-  messageType?: MessageType;
+  variant?: VariantType;
 };
 
 type ButtonGroupProps = {
   items: ButtonGroupItem[];
   fill?: DesignFill;
   size?: DesignSize;
-  messageType?: MessageType;
+  variant?: VariantType;
   className?: string;
 };
 
@@ -26,7 +25,7 @@ export const ButtonGroup = ({
   items,
   fill = 'SOLID',
   size = 'MEDIUM',
-  messageType = 'ACCENT',
+  variant = 'ACCENT',
   className = ''
 }: ButtonGroupProps) => {
   return (
@@ -37,7 +36,7 @@ export const ButtonGroup = ({
           onClick={item.onClick}
           size={size}
           fill={item.fill || fill}
-          messageType={item.messageType || messageType}
+          variant={item.variant || variant}
           disabled={item.disabled}
           className={cn(
             'rounded-none',

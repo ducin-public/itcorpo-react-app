@@ -1,7 +1,6 @@
 import { ComponentPropsWithoutRef } from 'react';
 import { cn } from '../cn';
-import { DesignSize } from '../DesignEnums/designEnums';
-import { styles } from '../DesignEnums/MessageType';
+import { DesignSize, styles } from '../DesignLanguage';
 
 const sizeClasses: Record<DesignSize, string> = {
   SMALL: 'text-sm',

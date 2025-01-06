@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { styles } from '../../components/DesignEnums/MessageType';
+import { styles } from '../../components/DesignLanguage';
 
 const COUNTRIES = ['USA', 'UK', 'Germany', 'Poland', 'India', 'Japan'];
 

@@ -29,8 +29,8 @@ export const Default: Story = {
 export const Fills: Story = {
   render: () => (
     <div className="flex gap-2">
-      <Chip fill="SOLID" messageType="DEFAULT">Frontend Dev</Chip>
-      <Chip fill="OUTLINED" messageType="DEFAULT">Backend Dev</Chip>
+      <Chip fill="SOLID" variant="DEFAULT">Frontend Dev</Chip>
+      <Chip fill="OUTLINED" variant="DEFAULT">Backend Dev</Chip>
     </div>
   )
 };
@@ -48,12 +48,12 @@ export const Sizes: Story = {
 export const Variants: Story = {
   render: () => (
     <div className="flex gap-2 flex-wrap">
-      <Chip messageType="DEFAULT">Available</Chip>
-      <Chip messageType="SUCCESS">Deployed</Chip>
-      <Chip messageType="WARNING">Needs Review</Chip>
-      <Chip messageType="ALERT">Build Failed</Chip>
-      <Chip messageType="UPDATE">Updated</Chip>
-      <Chip messageType="ACCENT">Featured</Chip>
+      <Chip variant="DEFAULT">Available</Chip>
+      <Chip variant="SUCCESS">Deployed</Chip>
+      <Chip variant="WARNING">Needs Review</Chip>
+      <Chip variant="ALERT">Build Failed</Chip>
+      <Chip variant="UPDATE">Updated</Chip>
+      <Chip variant="ACCENT">Featured</Chip>
     </div>
   )
 };
@@ -110,56 +110,56 @@ export const AllCases: Story = {
     <div className="space-y-4">
       <div className="space-y-2">
         <div className="flex gap-2">
-          <Chip size="SMALL" fill="SOLID" messageType="DEFAULT">In Progress</Chip>
-          <Chip size="SMALL" fill="SOLID" messageType="SUCCESS">Deployed</Chip>
-          <Chip size="SMALL" fill="SOLID" messageType="WARNING">Code Review</Chip>
-          <Chip size="SMALL" fill="SOLID" messageType="ALERT">Critical Bug</Chip>
-          <Chip size="SMALL" fill="SOLID" messageType="UPDATE">Sprint 2.3</Chip>
-          <Chip size="SMALL" fill="SOLID" messageType="ACCENT">Priority</Chip>
+          <Chip size="SMALL" fill="SOLID" variant="DEFAULT">In Progress</Chip>
+          <Chip size="SMALL" fill="SOLID" variant="SUCCESS">Deployed</Chip>
+          <Chip size="SMALL" fill="SOLID" variant="WARNING">Code Review</Chip>
+          <Chip size="SMALL" fill="SOLID" variant="ALERT">Critical Bug</Chip>
+          <Chip size="SMALL" fill="SOLID" variant="UPDATE">Sprint 2.3</Chip>
+          <Chip size="SMALL" fill="SOLID" variant="ACCENT">Priority</Chip>
         </div>
         <div className="flex gap-2">
-          <Chip size="SMALL" fill="OUTLINED" messageType="DEFAULT">Backend</Chip>
-          <Chip size="SMALL" fill="OUTLINED" messageType="SUCCESS">Merged</Chip>
-          <Chip size="SMALL" fill="OUTLINED" messageType="WARNING">Pending</Chip>
-          <Chip size="SMALL" fill="OUTLINED" messageType="ALERT">Blocked</Chip>
-          <Chip size="SMALL" fill="OUTLINED" messageType="UPDATE">v2.0.0</Chip>
-          <Chip size="SMALL" fill="OUTLINED" messageType="ACCENT">Epic</Chip>
-        </div>
-      </div>
-      <div className="space-y-2">
-        <div className="flex gap-2">
-          <Chip size="MEDIUM" fill="SOLID" messageType="DEFAULT">Development</Chip>
-          <Chip size="MEDIUM" fill="SOLID" messageType="SUCCESS">Production</Chip>
-          <Chip size="MEDIUM" fill="SOLID" messageType="WARNING">Testing</Chip>
-          <Chip size="MEDIUM" fill="SOLID" messageType="ALERT">Incident</Chip>
-          <Chip size="MEDIUM" fill="SOLID" messageType="UPDATE">Milestone</Chip>
-          <Chip size="MEDIUM" fill="SOLID" messageType="ACCENT">Innovation</Chip>
-        </div>
-        <div className="flex gap-2">
-          <Chip size="MEDIUM" fill="OUTLINED" messageType="DEFAULT">TypeScript</Chip>
-          <Chip size="MEDIUM" fill="OUTLINED" messageType="SUCCESS">CI/CD</Chip>
-          <Chip size="MEDIUM" fill="OUTLINED" messageType="WARNING">Technical Debt</Chip>
-          <Chip size="MEDIUM" fill="OUTLINED" messageType="ALERT">Regression</Chip>
-          <Chip size="MEDIUM" fill="OUTLINED" messageType="UPDATE">Backlog</Chip>
-          <Chip size="MEDIUM" fill="OUTLINED" messageType="ACCENT">Architecture</Chip>
+          <Chip size="SMALL" fill="OUTLINED" variant="DEFAULT">Backend</Chip>
+          <Chip size="SMALL" fill="OUTLINED" variant="SUCCESS">Merged</Chip>
+          <Chip size="SMALL" fill="OUTLINED" variant="WARNING">Pending</Chip>
+          <Chip size="SMALL" fill="OUTLINED" variant="ALERT">Blocked</Chip>
+          <Chip size="SMALL" fill="OUTLINED" variant="UPDATE">v2.0.0</Chip>
+          <Chip size="SMALL" fill="OUTLINED" variant="ACCENT">Epic</Chip>
         </div>
       </div>
       <div className="space-y-2">
         <div className="flex gap-2">
-          <Chip size="LARGE" fill="SOLID" messageType="DEFAULT">Full Stack</Chip>
-          <Chip size="LARGE" fill="SOLID" messageType="SUCCESS">Launch Ready</Chip>
-          <Chip size="LARGE" fill="SOLID" messageType="WARNING">Performance</Chip>
-          <Chip size="LARGE" fill="SOLID" messageType="ALERT">Data Loss</Chip>
-          <Chip size="LARGE" fill="SOLID" messageType="UPDATE">Major Update</Chip>
-          <Chip size="LARGE" fill="SOLID" messageType="ACCENT">Research</Chip>
+          <Chip size="MEDIUM" fill="SOLID" variant="DEFAULT">Development</Chip>
+          <Chip size="MEDIUM" fill="SOLID" variant="SUCCESS">Production</Chip>
+          <Chip size="MEDIUM" fill="SOLID" variant="WARNING">Testing</Chip>
+          <Chip size="MEDIUM" fill="SOLID" variant="ALERT">Incident</Chip>
+          <Chip size="MEDIUM" fill="SOLID" variant="UPDATE">Milestone</Chip>
+          <Chip size="MEDIUM" fill="SOLID" variant="ACCENT">Innovation</Chip>
         </div>
         <div className="flex gap-2">
-          <Chip size="LARGE" fill="OUTLINED" messageType="DEFAULT">Infrastructure</Chip>
-          <Chip size="LARGE" fill="OUTLINED" messageType="SUCCESS">Automation</Chip>
-          <Chip size="LARGE" fill="OUTLINED" messageType="WARNING">Maintenance</Chip>
-          <Chip size="LARGE" fill="OUTLINED" messageType="ALERT">Security Risk</Chip>
-          <Chip size="LARGE" fill="OUTLINED" messageType="UPDATE">Integration</Chip>
-          <Chip size="LARGE" fill="OUTLINED" messageType="ACCENT">Architecture</Chip>
+          <Chip size="MEDIUM" fill="OUTLINED" variant="DEFAULT">TypeScript</Chip>
+          <Chip size="MEDIUM" fill="OUTLINED" variant="SUCCESS">CI/CD</Chip>
+          <Chip size="MEDIUM" fill="OUTLINED" variant="WARNING">Technical Debt</Chip>
+          <Chip size="MEDIUM" fill="OUTLINED" variant="ALERT">Regression</Chip>
+          <Chip size="MEDIUM" fill="OUTLINED" variant="UPDATE">Backlog</Chip>
+          <Chip size="MEDIUM" fill="OUTLINED" variant="ACCENT">Architecture</Chip>
+        </div>
+      </div>
+      <div className="space-y-2">
+        <div className="flex gap-2">
+          <Chip size="LARGE" fill="SOLID" variant="DEFAULT">Full Stack</Chip>
+          <Chip size="LARGE" fill="SOLID" variant="SUCCESS">Launch Ready</Chip>
+          <Chip size="LARGE" fill="SOLID" variant="WARNING">Performance</Chip>
+          <Chip size="LARGE" fill="SOLID" variant="ALERT">Data Loss</Chip>
+          <Chip size="LARGE" fill="SOLID" variant="UPDATE">Major Update</Chip>
+          <Chip size="LARGE" fill="SOLID" variant="ACCENT">Research</Chip>
+        </div>
+        <div className="flex gap-2">
+          <Chip size="LARGE" fill="OUTLINED" variant="DEFAULT">Infrastructure</Chip>
+          <Chip size="LARGE" fill="OUTLINED" variant="SUCCESS">Automation</Chip>
+          <Chip size="LARGE" fill="OUTLINED" variant="WARNING">Maintenance</Chip>
+          <Chip size="LARGE" fill="OUTLINED" variant="ALERT">Security Risk</Chip>
+          <Chip size="LARGE" fill="OUTLINED" variant="UPDATE">Integration</Chip>
+          <Chip size="LARGE" fill="OUTLINED" variant="ACCENT">Architecture</Chip>
         </div>
       </div>
     </div>

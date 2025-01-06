@@ -20,19 +20,19 @@ export const ProjectTypes: Story = {
         title: 'Legacy System Migration',
         description: 'Critical modernization of legacy systems to cloud infrastructure',
         link: '/projects/migration',
-        messageType: 'WARNING'
+        variant: 'WARNING'
       },
       {
         title: 'Digital Transformation',
         description: 'End-to-end digital transformation of business processes',
         link: '/projects/transformation',
-        messageType: 'SUCCESS'
+        variant: 'SUCCESS'
       },
       {
         title: 'Agile Development',
         description: 'Iterative software development using Scrum methodology',
         link: '/projects/agile',
-        messageType: 'DEFAULT'
+        variant: 'DEFAULT'
       }
     ]
   }
@@ -45,19 +45,19 @@ export const TechnicalSpecialties: Story = {
         title: 'Cloud Architecture',
         description: 'Design and implementation of scalable cloud solutions',
         link: '/specialties/cloud',
-        messageType: 'DEFAULT'
+        variant: 'DEFAULT'
       },
       {
         title: 'DevOps Engineering',
         description: 'CI/CD pipeline optimization and infrastructure automation',
         link: '/specialties/devops',
-        messageType: 'DEFAULT'
+        variant: 'DEFAULT'
       },
       {
         title: 'Security Engineering',
         description: 'Implementation of cybersecurity measures and protocols',
         link: '/specialties/security',
-        messageType: 'DEFAULT'
+        variant: 'DEFAULT'
       }
     ]
   }
@@ -69,17 +69,17 @@ export const ServicesWithoutLinks: Story = {
       {
         title: '24/7 System Monitoring',
         description: 'Round-the-clock infrastructure and application monitoring',
-        messageType: 'UPDATE'
+        variant: 'UPDATE'
       },
       {
         title: 'Technical Support',
         description: 'Enterprise-level IT support and maintenance',
-        messageType: 'UPDATE'
+        variant: 'UPDATE'
       },
       {
         title: 'Consulting Services',
         description: 'Expert technical consulting and architecture review',
-        messageType: 'UPDATE'
+        variant: 'UPDATE'
       }
     ]
   }
@@ -91,12 +91,12 @@ export const Alerts: Story = {
       {
         title: 'System Maintenance',
         description: 'Planned downtime for system upgrades this weekend',
-        messageType: 'ALERT'
+        variant: 'ALERT'
       },
       {
         title: 'Security Protocol Update',
         description: 'Mandatory security measure updates for all projects',
-        messageType: 'ALERT'
+        variant: 'ALERT'
       }
     ]
   }
@@ -108,17 +108,17 @@ export const MixedServices: Story = {
       {
         title: 'Server Maintenance',
         description: 'Critical server updates scheduled for deployment',
-        messageType: 'ALERT'
+        variant: 'ALERT'
       },
       {
         title: 'New Framework Release',
         description: 'Latest version of our development framework available',
-        messageType: 'UPDATE'
+        variant: 'UPDATE'
       },
       {
         title: 'Resource Planning',
         description: 'Updated resource allocation for Q4 projects',
-        messageType: 'DEFAULT'
+        variant: 'DEFAULT'
       }
     ]
   }
@@ -131,31 +131,31 @@ export const All: Story = {
         title: 'Code Review Process',
         description: 'Standard operating procedure for code reviews',
         link: '/processes/code-review',
-        messageType: 'DEFAULT'
+        variant: 'DEFAULT'
       },
       {
         title: 'Deployment Success',
         description: 'Production deployment completed successfully',
         link: '/deployments/latest',
-        messageType: 'SUCCESS'
+        variant: 'SUCCESS'
       },
       {
         title: 'Performance Issues',
         description: 'Database optimization required for core services',
         link: '/issues/performance',
-        messageType: 'WARNING'
+        variant: 'WARNING'
       },
       {
         title: 'Security Breach',
         description: 'Immediate action required: unauthorized access detected',
         link: '/security/alerts',
-        messageType: 'ALERT'
+        variant: 'ALERT'
       },
       {
         title: 'New Feature Release',
         description: 'Introducing advanced monitoring dashboard',
         link: '/releases/monitoring',
-        messageType: 'UPDATE'
+        variant: 'UPDATE'
       }
     ]
   }

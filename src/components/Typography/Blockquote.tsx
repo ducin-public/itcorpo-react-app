@@ -1,6 +1,6 @@
 
 import { cn } from '../cn';
-import { styles } from '../DesignEnums/MessageType';
+import { styles } from '../DesignLanguage';
 
 interface BlockquoteProps {
   children: React.ReactNode;

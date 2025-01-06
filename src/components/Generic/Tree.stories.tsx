@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Tree, type TreeNode } from './Tree';
-import { styles } from '../DesignEnums/MessageType';
+import { styles } from '../DesignLanguage';
 
 const meta: Meta<typeof Tree> = {
   title: 'UI/Molecules/Tree',

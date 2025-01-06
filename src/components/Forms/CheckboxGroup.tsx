@@ -1,7 +1,7 @@
 import { FC, useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
 import { Checkbox } from './Checkbox';
-import { styles } from '../DesignEnums/MessageType';
+import { styles } from '../DesignLanguage';
 
 export type Layout = 'VERTICAL' | 'HORIZONTAL' | 'PANEL' | 'TABLE';
 

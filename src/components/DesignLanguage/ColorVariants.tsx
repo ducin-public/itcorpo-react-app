@@ -1,18 +1,10 @@
 import { Info, CheckCircle2, AlertTriangle, Bell, Calendar, Lightbulb } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
-/**
- * Certain message types match their UI use-cases:
- * - DEFAULT: General information, standard messages
- * - ACCENT: Highlighted information, tips, updates, suggestions, etc. This is the primary color for emphasizing information
- * - SUCCESS: Confirmation messages of successful operations
- * - WARNING: Non-critical alerts or warnings
- * - ALERT: Critical alerts or errors
- */
-export type MessageType = 'DEFAULT' | 'ACCENT' | 'SUCCESS' | 'WARNING' | 'ALERT' | 'UPDATE';
+import { VariantType } from './designEnums';
 
 type ColorDictionary = {
-  [key in MessageType]: string
+  [key in VariantType]: string
 };
 
 export const mainColor: ColorDictionary = {
@@ -25,7 +17,7 @@ export const mainColor: ColorDictionary = {
 };
 
 type StyleDictionary = {
-  [key in MessageType]: {
+  [key in VariantType]: {
     hex: string;
     tailwindClass: string;
   };
@@ -194,7 +186,7 @@ const allStyles = {
   backgroundGradientDarkStyle,
 }
 
-export const typeIcons: Record<MessageType, LucideIcon> = {
+export const typeIcons: Record<VariantType, LucideIcon> = {
   DEFAULT: Info,
   ACCENT: Lightbulb,
   SUCCESS: CheckCircle2,
@@ -203,27 +195,27 @@ export const typeIcons: Record<MessageType, LucideIcon> = {
   UPDATE: Calendar,
 };
 
-const getClass = (styleType: keyof typeof allStyles, type: MessageType) =>
+const getClass = (styleType: keyof typeof allStyles, type: VariantType) =>
   allStyles[styleType][type].tailwindClass;
 
-const createStyleMap = (messageType: MessageType) => ({
-  mainColor: mainColor[messageType],
-  text: getClass('textStyle', messageType),
-  textDark: getClass('textDarkStyle', messageType),
-  textHover: getClass('textHoverStyle', messageType),
-  textHoverLight: getClass('textHoverLightStyle', messageType),
-  accent: getClass('accentStyle', messageType),
-  border: getClass('borderStyle', messageType),
-  borderHover: getClass('borderHoverStyle', messageType),
-  borderDark: getClass('borderDarkStyle', messageType),
-  borderDarkHover: getClass('borderDarkHoverStyle', messageType),
-  focusRing: getClass('focusRingStyle', messageType),
-  background: getClass('backgroundStyle', messageType),
-  backgroundHover: getClass('backgroundHoverStyle', messageType),
-  backgroundDark: getClass('backgroundDarkStyle', messageType),
-  backgroundDarkHover: getClass('backgroundDarkHoverStyle', messageType),
-  backgroundGradient: getClass('backgroundGradientStyle', messageType),
-  backgroundGradientDark: getClass('backgroundGradientDarkStyle', messageType),
+const createStyleMap = (variant: VariantType) => ({
+  mainColor: mainColor[variant],
+  text: getClass('textStyle', variant),
+  textDark: getClass('textDarkStyle', variant),
+  textHover: getClass('textHoverStyle', variant),
+  textHoverLight: getClass('textHoverLightStyle', variant),
+  accent: getClass('accentStyle', variant),
+  border: getClass('borderStyle', variant),
+  borderHover: getClass('borderHoverStyle', variant),
+  borderDark: getClass('borderDarkStyle', variant),
+  borderDarkHover: getClass('borderDarkHoverStyle', variant),
+  focusRing: getClass('focusRingStyle', variant),
+  background: getClass('backgroundStyle', variant),
+  backgroundHover: getClass('backgroundHoverStyle', variant),
+  backgroundDark: getClass('backgroundDarkStyle', variant),
+  backgroundDarkHover: getClass('backgroundDarkHoverStyle', variant),
+  backgroundGradient: getClass('backgroundGradientStyle', variant),
+  backgroundGradientDark: getClass('backgroundGradientDarkStyle', variant),
 })
 
 /**

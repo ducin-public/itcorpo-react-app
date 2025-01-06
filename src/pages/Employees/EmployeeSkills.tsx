@@ -19,12 +19,12 @@ export function EmployeeSkills({
     <div className="flex items-center gap-2">
       <ChipList
         items={visibleSkills}
-        messageType="DEFAULT"
+        variant="DEFAULT"
         fill="OUTLINED"
         size="SMALL"
       />
       {!expanded && remainingCount > 0 && (
-        <Text size="SMALL" messageType='DEFAULT'>
+        <Text size="SMALL" variant='DEFAULT'>
           +{remainingCount} more
         </Text>
       )}
