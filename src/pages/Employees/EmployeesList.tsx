@@ -6,13 +6,13 @@ import { Plus, BookHeart } from 'lucide-react';
 import { Spinner } from '../../components/Generic/Spinner';
 import { useNotifications } from '../../contexts/NotificationContext';
 import { RecentlyViewedEmployees } from './TODO-RecentlyViewedEmployees';
-import { Sidebar } from '../../components/Legacy/sidebar/sidebar';
 import { deleteEmployee, getEmployees } from '../../api/EmployeeApi.axios';
 import { Button } from '../../components/Generic/Button';
 import { Employee } from '../../api/data-contracts';
 import { EmployeesSearchBar } from './EmployeesSearchBar';
 import type { EmployeeSearchCriteria } from './EmployeeSearchCriteria';
 import { EmployeeCard } from './EmployeeCard';
+import { Sidebar } from '../../components/Generic/Sidebar';
 
 export function EmployeesList() {
   const navigate = useNavigate();
@@ -80,10 +80,14 @@ export function EmployeesList() {
           Add Employee
         </Button>
       </div>
-      <h3 className="mb-3 text-blue-600 cursor-auto">
-        <BookHeart className='text-3xl cursor-auto' onClick={toggleSidebarCollapsed} /> Recently Viewed
-      </h3>
-      <Sidebar collapsed={sidebarCollapsed} onCloseClick={toggleSidebarCollapsed}>
+
+      <Sidebar
+        trigger={
+          <h3 className="mb-3 text-purple-600 cursor-auto">
+            <BookHeart className='text-3xl cursor-auto' onClick={toggleSidebarCollapsed} /> Recently Viewed
+          </h3>
+        }
+      >
         <RecentlyViewedEmployees />
       </Sidebar>
 
