@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { ChevronDown, X } from 'lucide-react';
 import { styles } from '../DesignLanguage';
 
@@ -21,10 +21,24 @@ export const MultiSelect = ({
 }: MultiSelectProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [internalValue, setInternalValue] = useState(externalValue);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setInternalValue(externalValue);
   }, [externalValue]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   const selectedLabels = options
     .filter(option => internalValue.includes(option.value))
@@ -36,7 +50,7 @@ export const MultiSelect = ({
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full" ref={containerRef}>
       <label className={`block text-sm font-medium ${styles.ACCENT.text} mb-1`}>
         {label}
       </label>

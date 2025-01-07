@@ -1,5 +1,6 @@
-import * as RadixTooltip from '@radix-ui/react-tooltip';
-import { type ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
+
+import { DesignSize, styles } from '../DesignLanguage';
 
 export enum TooltipDirection {
   TOP = 'top',
@@ -12,51 +13,60 @@ export enum TooltipDirection {
   RIGHT = 'right',
 }
 
-export enum TooltipSize {
-  SMALL = 'small',
-  MEDIUM = 'medium',
-  LARGE = 'large',
-}
-
 export interface TooltipProps {
   content: ReactNode;
   children: ReactNode;
   direction?: TooltipDirection;
-  size?: TooltipSize;
+  size?: DesignSize;
 }
 
-const sizeClasses = {
-  [TooltipSize.SMALL]: 'max-w-[200px]',
-  [TooltipSize.MEDIUM]: 'max-w-[300px]',
-  [TooltipSize.LARGE]: 'max-w-[400px]',
+const sizeClasses: { [key in DesignSize]: string } = {
+  SMALL: 'w-1/4 min-w-32 px-2 py-1 text-xs font-normal leading-tight',
+  MEDIUM: 'w-2/4 min-w-64 px-3 py-2 text-sm font-medium leading-snug',
+  LARGE: 'w-3/4 min-w-96 px-4 py-3 text-base font-normal leading-relaxed',
+};
+
+const directionClasses = {
+  [TooltipDirection.TOP]: 'bottom-full left-1/2 transform -translate-x-1/2 mb-2',
+  [TooltipDirection.TOP_LEFT]: 'bottom-full left-0 mb-2',
+  [TooltipDirection.TOP_RIGHT]: 'bottom-full right-0 mb-2',
+  [TooltipDirection.BOTTOM]: 'top-full left-1/2 transform -translate-x-1/2 mt-2',
+  [TooltipDirection.BOTTOM_LEFT]: 'top-full left-0 mt-2',
+  [TooltipDirection.BOTTOM_RIGHT]: 'top-full right-0 mt-2',
+  [TooltipDirection.LEFT]: 'right-full top-1/2 transform -translate-y-1/2 mr-2',
+  [TooltipDirection.RIGHT]: 'left-full top-1/2 transform -translate-y-1/2 ml-2',
 };
 
 export const Tooltip = ({
   content,
   children,
   direction = TooltipDirection.TOP,
-  size = TooltipSize.MEDIUM,
+  size = "MEDIUM",
 }: TooltipProps) => {
-  const [side, align] = direction.includes('-')
-    ? direction.split('-')
-    : [direction, 'center'];
+  const [visible, setVisible] = useState(false);
 
   return (
-    <RadixTooltip.Provider>
-      <RadixTooltip.Root>
-        <RadixTooltip.Trigger asChild>{children}</RadixTooltip.Trigger>
-        <RadixTooltip.Portal>
-          <RadixTooltip.Content
-            side={side as 'top' | 'right' | 'bottom' | 'left'}
-            align={align as 'start' | 'center' | 'end'}
-            className={`select-none rounded bg-white px-[15px] py-2.5 text-[15px] leading-none shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] will-change-[transform,opacity] data-[state=delayed-open]:data-[side=bottom]:animate-slideUpAndFade data-[state=delayed-open]:data-[side=left]:animate-slideRightAndFade data-[state=delayed-open]:data-[side=right]:animate-slideLeftAndFade data-[state=delayed-open]:data-[side=top]:animate-slideDownAndFade ${sizeClasses[size]}`}
-            sideOffset={5}
-          >
-            {content}
-            <RadixTooltip.Arrow className="fill-white" />
-          </RadixTooltip.Content>
-        </RadixTooltip.Portal>
-      </RadixTooltip.Root>
-    </RadixTooltip.Provider>
+    <div className="relative inline-block">
+      <div
+        onMouseEnter={() => setVisible(true)}
+        onMouseLeave={() => setVisible(false)}
+        onClick={() => setVisible(!visible)}
+      >
+        {children}
+      </div>
+      {visible && (
+        <div
+          className={`
+            absolute z-10 bg-white 
+            ${styles.DEFAULT.text} 
+            rounded shadow-lg border border-gray-200 
+            ${sizeClasses[size]} 
+            ${directionClasses[direction]}
+          `}
+        >
+          {content}
+        </div>
+      )}
+    </div>
   );
 };
