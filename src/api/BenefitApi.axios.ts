@@ -7,6 +7,9 @@ const buildBenefitSearchParams = (criteria: BenefitsSearchCriteria = {}): URLSea
   if (criteria.serviceName) {
     params.append('serviceName', criteria.serviceName);
   }
+  if (criteria.categories?.length) {
+    params.append('categories', criteria.categories);
+  }
   if (criteria.employeeIds?.length) {
     params.append('employeeIds', criteria.employeeIds);
   }

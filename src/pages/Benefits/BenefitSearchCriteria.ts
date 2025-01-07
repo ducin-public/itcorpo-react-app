@@ -1,4 +1,4 @@
-import type { BenefitSubscriptionSearchStatus, DateString, Employee, Money } from '../../api/data-contracts';
+import type { BenefitSubscriptionSearchStatus, DateString, Employee, Money, BenefitCategory } from '../../api/data-contracts';
 
 export const BenefitSubscriptionSearchStatusDict = {
   'ALL': 'All',
@@ -23,6 +23,7 @@ export interface BenefitSearchCriteria {
 export interface BenefitSearchState {
   serviceName: string;
   selectedEmployees: string[];
+  selectedCategories: BenefitCategory[];
   feeRange: { from?: number; to?: number };
   selectedStatus: BenefitSubscriptionSearchStatus;
 }

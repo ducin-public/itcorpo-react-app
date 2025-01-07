@@ -10,11 +10,24 @@ import { getEmployees } from '../../api/EmployeeApi.axios';
 import { BenefitSubscriptionSearchStatusDict, type BenefitSearchState } from './BenefitSearchCriteria';
 import type { Employee } from '../../api/data-contracts';
 import { NumberRangeInput } from '../../components/Forms/NumberRangeInput';
+import type { BenefitCategory } from '../../api/data-contracts';
 
 interface BenefitSearchBarProps {
   searchState: BenefitSearchState;
   onCriteriaUpdate: (criteria: BenefitSearchState) => void;
 }
+
+const categoryLabels: Record<BenefitCategory, string> = {
+  'HEALTHCARE': 'Healthcare & Medical',
+  'SPORT_WELLNESS': 'Sport & Wellness',
+  'LUNCH_FOOD': 'Lunch & Food',
+  'CULTURE_RECREATION': 'Culture & Recreation',
+};
+
+const categoryOptions = Object.entries(categoryLabels).map(([value, label]) => ({
+  value,
+  label,
+}));
 
 export function BenefitSearchBar({ searchState, onCriteriaUpdate }: BenefitSearchBarProps) {
   const { data: employees = [] } = useQuery({
@@ -36,20 +49,29 @@ export function BenefitSearchBar({ searchState, onCriteriaUpdate }: BenefitSearc
     <div className="space-y-4">
       <ExpandableSearchBar>
         <ExpandableSearchBar.BaseRow>
-            <TextInput
+          <TextInput
             label='Service Name'
             placeholder="Search by service name..."
             value={searchState.serviceName || ''}
             onChange={(serviceName) => handleChange({ serviceName })}
-            />
-            <MultiSelect
+          />
+          <MultiSelect
+            label="Categories"
+            placeholder="Select categories..."
+            options={categoryOptions}
+            value={searchState.selectedCategories || []}
+            onChange={(selectedCategories) => handleChange({ 
+              selectedCategories: selectedCategories as BenefitCategory[] 
+            })}
+          />
+          <MultiSelect
             label="Employees"
             placeholder="Select employees..."
             options={employeeOptions}
             value={searchState.selectedEmployees?.map(String) || []}
             onChange={(selectedEmployees) => handleChange({ selectedEmployees })}
-            />
-            <ExpandableSearchBar.ToggleButton />
+          />
+          <ExpandableSearchBar.ToggleButton />
         </ExpandableSearchBar.BaseRow>
 
         <ExpandableSearchBar.ExpandedContent>

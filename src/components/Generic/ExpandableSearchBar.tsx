@@ -32,11 +32,12 @@ export function ExpandableSearchBar({ children }: ExpandableSearchBarProps) {
 
 interface BaseRowProps {
   children: React.ReactNode;
+  className?: string;
 }
 
-function BaseRow({ children }: BaseRowProps) {
+function BaseRow({ children, className = '' }: BaseRowProps) {
   return (
-    <div className="flex items-start space-x-4">
+    <div className={`grid grid-cols-[1fr_1fr_1fr_auto] gap-4 ${className}`}>
       {children}
     </div>
   );

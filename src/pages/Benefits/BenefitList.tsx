@@ -16,6 +16,7 @@ export function BenefitList() {
   const [searchState, setSearchState] = useState<BenefitSearchState>({
     serviceName: '',
     selectedEmployees: [],
+    selectedCategories: [], // new field
     feeRange: {},
     selectedStatus: 'ACTIVE'
   });
@@ -26,6 +27,7 @@ export function BenefitList() {
     queryFn: () => getBenefits(({
       serviceName: searchState.serviceName || undefined,
       employeeIds: searchState.selectedEmployees.join(',') || undefined,
+      categories: searchState.selectedCategories.join(',') || undefined, // new parameter
       feeFrom: searchState.feeRange.from?.toString(),
       feeTo: searchState.feeRange.to?.toString(),
       status: searchState.selectedStatus ?? 'ALL'

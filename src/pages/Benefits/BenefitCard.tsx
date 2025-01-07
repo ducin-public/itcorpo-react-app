@@ -1,41 +1,55 @@
 import React from 'react';
-import { Trash2, Calendar, DollarSign } from 'lucide-react';
+import { Calendar, DollarSign, XCircle, RefreshCw } from 'lucide-react';
 import { format } from 'date-fns';
 
 import { BenefitSubscription } from '../../api/data-contracts';
 import { formatCurrency } from '../../contexts/CurrencyContext';
+import { BenefitServiceChip } from './BenefitServiceChip';
+import { styles } from '../../components/DesignLanguage';
 
-const typeColors: { [key in BenefitSubscription['category']]: string } = {
-  'HEALTHCARE': 'bg-blue-100 text-blue-800',
-  'CULTURE_RECREATION': 'bg-green-100 text-green-800',
-  'LUNCH_FOOD': 'bg-purple-100 text-purple-800',
-  'SPORT_WELLNESS': 'bg-yellow-100 text-yellow-800'
-};
+interface BenefitCardProps {
+  benefit: BenefitSubscription;
+  onCancel?: () => void;
+  onRenew?: () => void;
+}
 
 export function BenefitCard({
   benefit,
-  onDelete
-}: {
-  benefit: BenefitSubscription;
-  onDelete: () => void;
-}) {
+  onCancel,
+  onRenew
+}: BenefitCardProps) {
+  const isActive = !benefit.cancelledAtDate;
+
   return (
-    <div className="bg-white rounded-lg shadow-sm p-6">
+    <div className={`${!isActive ? 'bg-gray-100' : 'bg-white'} rounded-lg shadow-sm p-6`}>
       <div className="flex items-start justify-between">
         <div>
-          <span className={`px-2 py-1 rounded-full text-xs font-medium ${typeColors[benefit.category]}`}>
-            {benefit.service.name}
-          </span>
+          <BenefitServiceChip
+            category={benefit.category}
+            name={benefit.service.name}
+          />
           <h3 className="text-lg font-semibold text-gray-900 mt-2">
             {benefit.service.provider}
           </h3>
+          <p className="text-sm text-gray-600 mt-1">
+            {benefit.beneficiary.name}
+          </p>
         </div>
-        <button
-          onClick={onDelete}
-          className="text-gray-400 hover:text-red-600"
-        >
-          <Trash2 className="h-5 w-5" />
-        </button>
+        {isActive ? (
+          <button
+            onClick={onCancel}
+            className={`text-gray-400 hover:${styles.ALERT.text}`}
+          >
+            <XCircle className="h-5 w-5" />
+          </button>
+        ) : (
+          <button
+            onClick={onRenew}
+            className={`text-gray-400 hover:${styles.SUCCESS.text}`}
+          >
+            <RefreshCw className="h-5 w-5" />
+          </button>
+        )}
       </div>
 
       <div className="mt-4 space-y-2">
