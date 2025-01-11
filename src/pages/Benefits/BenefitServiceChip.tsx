@@ -1,4 +1,4 @@
-import type { BenefitCategory } from '../../api/data-contracts';
+import type { BenefitCategory } from '../../contract-types/data-contracts';
 import { Chip } from '../../components/Generic/Chip';
 import { VariantType } from '../../components/DesignLanguage';
 

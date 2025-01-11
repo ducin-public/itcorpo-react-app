@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { createBenefit } from '../../api/BenefitApi.axios';
-import { Benefit } from '../../api/data-contracts';
+import { Benefit } from '../../contract-types/data-contracts';
 
 interface AddBenefitForm {
   type: Benefit['service'];

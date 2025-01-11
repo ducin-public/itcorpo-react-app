@@ -2,22 +2,18 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Plus } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
+
 import { Spinner } from '../../components/Generic/Spinner';
 import { OfficeCard } from './OfficeCard';
 import { getOffices } from '../../api/OfficeApi.axios';
 import { Button } from '../../components/Generic/Button';
 import { OfficeSearchBar } from './OfficeSearchBar';
-
-export interface OfficeSearchState {
-  searchPhrase: string;
-  selectedCountries: string[];
-  selectedAmenities: string[];
-}
+import { OfficeSearchFilters } from './OfficeSearchFilters';
 
 export const OfficeList = () => {
   const navigate = useNavigate();
   
-  const [searchState, setSearchState] = useState<OfficeSearchState>({
+  const [searchState, setSearchState] = useState<OfficeSearchFilters>({
     searchPhrase: '',
     selectedCountries: [],
     selectedAmenities: []
@@ -34,7 +30,7 @@ export const OfficeList = () => {
     })
   });
 
-  const handleSearchUpdate = (updates: Partial<OfficeSearchState>) => {
+  const handleSearchUpdate = (updates: Partial<OfficeSearchFilters>) => {
     setSearchState(prev => ({ ...prev, ...updates }));
   };
 

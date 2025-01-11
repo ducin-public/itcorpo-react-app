@@ -6,7 +6,7 @@ import { useNotifications } from '../../contexts/NotificationContext';
 import { Button } from '../../components/Generic/Button';
 import { updateProject } from '../../api/ProjectApi.axios';
 import { getEmployees } from '../../api/EmployeeApi.axios';
-import { Employee } from '../../api/data-contracts';
+import { Employee } from '../../contract-types/data-contracts';
 import { employeeImageURL } from '../Employees/employeeImageURL';
 import { EmployeeSkills } from '../Employees/EmployeeSkills';
 
@@ -46,7 +46,7 @@ export function ProjectTeamMembers({ projectId, employees, onUpdateEmployees }: 
   const handleAddEmployee = async (employee: Employee) => {
     try {
       const updatedEmployees = [...employees, employee];
-      await updateProject(projectId, { employees: updatedEmployees });
+      await updateProject({ projectId }, { employees: updatedEmployees }); // FIXME
       onUpdateEmployees(updatedEmployees);
       queryClient.invalidateQueries({ queryKey: ['project', projectId] });
       addNotification('notice', `${employee.firstName} ${employee.lastName} added to the project`);
@@ -60,7 +60,7 @@ export function ProjectTeamMembers({ projectId, employees, onUpdateEmployees }: 
   const handleRemoveEmployee = async (employeeId: Employee['id']) => {
     try {
       const updatedEmployees = employees.filter(emp => emp.id !== employeeId);
-      await updateProject(projectId, { employees: updatedEmployees });
+      await updateProject({ projectId }, { employees: updatedEmployees }); // FIXME
       onUpdateEmployees(updatedEmployees);
       queryClient.invalidateQueries({ queryKey: ['project', projectId] });
       addNotification('notice', 'Employee removed from project');

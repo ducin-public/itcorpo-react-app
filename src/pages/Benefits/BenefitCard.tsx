@@ -1,16 +1,17 @@
 import React from 'react';
-import { Calendar, DollarSign, XCircle, RefreshCw } from 'lucide-react';
+import { Calendar, DollarSign, XCircle, RefreshCw, Receipt } from 'lucide-react';
 import { format } from 'date-fns';
+import { useNavigate } from 'react-router-dom';
 
-import { BenefitSubscription } from '../../api/data-contracts';
+import { BenefitSubscription } from '../../contract-types/data-contracts';
 import { formatCurrency } from '../../contexts/CurrencyContext';
 import { BenefitServiceChip } from './BenefitServiceChip';
 import { styles } from '../../components/DesignLanguage';
 
 interface BenefitCardProps {
   benefit: BenefitSubscription;
-  onCancel?: () => void;
-  onRenew?: () => void;
+  onCancel?: () => Promise<void>;
+  onRenew?: () => Promise<void>;
 }
 
 export function BenefitCard({
@@ -19,6 +20,7 @@ export function BenefitCard({
   onRenew
 }: BenefitCardProps) {
   const isActive = !benefit.cancelledAtDate;
+  const navigate = useNavigate();
 
   return (
     <div className={`${!isActive ? 'bg-gray-100' : 'bg-white'} rounded-lg shadow-sm p-6`}>
@@ -35,21 +37,29 @@ export function BenefitCard({
             {benefit.beneficiary.name}
           </p>
         </div>
-        {isActive ? (
+        <div className="flex gap-2">
           <button
-            onClick={onCancel}
-            className={`text-gray-400 hover:${styles.ALERT.text}`}
+            onClick={() => navigate(`/benefits/${benefit.id}/charges`)}
+            className={`text-gray-400 hover:${styles.ACCENT.text}`}
           >
-            <XCircle className="h-5 w-5" />
+            <Receipt className="h-5 w-5" />
           </button>
-        ) : (
-          <button
-            onClick={onRenew}
-            className={`text-gray-400 hover:${styles.SUCCESS.text}`}
-          >
-            <RefreshCw className="h-5 w-5" />
-          </button>
-        )}
+          {isActive ? (
+            <button
+              onClick={onCancel}
+              className={`text-gray-400 hover:${styles.ALERT.text}`}
+            >
+              <XCircle className="h-5 w-5" />
+            </button>
+          ) : (
+            <button
+              onClick={onRenew}
+              className={`text-gray-400 hover:${styles.SUCCESS.text}`}
+            >
+              <RefreshCw className="h-5 w-5" />
+            </button>
+          )}
+        </div>
       </div>
 
       <div className="mt-4 space-y-2">

@@ -1,5 +1,5 @@
 import { makeAutoObservable } from 'mobx';
-import { Employee } from '../api/data-contracts';
+import { Employee } from '../../contract-types/data-contracts';
 
 class ViewedEmployeesStore {
   viewedEmployees: Employee[] = []

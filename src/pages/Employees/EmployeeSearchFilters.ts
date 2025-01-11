@@ -1,4 +1,4 @@
-export interface EmployeeSearchCriteria {
+export interface EmployeeSearchFilters {
   searchTerm: string;
   departments: string[];
   minSalary?: number;

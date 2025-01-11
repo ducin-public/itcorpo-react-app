@@ -2,7 +2,7 @@ import React from 'react';
 import { Edit, Users, DollarSign, Eye } from 'lucide-react';
 import { OfficeAmenitiesList } from './OfficeAmenitiesList';
 
-import { Office } from '../../api/data-contracts';
+import { Office } from '../../contract-types/data-contracts';
 import { officeImageURL } from './officeImageURL';
 import { formatCurrency } from '../../contexts/CurrencyContext';
 

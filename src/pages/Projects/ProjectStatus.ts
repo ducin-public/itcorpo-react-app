@@ -1,4 +1,4 @@
-import { ProjectStatus } from "../../api/data-contracts";
+import { ProjectStatus } from "../../contract-types/data-contracts";
 
 export const projectStatusDict: Record<ProjectStatus, string> = {
   ACTIVE: 'Active',

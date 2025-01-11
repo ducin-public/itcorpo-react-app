@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { Spinner } from '../../components/Generic/Spinner';
-import { Office } from '../../api/data-contracts';
+import { Office } from '../../contract-types/data-contracts';
 import { getOffices } from '../../api/OfficeApi.axios';
 import { officeImageURL } from './officeImageURL';
 import { formatCurrency } from '../../contexts/CurrencyContext';

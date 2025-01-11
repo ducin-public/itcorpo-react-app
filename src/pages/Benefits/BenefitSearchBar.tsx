@@ -7,14 +7,14 @@ import { MultiSelect } from '../../components/Forms/MultiSelect';
 import { Dropdown } from '../../components/Forms/Dropdown';
 import { DateRangePicker } from '../../components/Forms/DateRangePicker';
 import { getEmployees } from '../../api/EmployeeApi.axios';
-import { BenefitSubscriptionSearchStatusDict, type BenefitSearchState } from './BenefitSearchCriteria';
-import type { Employee } from '../../api/data-contracts';
+import { BenefitSubscriptionSearchStatusDict, type BenefitSearchFilters } from './BenefitSearchFilters';
+import type { Employee } from '../../contract-types/data-contracts';
 import { NumberRangeInput } from '../../components/Forms/NumberRangeInput';
-import type { BenefitCategory } from '../../api/data-contracts';
+import type { BenefitCategory } from '../../contract-types/data-contracts';
 
 interface BenefitSearchBarProps {
-  searchState: BenefitSearchState;
-  onCriteriaUpdate: (criteria: BenefitSearchState) => void;
+  searchState: BenefitSearchFilters;
+  onCriteriaUpdate: (criteria: BenefitSearchFilters) => void;
 }
 
 const categoryLabels: Record<BenefitCategory, string> = {
@@ -32,7 +32,7 @@ const categoryOptions = Object.entries(categoryLabels).map(([value, label]) => (
 export function BenefitSearchBar({ searchState, onCriteriaUpdate }: BenefitSearchBarProps) {
   const { data: employees = [] } = useQuery({
     queryKey: ['employees'],
-    queryFn: getEmployees
+    queryFn: () => getEmployees()
   });
 
   const employeeOptions = employees.map((emp: Employee) => ({
@@ -40,7 +40,7 @@ export function BenefitSearchBar({ searchState, onCriteriaUpdate }: BenefitSearc
     label: `${emp.firstName} ${emp.lastName}`
   }));
 
-  const handleChange = (updates: Partial<BenefitSearchState>) => {
+  const handleChange = (updates: Partial<BenefitSearchFilters>) => {
     const newCriteria = { ...searchState, ...updates };
     onCriteriaUpdate(newCriteria);
   };

@@ -7,16 +7,16 @@ import { BenefitCard } from './BenefitCard';
 import { useNotifications } from '../../contexts/NotificationContext';
 import { AddBenefitModal } from './AddBenefitModal';
 import { Button } from '../../components/Generic/Button';
-import { deleteBenefit, getBenefits } from '../../api/BenefitApi.axios';
+import { getBenefitSubscriptions, cancelBenefit, renewBenefit } from '../../api/BenefitApi.axios';
 import { BenefitSearchBar } from './BenefitSearchBar';
-import { BenefitSearchState } from './BenefitSearchCriteria';
+import { BenefitSearchFilters } from './BenefitSearchFilters';
 
 export function BenefitList() {
   const [isAddModalOpen, setIsAddModalOpen] = React.useState(false);
-  const [searchState, setSearchState] = useState<BenefitSearchState>({
+  const [searchState, setSearchState] = useState<BenefitSearchFilters>({
     serviceName: '',
+    selectedCategories: [],
     selectedEmployees: [],
-    selectedCategories: [], // new field
     feeRange: {},
     selectedStatus: 'ACTIVE'
   });
@@ -24,22 +24,31 @@ export function BenefitList() {
   
   const { data: benefits, isLoading, isFetching } = useQuery({
     queryKey: ['benefits', searchState],
-    queryFn: () => getBenefits(({
+    queryFn: () => getBenefitSubscriptions(({
       serviceName: searchState.serviceName || undefined,
-      employeeIds: searchState.selectedEmployees.join(',') || undefined,
-      categories: searchState.selectedCategories.join(',') || undefined, // new parameter
+      employeeId: searchState.selectedEmployees.join(',') || undefined,
       feeFrom: searchState.feeRange.from?.toString(),
       feeTo: searchState.feeRange.to?.toString(),
       status: searchState.selectedStatus ?? 'ALL'
     }))
   });
 
-  const handleDelete = async (id: string) => {
+
+  const handleCancel = async (benefitId: string) => {
     try {
-      await deleteBenefit(id);
-      addNotification('notice', 'Benefit successfully deleted');
+      await cancelBenefit({ benefitId });
+      addNotification('notice', 'Benefit subscription cancelled');
     } catch (error) {
-      addNotification('error', `Failed to delete benefit: ${error}`);
+      addNotification('error', `Failed to cancel benefit: ${error}`);
+    }
+  };
+
+  const handleRenew = async (benefitId: string) => {
+    try {
+      await renewBenefit({ benefitId });
+      addNotification('notice', 'Benefit subscription renewed');
+    } catch (error) {
+      addNotification('error', `Failed to renew benefit: ${error}`);
     }
   };
 
@@ -71,7 +80,8 @@ export function BenefitList() {
             <BenefitCard
               key={benefit.id}
               benefit={benefit}
-              onDelete={() => handleDelete(benefit.id)}
+              onCancel={() => handleCancel(benefit.id)}
+              onRenew={() => handleRenew(benefit.id)}
             />
           ))}
         </div>

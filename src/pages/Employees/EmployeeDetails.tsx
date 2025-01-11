@@ -6,7 +6,7 @@ import { observer } from 'mobx-react-lite';
 
 import { Spinner } from '../../components/Generic/Spinner';
 import { viewedEmployeesStore } from './ViewedEmployeesStore';
-import { getEmployee } from '../../api/EmployeeApi.axios';
+import { getEmployeeById } from '../../api/EmployeeApi.axios';
 import { formatCurrency } from '../../contexts/CurrencyContext';
 import { employeeImageURL } from './employeeImageURL';
 
@@ -16,10 +16,10 @@ export const EmployeeDetails = observer(() => {
 
   const { data: employee, isLoading } = useQuery({
     queryKey: ['employee', id],
-    queryFn: () => getEmployee(Number(id!)),
-    onSuccess: (data) => {
-      viewedEmployeesStore.addViewedEmployee(data);
-    },
+    queryFn: () => getEmployeeById({ employeeId: Number(id!) }),
+    // onSuccess: (data) => {
+    //   viewedEmployeesStore.addViewedEmployee(data);
+    // },
   });
 
   if (isLoading) return <Spinner />;

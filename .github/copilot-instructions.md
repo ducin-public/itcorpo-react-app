@@ -14,7 +14,7 @@ Where applicable, use `import type` instead of `import`.
 
 # contract and entities
 
-All entities loaded from backend are available in the `src/api/data-contracts.ts` file.
+All entities loaded from backend are available in the `src/contract-types/data-contracts.ts` file.
 
 # client app code
 

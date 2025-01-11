@@ -1,6 +1,6 @@
 import React from 'react';
 import { Eye, Edit, Trash2, Users, Calendar } from 'lucide-react';
-import type { Project, ProjectStatus } from '../../api/data-contracts';
+import type { Project, ProjectStatus } from '../../contract-types/data-contracts';
 import { Chip } from '../../components/Generic/Chip';
 import { formatDate } from 'date-fns/format';
 import { projectStatusDict } from './ProjectStatus';

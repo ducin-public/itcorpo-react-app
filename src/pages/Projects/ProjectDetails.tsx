@@ -6,8 +6,8 @@ import { Spinner } from '../../components/Generic/Spinner';
 import { EditableProjectName } from './EditableProjectName';
 import { ProjectTeamMembers } from './ProjectTeamMembers';
 import { ProjectStatusChange } from './ProjectStatusChange';
-import { getProject } from '../../api/ProjectApi.axios';
-import { getEmployee } from '../../api/EmployeeApi.axios';
+import { getProjectById } from '../../api/ProjectApi.axios';
+import { getEmployeeById } from '../../api/EmployeeApi.axios';
 import { formatCurrency } from '../../contexts/CurrencyContext';
 import { Button } from '../../components/Generic/Button';
 
@@ -17,14 +17,14 @@ export function ProjectDetails() {
 
   const { data: project, isLoading: isLoadingProject } = useQuery({
     queryKey: ['project', id],
-    queryFn: () => getProject(id!),
+    queryFn: () => getProjectById({ projectId: id! }),
   });
 
   const { data: employees, isLoading: isLoadingEmployees } = useQuery({
     queryKey: ['project', id, 'employees'],
     queryFn: async () => {
       if (!project?.team) return [];
-      const employeePromises = project.team.map(({id}) => getEmployee(id));
+      const employeePromises = project.team.map(({id}) => getEmployeeById({ employeeId: id }));
       return Promise.all(employeePromises);
     },
     enabled: !!project?.team,
@@ -77,7 +77,7 @@ export function ProjectDetails() {
             <ProjectTeamMembers
               projectId={project.id}
               employees={employees}
-              // onUpdateEmployees={setEmployees}
+              // onUpdateEmployees={setEmployees} // FIXME
             />
           )}
         </div>

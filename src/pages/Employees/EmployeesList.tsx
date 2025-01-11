@@ -8,9 +8,9 @@ import { useNotifications } from '../../contexts/NotificationContext';
 import { RecentlyViewedEmployees } from './TODO-RecentlyViewedEmployees';
 import { deleteEmployee, getEmployees } from '../../api/EmployeeApi.axios';
 import { Button } from '../../components/Generic/Button';
-import { Employee } from '../../api/data-contracts';
+import { Employee } from '../../contract-types/data-contracts';
 import { EmployeesSearchBar } from './EmployeesSearchBar';
-import type { EmployeeSearchCriteria } from './EmployeeSearchCriteria';
+import type { EmployeeSearchFilters } from './EmployeeSearchFilters';
 import { EmployeeCard } from './EmployeeCard';
 import { Sidebar } from '../../components/Generic/Sidebar';
 
@@ -18,7 +18,7 @@ export function EmployeesList() {
   const navigate = useNavigate();
   const { addNotification } = useNotifications();
   const queryClient = useQueryClient();
-  const [filters, setFilters] = useState<EmployeeSearchCriteria>({
+  const [filters, setFilters] = useState<EmployeeSearchFilters>({
     searchTerm: '',
     departments: [],
     skills: '',
@@ -28,11 +28,11 @@ export function EmployeesList() {
 
   const { data: employees, isFetching } = useQuery({
     queryKey: ['employees'],
-    queryFn: getEmployees
+    queryFn: () => getEmployees()
   });
 
   const deleteMutation = useMutation({
-    mutationFn: (id: Employee['id']) => deleteEmployee(id),
+    mutationFn: (employeeId: Employee['id']) => deleteEmployee({ employeeId }),
     onSuccess: (_, id) => {
       queryClient.invalidateQueries({ queryKey: ['employees'] });
       queryClient.removeQueries({ queryKey: ['employees', id] });

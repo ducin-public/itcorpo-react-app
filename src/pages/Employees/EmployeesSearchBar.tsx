@@ -1,20 +1,19 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { Search } from 'lucide-react';
 
 import { MultiSelect } from '../../components/Forms/MultiSelect';
 import { NumberRangeInput } from '../../components/Forms/NumberRangeInput';
 import { ExpandableSearchBar } from '../../components/Generic/ExpandableSearchBar';
 import { getDepartments } from '../../api/DepartmentApi.axios';
-import type { EmployeeSearchCriteria } from './EmployeeSearchCriteria';
+import type { EmployeeSearchFilters } from './EmployeeSearchFilters';
 import { TextInput } from '../../components/Forms/TextInput';
 
-interface Props {
-  onFiltersChange: (filters: EmployeeSearchCriteria) => void;
-  filters: EmployeeSearchCriteria;
+interface EmployeesSearchBarProps {
+  onFiltersChange: (filters: EmployeeSearchFilters) => void;
+  filters: EmployeeSearchFilters;
 }
 
-export function EmployeesSearchBar({ onFiltersChange, filters }: Props) {
+export function EmployeesSearchBar({ onFiltersChange, filters }: EmployeesSearchBarProps) {
   const { data: departments = [] } = useQuery({
     queryKey: ['departments'],
     queryFn: getDepartments,

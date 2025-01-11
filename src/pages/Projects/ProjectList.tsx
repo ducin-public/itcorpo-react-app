@@ -8,18 +8,18 @@ import { ProjectCard } from './ProjectCard';
 import { useNotifications } from '../../contexts/NotificationContext';
 import { deleteProject, getProjects } from '../../api/ProjectApi.axios';
 import { ProjectSearchBar } from './ProjectSearchBar';
-import { ProjectSearchCriteria } from './ProjectSearchCriteria';
+import { ProjectSearchFilters } from './ProjectSearchFilters';
 import { Button } from '../../components/Generic/Button';
 
 export function ProjectList() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { addNotification } = useNotifications();
-  const [searchCriteria, setSearchCriteria] = useState<ProjectSearchCriteria>({ statuses: [] });
+  const [searchCriteria, setSearchCriteria] = useState<ProjectSearchFilters>({ statuses: [] });
   
   const { data: projects, isFetching } = useQuery({
     queryKey: ['projects', searchCriteria],
-    queryFn: getProjects
+    queryFn: () => getProjects()
   });
 
   const deleteMutation = useMutation({
@@ -59,7 +59,7 @@ export function ProjectList() {
               project={project}
               onView={() => navigate(`/projects/${project.id}`)}
               onEdit={() => navigate(`/projects/${project.id}/edit`)}
-              onDelete={() => deleteMutation.mutate(project.id)}
+              onDelete={() => deleteMutation.mutate({ projectId: project.id })}
             />
           ))}
         </div>

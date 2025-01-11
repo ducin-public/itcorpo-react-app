@@ -1,5 +1,5 @@
 import { Edit, Trash2 } from 'lucide-react';
-import type { Employee } from '../../api/data-contracts';
+import type { Employee } from '../../contract-types/data-contracts';
 import { Button } from '../../components/Generic/Button';
 import { employeeImageURL } from './employeeImageURL';
 import { EmployeeSkills } from './EmployeeSkills';

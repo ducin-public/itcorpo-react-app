@@ -1,7 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query';
 
 import { useNotifications } from '../../contexts/NotificationContext';
-import { Project, ProjectStatus } from '../../api/data-contracts';
+import { Project, ProjectStatus } from '../../contract-types/data-contracts';
 import { updateProject } from '../../api/ProjectApi.axios';
 
 const statusColors: { [key in ProjectStatus]: string } = {
@@ -29,7 +29,7 @@ export function ProjectStatusChange({ project }: ProjectStatusChangeProps) {
     if (!confirmed) return;
 
     try {
-      await updateProject(project.id, { status: newStatus });
+      await updateProject({ projectId: project.id }, { status: newStatus }); // FIXME: PATCH vs PUT
       queryClient.invalidateQueries({ queryKey: ['project', project.id] });
       addNotification('notice', `Project status updated to ${newStatus}`);
     } catch (error) {

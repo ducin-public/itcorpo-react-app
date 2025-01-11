@@ -3,18 +3,20 @@ import React, { useState } from 'react';
 import { MultiSelect } from '../../components/Forms/MultiSelect';
 import { TextInput } from '../../components/Forms/TextInput';
 import { projectStatusOptions } from './ProjectStatus';
-import { type ProjectSearchCriteria, initialProjectSearchCriteria } from './ProjectSearchCriteria';
-import { ProjectStatus } from '../../api/data-contracts';
+import { type ProjectSearchFilters } from './ProjectSearchFilters';
+import { ProjectStatus } from '../../contract-types/data-contracts';
 import { ExpandableSearchBar } from '../../components/Generic/ExpandableSearchBar';
 
 interface ProjectSearchBarProps {
-  onCriteriaUpdate: (criteria: ProjectSearchCriteria) => void;
+  onCriteriaUpdate: (criteria: ProjectSearchFilters) => void;
 }
 
 export function ProjectSearchBar({ onCriteriaUpdate }: ProjectSearchBarProps) {
-  const [criteria, setCriteria] = useState<ProjectSearchCriteria>(initialProjectSearchCriteria);
+  const [criteria, setCriteria] = useState<ProjectSearchFilters>({
+    statuses: [],
+  });
 
-  const updateCriteria = (updates: Partial<ProjectSearchCriteria>) => {
+  const updateCriteria = (updates: Partial<ProjectSearchFilters>) => {
     const newCriteria = { ...criteria, ...updates };
     setCriteria(newCriteria);
     onCriteriaUpdate(newCriteria);

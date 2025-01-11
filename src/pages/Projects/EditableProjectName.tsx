@@ -25,7 +25,7 @@ export function EditableProjectName({ id, name }: EditableProjectNameProps) {
 
   const handleSubmit = async () => {
     try {
-      await updateProject(id, { name: value });
+      await updateProject({ projectId: id }, { name: value }); // FIXME: PATCH vs PUT
       queryClient.invalidateQueries({ queryKey: ['project', id] });
       addNotification('notice', 'Project name updated successfully');
       setIsEditing(false);

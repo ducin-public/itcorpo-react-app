@@ -3,7 +3,7 @@ import { Search } from 'lucide-react';
 
 import { MultiSelect } from '../../components/Forms/MultiSelect';
 import { TextInput } from '../../components/Forms/TextInput';
-import type { OfficeAmenity, Geo } from '../../api/data-contracts';
+import type { OfficeAmenity, Geo } from '../../contract-types/data-contracts';
 import { getOfficeAmenities } from '../../api/OfficeApi.axios';
 import { getGeo } from '../../api/GeoApi.axios';
 import { ExpandableSearchBar } from '../../components/Generic/ExpandableSearchBar';
