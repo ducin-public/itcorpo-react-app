@@ -1,59 +1,133 @@
-import { apiClient } from './client';
-import type { BenefitSubscription, BenefitSubscriptionInput, BenefitsSearchCriteria } from './data-contracts';
+import { BenefitSubscription, BenefitSubscriptionInput, BenefitService, BenefitCharge } from '../contract-types/data-contracts';
+import { apiClient, buildURLSearchParams } from './client';
+import { Benefits } from '../contract-types/BenefitsRoute';
 
-const buildBenefitSearchParams = (criteria: BenefitsSearchCriteria = {}): URLSearchParams => {
-  const params = new URLSearchParams();
+/**
+ * A  cancelled subscription can be renewed.
+ * An active subscription can be cancelled.
+ */
+type BenefitOperationBody = {
+  operation: "CANCEL" | "RENEW";
+};
 
-  if (criteria.serviceName) {
-    params.append('serviceName', criteria.serviceName);
-  }
-  if (criteria.categories?.length) {
-    params.append('categories', criteria.categories);
-  }
-  if (criteria.employeeIds?.length) {
-    params.append('employeeIds', criteria.employeeIds);
-  }
-  if (criteria.feeFrom) {
-    params.append('feeFrom', criteria.feeFrom);
-  }
-  if (criteria.feeTo) {
-    params.append('feeTo', criteria.feeTo);
-  }
-  if (criteria.status) {
-    params.append('status', criteria.status);
-  }
-
-  return params;
-}
-
-export const getBenefits = (criteria: BenefitsSearchCriteria = {}) => {
-  const params = buildBenefitSearchParams(criteria);
-  return apiClient.get<BenefitSubscription[]>('/benefits', { params })
+/**
+ * GET /benefits/services
+ * @see https://ducin-public.github.io/itcorpo-api/#tag/Benefits/operation/getBenefitServices
+ * @see {@link BenefitService}
+ * @returns {Promise<Benefits.GetBenefitServices.ResponseBody>}
+ */
+export const getBenefitServices = () => {
+  return apiClient.get<Benefits.GetBenefitServices.ResponseBody>('/benefits/services')
     .then(res => res.data);
 };
 
-export const getBenefit = (id: BenefitSubscription['id']) => {
-  return apiClient.get<BenefitSubscription>(`/benefits/${id}`)
+/**
+ * GET /benefits
+ * @see https://ducin-public.github.io/itcorpo-api/#tag/Benefits/operation/getBenefitSubscriptions
+ * @see {@link Benefits.GetBenefitSubscriptions.RequestQuery}
+ * @see {@link BenefitSubscription}
+ * @returns {Promise<Benefits.GetBenefitSubscriptions.ResponseBody>}
+ */
+export const getBenefitSubscriptions = (criteria: Benefits.GetBenefitSubscriptions.RequestQuery = {}) => {
+  const params = buildURLSearchParams(criteria);
+  return apiClient.get<Benefits.GetBenefitSubscriptions.ResponseBody>('/benefits', { params })
     .then(res => res.data);
 };
 
-export const getBenefitsCount = (criteria: BenefitsSearchCriteria = {}) => {
-  const params = buildBenefitSearchParams(criteria);
-  return apiClient.get<number>('/benefits/count', { params })
+/**
+ * GET /benefits/{benefitId}
+ * @see https://ducin-public.github.io/itcorpo-api/#tag/Benefits/operation/getBenefitSubscriptionById
+ * @see {@link BenefitSubscription}
+ * @returns {Promise<Benefits.GetBenefitSubscriptionById.ResponseBody>}
+ */
+export const getBenefitSubscriptionById = ({ benefitId }: Benefits.GetBenefitSubscriptionById.RequestParams) => {
+  return apiClient.get<Benefits.GetBenefitSubscriptionById.ResponseBody>(`/benefits/${benefitId}`)
     .then(res => res.data);
 };
 
-export const createBenefit = (benefit: BenefitSubscriptionInput) => {
-  return apiClient.post<BenefitSubscription>('/benefits', benefit)
+/**
+ * GET /benefits/count
+ * @see https://ducin-public.github.io/itcorpo-api/#tag/Benefits/operation/getBenefitsCount
+ * @see {@link Benefits.GetBenefitSubscriptions.RequestQuery}
+ * @see {@link BenefitService}
+ * @returns {Promise<Benefits.GetBenefitsCount.ResponseBody>}
+ */
+export const getBenefitsCount = (criteria: Benefits.GetBenefitsCount.RequestQuery = {}) => {
+  const params = buildURLSearchParams(criteria);
+  return apiClient.get<Benefits.GetBenefitsCount.ResponseBody>('/benefits/count', { params })
     .then(res => res.data);
 };
 
-export const updateBenefit = (id: BenefitSubscription['id'], benefit: Partial<BenefitSubscriptionInput>) => {
-  return apiClient.put<BenefitSubscription>(`/benefits/${id}`, benefit)
+/**
+ * POST /benefits
+ * @see https://ducin-public.github.io/itcorpo-api/#tag/Benefits/operation/createBenefit
+ * @see {@link BenefitSubscriptionInput}
+ * @see {@link BenefitService}
+ * @returns {Promise<Benefits.CreateBenefit.ResponseBody>}
+ */
+export const createBenefit = (benefitData: Benefits.CreateBenefit.RequestBody) => {
+  return apiClient.post<Benefits.CreateBenefit.ResponseBody>('/benefits', benefitData)
     .then(res => res.data);
 };
 
-export const deleteBenefit = (id: BenefitSubscription['id']) => {
-  return apiClient.delete<void>(`/benefits/${id}`)
-    .then(() => undefined);
+/**
+ * PUT /benefits/{benefitId}
+ * @see https://ducin-public.github.io/itcorpo-api/#tag/Benefits/operation/updateBenefit
+ * @see {@link BenefitSubscriptionInput}
+ * @see {@link BenefitService}
+ * @returns {Promise<Benefits.UpdateBenefit.ResponseBody>}
+ */
+export const updateBenefit = ({ benefitId }: Benefits.UpdateBenefit.RequestParams, benefitData: Benefits.UpdateBenefit.RequestBody) => {
+  return apiClient.put<Benefits.UpdateBenefit.ResponseBody>(`/benefits/${benefitId}`, benefitData)
+    .then(res => res.data);
+};
+
+/**
+ * PATCH /benefits/{benefitId}
+ * @see https://ducin-public.github.io/itcorpo-api/#tag/Benefits/operation/updateBenefitSubscriptionStatus
+ * @see {@link BenefitOperationBody}
+ * @see {@link BenefitService}
+ * @returns {Promise<Benefits.UpdateBenefitSubscriptionStatus.ResponseBody>}
+ */
+export const cancelBenefit = ({ benefitId }: Benefits.UpdateBenefitSubscriptionStatus.RequestParams) => {
+  const requestBody: BenefitOperationBody = { operation: "CANCEL" };
+  return apiClient.patch<Benefits.UpdateBenefitSubscriptionStatus.ResponseBody>(`/benefits/${benefitId}`, requestBody).then(res => res.data);
+};
+
+/**
+ * PATCH /benefits/{benefitId}
+ * @see https://ducin-public.github.io/itcorpo-api/#tag/Benefits/operation/updateBenefitSubscriptionStatus
+ * @see {@link BenefitOperationBody}
+ * @see {@link BenefitService}
+ * @returns {Promise<Benefits.UpdateBenefitSubscriptionStatus.ResponseBody>}
+ */
+export const renewBenefit = ({ benefitId }: Benefits.UpdateBenefitSubscriptionStatus.RequestParams) => {
+  const requestBody: BenefitOperationBody = { operation: "RENEW" };
+  return apiClient.patch<Benefits.UpdateBenefitSubscriptionStatus.ResponseBody>(`/benefits/${benefitId}`, requestBody).then(res => res.data);
+};
+
+/**
+ * GET /benefits/charges
+ * @see https://ducin-public.github.io/itcorpo-api/#tag/Benefits/operation/getBenefitCharges
+ * @see {@link Benefits.GetBenefitCharges.RequestQuery}
+ * @see {@link BenefitCharge}
+ * @returns {Promise<Benefits.GetBenefitCharges.ResponseBody>}
+ */
+export const getBenefitCharges = (criteria: Benefits.GetBenefitCharges.RequestQuery = {}) => {
+  const params = buildURLSearchParams(criteria);
+  return apiClient.get<Benefits.GetBenefitCharges.ResponseBody>(`/benefits/charges`, { params })
+    .then(res => res.data);
+};
+
+/**
+ * GET /benefits/{benefitId}/charges
+ * @see https://ducin-public.github.io/itcorpo-api/#tag/Benefits/operation/getBenefitSubscriptionCharges
+ * @see {@link Benefits.GetBenefitSubscriptionCharges.RequestQuery}
+ * @see {@link BenefitCharge}
+ * @returns {Promise<Benefits.GetBenefitSubscriptionCharges.ResponseBody>}
+ */
+export const getBenefitSubscriptionCharges = ({ benefitId }: Benefits.GetBenefitSubscriptionCharges.RequestParams, criteria: Benefits.GetBenefitSubscriptionCharges.RequestQuery = {}) => {
+  const params = buildURLSearchParams(criteria);
+  return apiClient.get<Benefits.GetBenefitSubscriptionCharges.ResponseBody>(`/benefits/${benefitId}/charges`, { params })
+    .then(res => res.data);
 };

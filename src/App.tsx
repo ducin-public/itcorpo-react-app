@@ -13,6 +13,7 @@ import { EmployeeDetails } from './pages/Employees/EmployeeDetails';
 import { ProjectDetails } from './pages/Projects/ProjectDetails';
 import { OfficeDetails } from './pages/Offices/OfficeDetails';
 import { RecentlyViewedEmployees } from './pages/Employees/TODO-RecentlyViewedEmployees';
+import { BenefitChargesList } from './pages/Benefits/BenefitChargesList';
 import { NotificationProvider } from './contexts/NotificationContext';
 import { ToastProvider } from './contexts/ToastContext';
 import { Welcome } from './components/Welcome';
@@ -42,6 +43,7 @@ function App() {
                 <Route path="/offices" element={<OfficeList />} />
                 <Route path="/offices/:id" element={<OfficeDetails />} />
                 <Route path="/benefits" element={<BenefitList />} />
+                <Route path="/benefits/:id/charges" element={<BenefitChargesList />} />
                 <Route path="/finances" element={<Dashboard />} />
               </Route>
             </Routes>

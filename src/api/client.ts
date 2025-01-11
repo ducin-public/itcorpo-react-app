@@ -11,3 +11,13 @@ export const apiClient = axios.create({
     'Content-Type': 'application/json',
   },
 });
+
+export const buildURLSearchParams = (criteria: object): URLSearchParams => {
+  const params = new URLSearchParams();
+  for (const [key, value] of Object.entries(criteria)) {
+    if (value) {
+      params.append(key, value);
+    }
+  }
+  return params;
+}

@@ -1,27 +1,62 @@
 import { apiClient } from './client';
-import type { Geo, Expense, ExpenseInput } from './data-contracts';
+import { Expenses } from '../contract-types/ExpensesRoute';
+import type { Expense, ExpenseInput } from '../contract-types/data-contracts';
 
+/**
+ * GET /expenses
+ * @see https://ducin-public.github.io/itcorpo-api/#tag/Expenses/operation/getExpenses
+ * @see {@link Expense}
+ * @returns {Promise<Expenses.GetExpenses.ResponseBody>}
+ */
 export const getExpenses = () => {
-  return apiClient.get<Expense[]>('/expenses')
+  return apiClient.get<Expenses.GetExpenses.ResponseBody>('/expenses')
     .then(res => res.data);
 };
 
-export const getExpense = (id: string) => {
-  return apiClient.get<Expense>(`/expenses/${id}`)
+/**
+ * GET /expenses/{expenseId}
+ * @see https://ducin-public.github.io/itcorpo-api/#tag/Expenses/operation/getExpenseById
+ * @see {@link Expense}
+ * @returns {Promise<Expenses.GetExpenseById.ResponseBody>}
+ */
+export const getExpenseById = ({ expenseId }: Expenses.GetExpenseById.RequestParams) => {
+  return apiClient.get<Expenses.GetExpenseById.ResponseBody>(`/expenses/${expenseId}`)
     .then(res => res.data);
 };
 
-export const createExpense = (expense: ExpenseInput) => {
-  return apiClient.post<Expense>('/expenses', expense)
+/**
+ * POST /expenses
+ * @see https://ducin-public.github.io/itcorpo-api/#tag/Expenses/operation/createExpense
+ * @see {@link ExpenseInput}
+ * @see {@link Expense}
+ * @returns {Promise<Expenses.CreateExpense.ResponseBody>}
+ */
+export const createExpense = (expenseData: Expenses.CreateExpense.RequestBody) => {
+  return apiClient.post<Expenses.CreateExpense.ResponseBody>('/expenses', expenseData)
     .then(res => res.data);
 };
 
-export const updateExpense = (id: string, expense: Partial<ExpenseInput>) => {
-  return apiClient.patch<Expense>(`/expenses/${id}`, expense)
+/**
+ * PATCH /expenses/{expenseId}
+ * @see https://ducin-public.github.io/itcorpo-api/#tag/Expenses/operation/updateExpense
+ * @see {@link ExpenseInput}
+ * @see {@link Expense}
+ * @returns {Promise<Expenses.UpdateExpense.ResponseBody>}
+ */
+export const updateExpense = (
+  { expenseId }: Expenses.UpdateExpense.RequestParams,
+  expenseData: Expenses.UpdateExpense.RequestBody
+) => {
+  return apiClient.patch<Expenses.UpdateExpense.ResponseBody>(`/expenses/${expenseId}`, expenseData)
     .then(res => res.data);
 };
 
-export const deleteExpense = (id: string) => {
-  return apiClient.delete(`/expenses/${id}`)
+/**
+ * DELETE /expenses/{expenseId}
+ * @see https://ducin-public.github.io/itcorpo-api/#tag/Expenses/operation/deleteExpense
+ * @returns {Promise<Expenses.DeleteExpense.ResponseBody>}
+ */
+export const deleteExpense = ({ expenseId }: Expenses.DeleteExpense.RequestParams) => {
+  return apiClient.delete<Expenses.DeleteExpense.ResponseBody>(`/expenses/${expenseId}`)
     .then(res => res.data);
 };

@@ -1,5 +1,6 @@
 import { API_URL } from './client';
-import type { Project, ProjectInput } from './data-contracts';
+import { Projects } from '../contract-types/ProjectsRoute';
+import type { Project, ProjectInput } from '../contract-types/data-contracts';
 
 const handleResponse = async <T>(response: Response): Promise<T> => {
   if (!response.ok) {
@@ -8,45 +9,83 @@ const handleResponse = async <T>(response: Response): Promise<T> => {
   return response.json();
 };
 
-export const getProjects = async (): Promise<Project[]> => {
-  const response = await fetch(`${API_URL}/projects`);
-  return handleResponse<Project[]>(response);
+/**
+ * GET /projects
+ * @see https://ducin-public.github.io/itcorpo-api/#tag/Projects/operation/getProjects
+ * @see {@link Project}
+ * @returns {Promise<Projects.GetProjects.ResponseBody>}
+ */
+export const getProjects = async (criteria: Projects.GetProjects.RequestQuery = {}) => {
+  const params = new URLSearchParams(criteria as Record<string, string>);
+  const response = await fetch(`${API_URL}/projects?${params.toString()}`);
+  return handleResponse<Projects.GetProjects.ResponseBody>(response);
 };
 
-export const getProject = async (id: Project['id']): Promise<Project> => {
-  const response = await fetch(`${API_URL}/projects/${id}`);
-  return handleResponse<Project>(response);
-};
-
-export const getProjectsCount = async (): Promise<number> => {
+/**
+ * GET /projects/count
+ * @see https://ducin-public.github.io/itcorpo-api/#tag/Projects/operation/getProjectsCount
+ * @see {@link ProjectsSearchCriteria}
+ * @see {@link Project}
+ * @returns {Promise<Projects.GetProjectsCount.ResponseBody>}
+ */
+export const getProjectsCount = async () => {
   const response = await fetch(`${API_URL}/projects/count`);
-  return handleResponse<number>(response);
+  return handleResponse<Projects.GetProjectsCount.ResponseBody>(response);
 };
 
-export const createProject = async (project: ProjectInput): Promise<Project> => {
+/**
+ * GET /projects/{projectId}
+ * @see https://ducin-public.github.io/itcorpo-api/#tag/Projects/operation/getProjectById
+ * @see {@link Project}
+ * @returns {Promise<Projects.GetProjectById.ResponseBody>}
+ */
+export const getProjectById = async ({ projectId }: Projects.GetProjectById.RequestParams) => {
+  const response = await fetch(`${API_URL}/projects/${projectId}`);
+  return handleResponse<Projects.GetProjectById.ResponseBody>(response);
+};
+
+/**
+ * POST /projects
+ * @see https://ducin-public.github.io/itcorpo-api/#tag/Projects/operation/createProject
+ * @see {@link ProjectInput}
+ * @see {@link Project}
+ * @returns {Promise<Projects.CreateProject.ResponseBody>}
+ */
+export const createProject = async (projectData: Projects.CreateProject.RequestBody) => {
   const response = await fetch(`${API_URL}/projects`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(project),
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(projectData),
   });
-  return handleResponse<Project>(response);
+  return handleResponse<Projects.CreateProject.ResponseBody>(response);
 };
 
-export const updateProject = async (id: Project['id'], project: Partial<ProjectInput>): Promise<Project> => {
-  const response = await fetch(`${API_URL}/projects/${id}`, {
+/**
+ * PUT /projects/{projectId}
+ * @see https://ducin-public.github.io/itcorpo-api/#tag/Projects/operation/updateProject
+ * @see {@link ProjectInput}
+ * @see {@link Project}
+ * @returns {Promise<Projects.UpdateProject.ResponseBody>}
+ */
+export const updateProject = async (
+  { projectId }: Projects.UpdateProject.RequestParams,
+  projectData: Projects.UpdateProject.RequestBody
+) => {
+  const response = await fetch(`${API_URL}/projects/${projectId}`, {
     method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(project),
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(projectData),
   });
-  return handleResponse<Project>(response);
+  return handleResponse<Projects.UpdateProject.ResponseBody>(response);
 };
 
-export const deleteProject = async (id: Project['id']): Promise<void> => {
-  const response = await fetch(`${API_URL}/projects/${id}`, {
+/**
+ * DELETE /projects/{projectId}
+ * @see https://ducin-public.github.io/itcorpo-api/#tag/Projects/operation/deleteProject
+ * @returns {Promise<void>}
+ */
+export const deleteProject = async ({ projectId }: Projects.DeleteProject.RequestParams) => {
+  const response = await fetch(`${API_URL}/projects/${projectId}`, {
     method: 'DELETE',
   });
   if (!response.ok) {

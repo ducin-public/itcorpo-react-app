@@ -1,32 +1,102 @@
-import type { Employee, EmployeeInput } from './data-contracts';
+import { Employee, EmployeeInput } from '../contract-types/data-contracts';
+import { Employees } from '../contract-types/EmployeesRoute';
 import { apiClient } from './client';
 
-export const getEmployees = () => {
-  return apiClient.get<Employee[]>('/employees')
+// if all criterias are handled 1:1, we can use the `buildURLSearchParams` function
+const buildEmployeeSearchParams__LEGACY = (criteria: Employees.GetEmployees.RequestQuery = {}): URLSearchParams => {
+  const params = new URLSearchParams();
+
+  if (criteria.departmentId) {
+    params.append('departmentId', criteria.departmentId);
+  }
+  if (criteria.employeeName) {
+    params.append('employeeName', criteria.employeeName);
+  }
+  if (criteria.salaryFrom) {
+    params.append('salaryFrom', criteria.salaryFrom);
+  }
+  if (criteria.salaryTo) {
+    params.append('salaryTo', criteria.salaryTo);
+  }
+  if (criteria.skills) {
+    params.append('skills', criteria.skills);
+  }
+  if (criteria.skillsFiltering) {
+    params.append('skillsFiltering', criteria.skillsFiltering);
+  }
+
+  return params;
+}
+
+/**
+ * GET /employees
+ * @see https://ducin-public.github.io/itcorpo-api/#tag/Employees/operation/getEmployees
+ * @see {@link Employees.GetEmployees.RequestQuery}
+ * @see {@link Employee}
+ * @returns {Promise<Employees.GetEmployees.ResponseBody>}
+ */
+export const getEmployees = (criteria: Employees.GetEmployees.RequestQuery = {}) => {
+  const params = buildEmployeeSearchParams__LEGACY(criteria);
+  return apiClient.get<Employees.GetEmployees.ResponseBody>('/employees', { params })
     .then(res => res.data);
 };
 
-export const getEmployeesCount = () => {
-  return apiClient.get<number>('/employees/count')
+/**
+ * GET /employees/count
+ * @see https://ducin-public.github.io/itcorpo-api/#tag/Employees/operation/getEmployeesCount
+ * @see {@link Employees.GetEmployeesCount.RequestQuery}
+ * @see {@link Employee}
+ * @returns {Promise<Employees.GetEmployeesCount.ResponseBody>}
+ */
+export const getEmployeesCount = (criteria: Employees.GetEmployees.RequestQuery = {}) => {
+  const params = buildEmployeeSearchParams__LEGACY(criteria);
+  return apiClient.get<Employees.GetEmployeesCount.ResponseBody>('/employees/count', { params })
     .then(res => res.data);
 };
 
-export const getEmployee = (id: Employee['id']) => {
-  return apiClient.get<Employee>(`/employees/${id}`)
+/**
+ * GET /employees/{employeeId}
+ * @see https://ducin-public.github.io/itcorpo-api/#tag/Employees/operation/getEmployeeById
+ * @see {@link Employee}
+ * @returns {Promise<Employees.GetEmployeeById.ResponseBody>}
+ */
+export const getEmployeeById = ({ employeeId }: Employees.GetEmployeeById.RequestParams) => {
+  return apiClient.get<Employees.GetEmployeeById.ResponseBody>(`/employees/${employeeId}`)
     .then(res => res.data);
 };
 
-export const createEmployee = (employee: EmployeeInput) => {
-  return apiClient.post<Employee>('/employees', employee)
+/**
+ * POST /employees
+ * @see https://ducin-public.github.io/itcorpo-api/#tag/Employees/operation/createEmployee
+ * @see {@link EmployeeInput}
+ * @returns {Promise<Employees.CreateEmployee.ResponseBody>}
+ */
+export const createEmployee = (employeeData: Employees.CreateEmployee.RequestBody) => {
+  return apiClient.post<Employees.CreateEmployee.ResponseBody>('/employees', employeeData)
     .then(res => res.data);
 };
 
-export const updateEmployee = (id: Employee['id'], employee: Partial<EmployeeInput>) => {
-  return apiClient.put<Employee>(`/employees/${id}`, employee)
+/**
+ * PUT /employees/{employeeId}
+ * @see https://ducin-public.github.io/itcorpo-api/#tag/Employees/operation/updateEmployee
+ * @see {@link EmployeeInput}
+ * @returns {Promise<Employees.UpdateEmployee.ResponseBody>}
+ */
+export const updateEmployee = (
+  { employeeId }: Employees.UpdateEmployee.RequestParams,
+  employeeData: Employees.UpdateEmployee.RequestBody
+) => {
+  return apiClient.put<Employees.UpdateEmployee.ResponseBody>(`/employees/${employeeId}`, employeeData)
     .then(res => res.data);
 };
 
-export const deleteEmployee = (id: Employee['id']) => {
-  return apiClient.delete<void>(`/employees/${id}`)
-    .then(() => undefined);
+/**
+ * DELETE /employees/{employeeId}
+ * @see https://ducin-public.github.io/itcorpo-api/#tag/Employees/operation/deleteEmployee
+ * @see {@link Employee}
+ * @returns {Promise<Employees.DeleteEmployee.ResponseBody>}
+ */
+export const deleteEmployee = ({ employeeId }: Employees.DeleteEmployee.RequestParams) => {
+  return apiClient.delete<Employees.DeleteEmployee.ResponseBody>(`/employees/${employeeId}`)
+    .then(res => res.data);
 };
