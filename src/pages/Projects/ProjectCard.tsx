@@ -1,10 +1,11 @@
 import React from 'react';
 import { Eye, Edit, Trash2, Users, Calendar } from 'lucide-react';
+import { formatDate } from 'date-fns/format';
+
 import type { Project, ProjectStatus } from '../../contract-types/data-contracts';
 import { Chip } from '../../components/Generic/Chip';
-import { formatDate } from 'date-fns/format';
 import { projectStatusDict } from './ProjectStatus';
-import { VariantType } from '../../components/DesignLanguage';
+import { styles, VariantType } from '../../components/DesignLanguage';
 
 interface ProjectCardProps {
   project: Project;
@@ -13,13 +14,11 @@ interface ProjectCardProps {
   onDelete: () => void;
 }
 
-const getStatusVariant = (status: ProjectStatus): VariantType => {
-  switch (status) {
-    case 'ACTIVE': return 'ACCENT';
-    case 'ON_HOLD': return 'DEFAULT';
-    case 'COMPLETED': return 'SUCCESS';
-    case 'PLANNING': return 'UPDATE';
-  }
+const statusToVariant: Record<ProjectStatus, VariantType> = {
+  'ACTIVE': 'ACCENT',
+  'ON_HOLD': 'DEFAULT',
+  'COMPLETED': 'SUCCESS',
+  'PLANNING': 'UPDATE'
 };
 
 export function ProjectCard({ project, onView, onEdit, onDelete }: ProjectCardProps) {
@@ -59,9 +58,9 @@ export function ProjectCard({ project, onView, onEdit, onDelete }: ProjectCardPr
         </div>
       </div>
 
-      <div className="flex items-center space-x-4 text-sm text-gray-600">
+      <div className={`flex items-center space-x-4 text-sm ${styles.DEFAULT.text}`}>
         <Chip 
-          variant={getStatusVariant(project.status)}
+          variant={statusToVariant[project.status]}
           size='SMALL'
         >{projectStatusDict[project.status]}</Chip>
         <div className="flex items-center">

@@ -1,6 +1,7 @@
 import { useState, type ReactNode } from 'react';
 
 import { DesignSize, styles } from '../DesignLanguage';
+import { cn } from '../cn';
 
 export enum TooltipDirection {
   TOP = 'top',
@@ -56,13 +57,13 @@ export const Tooltip = ({
       </div>
       {visible && (
         <div
-          className={`
-            absolute z-10 bg-white 
-            ${styles.DEFAULT.text} 
-            rounded shadow-lg border border-gray-200 
-            ${sizeClasses[size]} 
-            ${directionClasses[direction]}
-          `}
+          className={cn(
+            'absolute z-10 bg-white',
+            styles.DEFAULT.text,
+            'rounded shadow-lg border border-gray-200',
+            sizeClasses[size],
+            directionClasses[direction]
+          )}
         >
           {content}
         </div>

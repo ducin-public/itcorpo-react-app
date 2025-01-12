@@ -49,9 +49,8 @@ function ActionCard({
       </div>
       <h4 className="text-lg font-semibold text-gray-900 mb-2">{title}</h4>
       <p className="text-gray-600 mb-4">{description}</p>
-      <Button>
+      <Button icon={ArrowRight}>
         Get Started
-        <ArrowRight className="ml-2 h-4 w-4" />
       </Button>
     </div>
   );

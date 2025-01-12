@@ -6,6 +6,7 @@ import { projectStatusOptions } from './ProjectStatus';
 import { type ProjectSearchFilters } from './ProjectSearchFilters';
 import { ProjectStatus } from '../../contract-types/data-contracts';
 import { ExpandableSearchBar } from '../../components/Generic/ExpandableSearchBar';
+import { FilteringChoice } from '../../components/Forms/FilteringChoice';
 
 interface ProjectSearchBarProps {
   onCriteriaUpdate: (criteria: ProjectSearchFilters) => void;
@@ -14,6 +15,7 @@ interface ProjectSearchBarProps {
 export function ProjectSearchBar({ onCriteriaUpdate }: ProjectSearchBarProps) {
   const [criteria, setCriteria] = useState<ProjectSearchFilters>({
     statuses: [],
+    teamMemberFiltering: 'ANY',
   });
 
   const updateCriteria = (updates: Partial<ProjectSearchFilters>) => {
@@ -49,10 +51,16 @@ export function ProjectSearchBar({ onCriteriaUpdate }: ProjectSearchBarProps) {
         <ExpandableSearchBar.ExpandedContent>
           <div className="flex-1">
             <TextInput
-              label="Team Member"
+              label="Team Members"
               value={criteria.teamMemberName || ''}
               onChange={(value) => updateCriteria({ teamMemberName: value })}
               placeholder="Search by team member name..."
+            />
+          </div>
+          <div className="flex-1">
+            <FilteringChoice
+              value={criteria.teamMemberFiltering}
+              onChange={(value) => updateCriteria({ teamMemberFiltering: value })}
             />
           </div>
           <div className="flex-1 flex space-x-4">

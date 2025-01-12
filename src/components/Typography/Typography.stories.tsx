@@ -5,6 +5,7 @@ import { Text } from './Text';
 import { Blockquote } from './Blockquote';
 import { Paragraph } from './Paragraph';
 import { A } from './A';
+import { FlexText } from './FlexText';
 
 const meta: Meta = {
   title: 'UI/Typography',
@@ -36,6 +37,16 @@ export const Typography: StoryObj = {
           Small Paragraph: <A href="#">View our technology stack</A> to learn about our expertise in React, Node.js, and cloud platforms.
         </Paragraph>
       </div>
+
+      <FlexText>
+        <H1>FlexText Heading1</H1>
+        <Text size="SMALL">(Small text)</Text>
+      </FlexText>
+
+      <FlexText>
+        <H2>FlexText Heading2</H2>
+        <Text size="SMALL">(Small text)</Text>
+      </FlexText>
 
       <div className="space-y-2">
         <div>Status DEFAULT: <Text size="SMALL">Operation pending</Text></div>

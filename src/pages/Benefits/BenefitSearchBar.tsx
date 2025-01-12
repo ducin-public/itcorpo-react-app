@@ -5,7 +5,6 @@ import { ExpandableSearchBar } from '../../components/Generic/ExpandableSearchBa
 import { TextInput } from '../../components/Forms/TextInput';
 import { MultiSelect } from '../../components/Forms/MultiSelect';
 import { Dropdown } from '../../components/Forms/Dropdown';
-import { DateRangePicker } from '../../components/Forms/DateRangePicker';
 import { getEmployees } from '../../api/EmployeeApi.axios';
 import { BenefitSubscriptionSearchStatusDict, type BenefitSearchFilters } from './BenefitSearchFilters';
 import type { Employee } from '../../contract-types/data-contracts';
@@ -35,10 +34,12 @@ export function BenefitSearchBar({ searchState, onCriteriaUpdate }: BenefitSearc
     queryFn: () => getEmployees()
   });
 
-  const employeeOptions = employees.map((emp: Employee) => ({
-    value: String(emp.id),
-    label: `${emp.firstName} ${emp.lastName}`
-  }));
+  const employeeOptions = Object.fromEntries(
+    employees.map((emp: Employee) => ([
+      String(emp.id),
+      `${emp.firstName} ${emp.lastName}`
+    ]))
+  );
 
   const handleChange = (updates: Partial<BenefitSearchFilters>) => {
     const newCriteria = { ...searchState, ...updates };
@@ -59,17 +60,17 @@ export function BenefitSearchBar({ searchState, onCriteriaUpdate }: BenefitSearc
             label="Categories"
             placeholder="Select categories..."
             options={categoryOptions}
-            value={searchState.selectedCategories || []}
+            value={searchState.categories || []}
             onChange={(selectedCategories) => handleChange({ 
-              selectedCategories: selectedCategories as BenefitCategory[] 
+              categories: selectedCategories as BenefitCategory[] 
             })}
           />
-          <MultiSelect
-            label="Employees"
+          <Dropdown
+            label="Beneficiary Employee"
             placeholder="Select employees..."
-            options={employeeOptions}
-            value={searchState.selectedEmployees?.map(String) || []}
-            onChange={(selectedEmployees) => handleChange({ selectedEmployees })}
+            items={employeeOptions}
+            value={searchState.beneficiaryEmployee}
+            onChanged={(beneficiaryEmployee) => handleChange({ beneficiaryEmployee })}
           />
           <ExpandableSearchBar.ToggleButton />
         </ExpandableSearchBar.BaseRow>
@@ -78,6 +79,7 @@ export function BenefitSearchBar({ searchState, onCriteriaUpdate }: BenefitSearc
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <NumberRangeInput
                     label="Fee Range"
+                    step={100}
                     value={searchState.feeRange}
                     onChange={(range) => handleChange({ 
                         feeRange: range

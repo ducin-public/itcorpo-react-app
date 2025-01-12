@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
-import { Search, X } from 'lucide-react';
+import { DatabaseBackup, Plus, Search, X } from 'lucide-react';
 
 import { useNotifications } from '../../contexts/NotificationContext';
 import { Button } from '../../components/Generic/Button';
@@ -73,7 +73,10 @@ export function ProjectTeamMembers({ projectId, employees, onUpdateEmployees }: 
     <div>
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-lg font-semibold text-gray-900">Team Members</h2>
-        <Button onClick={() => setIsSearching(!isSearching)} >
+        <Button
+          icon={isSearching ? DatabaseBackup : Plus}
+          onClick={() => setIsSearching(!isSearching)}
+        >
           {isSearching ? 'Done' : 'Add Member'}
         </Button>
       </div>

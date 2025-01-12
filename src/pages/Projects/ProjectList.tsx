@@ -10,16 +10,30 @@ import { deleteProject, getProjects } from '../../api/ProjectApi.axios';
 import { ProjectSearchBar } from './ProjectSearchBar';
 import { ProjectSearchFilters } from './ProjectSearchFilters';
 import { Button } from '../../components/Generic/Button';
+import { H1 } from '../../components/Typography/Headings';
+import { FlexText } from '../../components/Typography/FlexText';
+import { Text } from '../../components/Typography/Text';
 
 export function ProjectList() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { addNotification } = useNotifications();
-  const [searchCriteria, setSearchCriteria] = useState<ProjectSearchFilters>({ statuses: [] });
+  const [searchCriteria, setSearchCriteria] = useState<ProjectSearchFilters>({ 
+    statuses: [], 
+    teamMemberFiltering: 'ANY' 
+  });
   
   const { data: projects, isFetching } = useQuery({
     queryKey: ['projects', searchCriteria],
-    queryFn: () => getProjects()
+    queryFn: () => getProjects({
+      projectName: searchCriteria.projectName,
+      status: searchCriteria.statuses.length ? searchCriteria.statuses[0] : undefined,
+      teamMembers: searchCriteria.teamMemberName,
+      teamMembersFiltering: searchCriteria.teamMemberFiltering,
+      budgetFrom: searchCriteria.budgetMin?.toString(),
+      budgetTo: searchCriteria.budgetMax?.toString()
+    }),
+    placeholderData: (prev) => prev
   });
 
   const deleteMutation = useMutation({
@@ -36,12 +50,16 @@ export function ProjectList() {
   return (
     <div className="px-2 py-2">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Projects</h1>
+        <FlexText>
+          <H1>Projects</H1>
+          {projects && <Text>({projects.length} results)</Text>}
+        </FlexText>
         <Button
+          icon={Plus}
           onClick={() => navigate('/projects/new')}
           className="flex items-center space-x-2"
         >
-          <Plus className="h-5 w-5" /><span>New Project</span>
+          New Project
         </Button>
       </div>
 

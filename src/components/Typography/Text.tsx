@@ -23,6 +23,6 @@ export const Text = ({ children, className = '', size = 'MEDIUM', variant = 'DEF
       className
     )}
   >
-    {children},
+    {children}
   </span>
 );

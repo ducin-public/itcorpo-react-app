@@ -10,8 +10,8 @@ export const BenefitSubscriptionSearchStatusDict: {
 
 export interface BenefitSearchFilters {
   serviceName: string;
-  selectedEmployees: string[];
-  selectedCategories: BenefitCategory[];
+  beneficiaryEmployee: string;
+  categories: BenefitCategory[];
   feeRange: { from?: number; to?: number };
   selectedStatus: BenefitSubscriptionSearchStatus;
 }

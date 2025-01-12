@@ -13,6 +13,9 @@ import { EmployeesSearchBar } from './EmployeesSearchBar';
 import type { EmployeeSearchFilters } from './EmployeeSearchFilters';
 import { EmployeeCard } from './EmployeeCard';
 import { Sidebar } from '../../components/Generic/Sidebar';
+import { H1 } from '../../components/Typography/Headings';
+import { FlexText } from '../../components/Typography/FlexText';
+import { Text } from '../../components/Typography/Text';
 
 export function EmployeesList() {
   const navigate = useNavigate();
@@ -23,12 +26,21 @@ export function EmployeesList() {
     departments: [],
     skills: '',
     minSalary: undefined,
-    maxSalary: undefined
+    maxSalary: undefined,
+    skillsFiltering: 'ANY',
   });
 
   const { data: employees, isFetching } = useQuery({
     queryKey: ['employees'],
-    queryFn: () => getEmployees()
+    queryFn: () => getEmployees({
+      employeeName: filters.searchTerm,
+      departmentId: filters.departments[0],
+      skills: filters.skills,
+      skillsFiltering: filters.skillsFiltering,
+      salaryFrom: filters.minSalary?.toString(),
+      salaryTo: filters.maxSalary?.toString()
+    }),
+    placeholderData: (prev) => prev
   });
 
   const deleteMutation = useMutation({
@@ -43,24 +55,6 @@ export function EmployeesList() {
     }
   });
 
-  const filteredEmployees = employees?.filter(employee => {
-    const matchesSearch = `${employee.firstName} ${employee.lastName} ${employee.email}`
-      .toLowerCase()
-      .includes(filters.searchTerm.toLowerCase());
-
-    const matchesDepartment = filters.departments.length === 0 || 
-      filters.departments.includes(employee.department);
-
-    const matchesSalary = (!filters.minSalary || employee.salary >= filters.minSalary) &&
-      (!filters.maxSalary || employee.salary <= filters.maxSalary);
-
-    const matchesSkills = !filters.skills || 
-      filters.skills.split(',').every(skill => 
-        employee.skills.includes(skill.trim())
-      );
-
-    return matchesSearch && matchesDepartment && matchesSalary && matchesSkills;
-  });
 
   const [sidebarCollapsed, setSidebarCollapsed] = useState(true)
 
@@ -71,12 +65,15 @@ export function EmployeesList() {
   return (
     <div className='px-2 py-2'>
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Employees</h1>
+        <FlexText>
+          <H1>Employees</H1>
+          {employees && <Text>({employees.length} results)</Text>}
+        </FlexText>
         <Button
+          icon={Plus}
           onClick={() => navigate('/employees/new')}
           className="flex items-center space-x-2"
         >
-          <Plus className="h-5 w-5" />
           Add Employee
         </Button>
       </div>
@@ -104,7 +101,7 @@ export function EmployeesList() {
         )}
 
         <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ${isFetching ? 'pointer-events-none' : ''}`}>
-          {filteredEmployees?.map((employee) => (
+          {employees?.map((employee) => (
             <EmployeeCard
               key={employee.id}
               employee={employee}

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { styles } from '../DesignLanguage';
+import { styleConstants, styles } from '../DesignLanguage';
 
 type PasswordInputProps = {
   value: string;
@@ -31,7 +31,7 @@ export const PasswordInput = ({
 
   return (
     <div>
-      <label className={`block text-sm font-medium ${styles.ACCENT.text} mb-1`}>
+      <label className={`${styleConstants.LABEL_TEXT_SIZE} block font-medium ${styles.ACCENT.text} mb-1`}>
         {label}
         <div className="relative mt-1">
           <input

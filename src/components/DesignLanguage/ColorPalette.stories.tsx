@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import { borderStyle, backgroundStyle, backgroundHoverStyle, textHoverStyle, textStyle } from './ColorVariants';
 import { VariantType } from './designEnums';
+import { cn } from '../cn';
 
 const isColorDark = (hex: string): boolean => {
   // Remove the hash if it exists
@@ -42,12 +43,14 @@ const ColorPalette = () => {
           {(Object.keys(textStyle) as VariantType[]).map((type) => (
             <div
               key={type}
-              className={`flex-1 p-4 ${borderStyle[type as VariantType].tailwindClass} border-2 
-                ${backgroundStyle[type as VariantType].tailwindClass} 
-                ${backgroundHoverStyle[type as VariantType].tailwindClass}`}
+              className={`flex-1 p-4 ${borderStyle[type].tailwindClass} border-2 
+                ${backgroundStyle[type].tailwindClass} 
+                ${backgroundHoverStyle[type].tailwindClass}`}
             >
-              <div className={`${textStyle[type as VariantType].tailwindClass} 
-                ${textHoverStyle[type as VariantType].tailwindClass}`}>
+              <div className={cn(
+                textStyle[type].tailwindClass,
+                textHoverStyle[type].tailwindClass
+              )}>
                 {type}
               </div>
             </div>

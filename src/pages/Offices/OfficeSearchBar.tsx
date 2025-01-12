@@ -1,5 +1,4 @@
 import { useQuery } from '@tanstack/react-query';
-import { Search } from 'lucide-react';
 
 import { MultiSelect } from '../../components/Forms/MultiSelect';
 import { TextInput } from '../../components/Forms/TextInput';
@@ -7,13 +6,16 @@ import type { OfficeAmenity, Geo } from '../../contract-types/data-contracts';
 import { getOfficeAmenities } from '../../api/OfficeApi.axios';
 import { getGeo } from '../../api/GeoApi.axios';
 import { ExpandableSearchBar } from '../../components/Generic/ExpandableSearchBar';
+import { FilteringChoice } from '../../components/Forms/FilteringChoice';
 
 export type OfficeSearchBarProps = {
   onSearchChange: (search: string) => void;
   onCountriesChange: (countries: string[]) => void;
   onAmenitiesChange: (amenities: string[]) => void;
+  onAmenitiesFilteringChange: (filtering: 'ANY' | 'ALL') => void;
   selectedCountries: string[];
   selectedAmenities: string[];
+  amenitiesFiltering: 'ANY' | 'ALL';
   searchPhrase: string;
 };
 
@@ -21,8 +23,10 @@ export const OfficeSearchBar = ({
   onSearchChange,
   onCountriesChange,
   onAmenitiesChange,
+  onAmenitiesFilteringChange,
   selectedCountries,
   selectedAmenities,
+  amenitiesFiltering,
   searchPhrase,
 }: OfficeSearchBarProps) => {
   const { data: geoData } = useQuery<Geo>({
@@ -37,33 +41,39 @@ export const OfficeSearchBar = ({
 
   return (
     <ExpandableSearchBar>
-      <div className="flex gap-4 mt-4">
+      <ExpandableSearchBar.BaseRow>
         <TextInput
-            label="Search phrase"
-            placeholder="Search offices..."
-            size={30}
-            value={searchPhrase}
-            onChange={onSearchChange}
+          label="Address"
+          placeholder="Search offices..."
+          size={30}
+          value={searchPhrase}
+          onChange={onSearchChange}
         />
         <MultiSelect
-            label="Countries"
-            options={geoData ? Object.entries(geoData).map(([code, name]) => ({
+          label="Countries"
+          options={geoData ? Object.entries(geoData).map(([code, name]) => ({
             label: name,
             value: code
-            })) : []}
-            value={selectedCountries}
-            onChange={onCountriesChange}
+          })) : []}
+          placeholder='Select countries...'
+          value={selectedCountries}
+          onChange={onCountriesChange}
         />
         <MultiSelect
-            label="Amenities"
-            options={amenities.map(amenity => ({
+          label="Amenities"
+          options={amenities.map(amenity => ({
             label: amenity.name,
             value: amenity.code
-            }))}
-            value={selectedAmenities}
-            onChange={onAmenitiesChange}
+          }))}
+          placeholder='Select amenities...'
+          value={selectedAmenities}
+          onChange={onAmenitiesChange}
         />
-      </div>
+        <FilteringChoice
+          value={amenitiesFiltering}
+          onChange={onAmenitiesFilteringChange}
+        />
+      </ExpandableSearchBar.BaseRow>
     </ExpandableSearchBar>
   );
 };

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { styles } from '../DesignLanguage';
+import { styleConstants, styles } from '../DesignLanguage';
 
 export type CardInputLayout = 'SEPARATE' | 'STACKED'
 
@@ -57,7 +57,7 @@ export const CardInput = ({
   };
 
   const inputClassName = `w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 ${styles.ACCENT.focusRing} focus:border-transparent`;
-  const labelClassName = `${styles.ACCENT.text} block text-sm font-medium mb-1`;
+  const labelClassName = `${styles.ACCENT.text} block ${styleConstants.LABEL_TEXT_SIZE} font-medium mb-1`;
 
   const getInputClassName = (position?: 'first' | 'middle' | 'last') => {
     if (layout === 'SEPARATE') {

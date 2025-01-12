@@ -1,5 +1,5 @@
 import type { TextareaHTMLAttributes } from 'react';
-import { styles } from '../DesignLanguage';
+import { styleConstants, styles } from '../DesignLanguage';
 
 interface TextAreaProps extends Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, 'onChange'> {
   label: string;
@@ -12,11 +12,11 @@ export const TextArea = ({ label, value, onChange, error, rows = 4, id, ...props
   const textareaId = id || `textarea-${label.replace(/\s+/g, '-').toLowerCase()}`;
   return (
     <div>
-      <label htmlFor={textareaId} className={`block text-sm font-medium ${styles.ACCENT.text} mb-1`}>
+      <label htmlFor={textareaId} className={`block ${styleConstants.LABEL_TEXT_SIZE} font-medium ${styles.ACCENT.text} mb-1`}>
         {label}
         <textarea
           id={textareaId}
-          className={`w-full px-4 py-2 border ${styles.ACCENT.border} rounded-lg focus:ring-2 ${styles.ACCENT.focusRing} focus:border-transparent outline-none transition mt-1`}
+          className={`${styles.ACCENT.focusRing} ${styles.ACCENT.border} w-full px-4 py-2 border rounded-lg focus:ring-2 focus:border-transparent outline-none transition mt-1`}
           value={value}
           onChange={(e) => onChange(e.target.value)}
           rows={rows}

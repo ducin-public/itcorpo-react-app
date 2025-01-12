@@ -1,5 +1,5 @@
 import { FC, useState, useEffect } from 'react';
-import { styles } from '../DesignLanguage';
+import { styleConstants, styles } from '../DesignLanguage';
 
 type RadioProps = {
   id: string;
@@ -42,7 +42,7 @@ export const Radio: FC<RadioProps> = ({
         onChange={handleChange}
         className={`${styles.ACCENT.accent} h-4 w-4 border-gray-300 ${styles.ACCENT.text} focus:ring-2 ${styles.ACCENT.focusRing} checked:${styles.ACCENT.background} ${styles.ACCENT.backgroundHover}`}
       />
-      <label htmlFor={id} className={`text-sm ${styles.ACCENT.text}`}>
+      <label htmlFor={id} className={`${styleConstants.LABEL_TEXT_SIZE} ${styles.ACCENT.text}`}>
         {label}
       </label>
     </div>

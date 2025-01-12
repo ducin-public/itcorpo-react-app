@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import type { ChangeEvent } from 'react';
 import type { CountryDialCodeFormat } from './dialCodes';
 import { countriesDialCodes } from './dialCodes';
-import { styles } from '../DesignLanguage';
+import { styleConstants, styles } from '../DesignLanguage';
 
 type PhoneInputProps = {
   value: string;
@@ -71,7 +71,7 @@ export const PhoneInput = ({
 
   return (
     <label className={`block space-y-1 ${className}`}>
-      <span className={`block text-sm font-medium ${styles.ACCENT.text}`}>
+      <span className={`${styleConstants.LABEL_TEXT_SIZE} block font-medium ${styles.ACCENT.text}`}>
         {label}
       </span>
       <div className="relative flex">

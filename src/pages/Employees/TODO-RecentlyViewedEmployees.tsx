@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { Button } from '../../components/Generic/Button';
 import { viewedEmployeesStore } from './ViewedEmployeesStore';
+import { Trash } from 'lucide-react';
 
 export const RecentlyViewedEmployees = observer(() => {
   const navigate = useNavigate();
@@ -12,7 +13,10 @@ export const RecentlyViewedEmployees = observer(() => {
     <div>
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold text-gray-900">Recently Viewed Employees</h1>
-        <Button onClick={() => viewedEmployeesStore.clearViewedEmployees()}>
+        <Button
+          icon={Trash}
+          onClick={() => viewedEmployeesStore.clearViewedEmployees()}
+        >
           Clear History
         </Button>
       </div>

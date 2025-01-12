@@ -9,6 +9,9 @@ import { getOffices } from '../../api/OfficeApi.axios';
 import { Button } from '../../components/Generic/Button';
 import { OfficeSearchBar } from './OfficeSearchBar';
 import { OfficeSearchFilters } from './OfficeSearchFilters';
+import { H1 } from '../../components/Typography/Headings';
+import { Text } from '../../components/Typography/Text';
+import { FlexText } from '../../components/Typography/FlexText';
 
 export const OfficeList = () => {
   const navigate = useNavigate();
@@ -16,18 +19,21 @@ export const OfficeList = () => {
   const [searchState, setSearchState] = useState<OfficeSearchFilters>({
     searchPhrase: '',
     selectedCountries: [],
-    selectedAmenities: []
+    selectedAmenities: [],
+    amenitiesFiltering: 'ANY'
   });
 
   const { searchPhrase, selectedCountries, selectedAmenities } = searchState;
 
-  const { data: offices = [], isLoading, isFetching } = useQuery({
+  const { data: offices, isFetching } = useQuery({
     queryKey: ['offices', searchState] as const,
     queryFn: () => getOffices({
       countries: searchState.selectedCountries.join(','),
       amenities: searchState.selectedAmenities.join(','),
+      amenitiesFiltering: searchState.amenitiesFiltering,
       phrase: searchState.searchPhrase
-    })
+    }),
+    placeholderData: (prev) => prev
   });
 
   const handleSearchUpdate = (updates: Partial<OfficeSearchFilters>) => {
@@ -37,12 +43,15 @@ export const OfficeList = () => {
   return (
     <div className="px-2 py-2 relative">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Offices</h1>
+        <FlexText>
+          <H1>Offices</H1>
+          {offices && <Text>({offices.length} results)</Text>}
+        </FlexText>
         <Button
+          icon={Plus}
           onClick={() => navigate('/offices/new')}
           className="flex items-center space-x-2"
         >
-          <Plus className="h-5 w-5" />
           <span>Add Office</span>
         </Button>
       </div>
@@ -55,6 +64,8 @@ export const OfficeList = () => {
           onCountriesChange={(selectedCountries) => handleSearchUpdate({ selectedCountries })}
           selectedAmenities={selectedAmenities}
           onAmenitiesChange={(selectedAmenities) => handleSearchUpdate({ selectedAmenities })}
+          amenitiesFiltering={searchState.amenitiesFiltering}
+          onAmenitiesFilteringChange={(amenitiesFiltering) => handleSearchUpdate({ amenitiesFiltering })}
         />
       </div>
 
@@ -63,8 +74,10 @@ export const OfficeList = () => {
           <Spinner size='LARGE' layout='OVERLAY' />
         )}
 
+        {offices?.length}
+
         <div className={`grid grid-cols-1 md:grid-cols-2 gap-6 ${isFetching ? 'pointer-events-none' : ''}`}>
-          {offices.map((office) => (
+          {offices?.map((office) => (
             <OfficeCard
               key={office.city}
               office={office}

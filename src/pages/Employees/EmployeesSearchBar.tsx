@@ -7,6 +7,7 @@ import { ExpandableSearchBar } from '../../components/Generic/ExpandableSearchBa
 import { getDepartments } from '../../api/DepartmentApi.axios';
 import type { EmployeeSearchFilters } from './EmployeeSearchFilters';
 import { TextInput } from '../../components/Forms/TextInput';
+import { FilteringChoice } from '../../components/Forms/FilteringChoice';
 
 interface EmployeesSearchBarProps {
   onFiltersChange: (filters: EmployeeSearchFilters) => void;
@@ -50,29 +51,17 @@ export function EmployeesSearchBar({ onFiltersChange, filters }: EmployeesSearch
         </ExpandableSearchBar.BaseRow>
       
       <ExpandableSearchBar.ExpandedContent>
-        <div className="space-y-4">
+        <div className="grid grid-cols-2 gap-4">
           <NumberRangeInput
             label="Salary Range"
-            value={{
-              from: filters.minSalary || 0,
-              to: filters.maxSalary || 0
-            }}
-            onChange={({ from, to }) => onFiltersChange({
-              ...filters,
-              minSalary: from || undefined,
-              maxSalary: to || undefined
-            })}
-            fromPlaceholder="Min salary..."
-            toPlaceholder="Max salary..."
-            prefix="$"
+            value={{ from: filters.minSalary || 0, to: filters.maxSalary || 0 }}
+            onChange={({ from, to }) => onFiltersChange({ ...filters, minSalary: from || undefined, maxSalary: to || undefined })}
+            fromPlaceholder="Min salary..." toPlaceholder="Max salary..." prefix="$"
           />
-
-          <TextInput
-            label="Skills (comma separated)"
-            value={filters.skills}
-            onChange={(value) => onFiltersChange({ ...filters, skills: value })}
-            placeholder="React, TypeScript, Node.js..."
-          />
+          <div className="flex gap-4">
+            <TextInput label="Skills (comma separated)" value={filters.skills} onChange={(value) => onFiltersChange({ ...filters, skills: value })} placeholder="React, TypeScript, Node.js..." />
+            <FilteringChoice label="Skills Filtering" value={filters.skillsFiltering} onChange={(value) => onFiltersChange({ ...filters, skillsFiltering: value })} />
+          </div>
         </div>
       </ExpandableSearchBar.ExpandedContent>
     </ExpandableSearchBar>

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 
-import { DesignSize, styles } from '../DesignLanguage';
+import { DesignSize, styleConstants, styles } from '../DesignLanguage';
 import { cn } from '../cn';
 
 interface DropdownProps {
@@ -22,9 +22,9 @@ const sizeClasses: Record<DesignSize, string> = {
   LARGE: 'h-12 text-lg'
 };
 
-const generateStyles = ({ disabled, error }: Pick<DropdownProps, 'disabled' | 'error'>) => {
+const generateStyles = ({ disabled, error, value }: Pick<DropdownProps, 'disabled' | 'error' | 'value'>) => {
   const pureDisabledStyles = 'opacity-50 cursor-not-allowed text-gray-500 bg-gray-100 border-gray-300'
-  const nonErrorStyles = `${styles.ACCENT.text} ${styles.ACCENT.border} ${styles.ACCENT.borderHover}`
+  const nonErrorStyles = `${Boolean(value) ? styles.ACCENT.text : 'text-gray-400'} ${styles.ACCENT.border} ${styles.ACCENT.borderHover}`
   const errorStyles = `${styles.ALERT.text} ${styles.ALERT.border} ${styles.ALERT.borderHover}`
   return cn(
     'bg-white',
@@ -53,19 +53,19 @@ export function Dropdown({
   };
 
   return (
-    <div className="relative">
-      <label htmlFor={selectId} className={`block text-sm font-medium ${error ? styles.ALERT.text : styles.ACCENT.text} mb-1`}>
+    <div className="w-full">
+      <label htmlFor={selectId} className={`block ${styleConstants.LABEL_TEXT_SIZE} font-medium ${error ? styles.ALERT.text : styles.ACCENT.text} mb-1`}>
         {label}
         <div className="relative mt-1">
           <select
             id={selectId}
-            value={localState}
             onChange={(e) => handleChange(e.target.value)}
             disabled={disabled}
             className={cn(
               'w-full rounded-lg border px-3 pr-10 appearance-none cursor-pointer',
               `focus:outline-none focus:ring-2 ${styles.ACCENT.focusRing} focus:border-transparent`,
-              generateStyles({ disabled, error }),
+              styleConstants.MIN_CONTROL_HEIGHT,
+              generateStyles({ disabled, error, value }),
               sizeClasses[size],
               className
             )}

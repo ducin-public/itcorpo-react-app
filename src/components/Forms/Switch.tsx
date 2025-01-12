@@ -1,5 +1,7 @@
 import { useState } from 'react';
+
 import { styles } from '../DesignLanguage';
+import { cn } from '../cn';
 
 type SwitchProps = {
   checked: boolean;
@@ -29,20 +31,20 @@ export const Switch = ({ checked, onChange, disabled = false, className = '', la
         aria-label={label}
         disabled={disabled}
         onClick={handleToggle}
-        className={`
-          relative inline-flex h-6 w-11 items-center rounded-full
-          transition-colors duration-300 ease-in-out
-          ${localChecked ? styles.ACCENT.backgroundDark : 'bg-gray-300'}
-          ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
-          ${className}
-        `}
+        className={cn(
+          'relative inline-flex h-6 w-11 items-center rounded-full',
+          'transition-colors duration-300 ease-in-out',
+          localChecked ? styles.ACCENT.backgroundDark : 'bg-gray-300',
+          disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer',
+          className
+        )}
       >
         <span
-          className={`
-            inline-block h-4 w-4 rounded-full bg-white
-            transform transition-transform duration-300 ease-in-out
-            ${localChecked ? 'translate-x-6' : 'translate-x-1'}
-          `}
+          className={cn(
+            'inline-block h-4 w-4 rounded-full bg-white',
+            'transform transition-transform duration-300 ease-in-out',
+            localChecked ? 'translate-x-6' : 'translate-x-1'
+          )}
         />
       </button>
       {label && (

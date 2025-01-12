@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { ChevronDown, X } from 'lucide-react';
-import { styles } from '../DesignLanguage';
+
+import { styleConstants, styles } from '../DesignLanguage';
 
 interface MultiSelectProps {
   options: Array<{ label: string; value: string }>;
@@ -19,6 +20,7 @@ export const MultiSelect = ({
   placeholder = 'Select...', 
   className = '' 
 }: MultiSelectProps) => {
+  const selectId = useRef(`multiselect-${Math.random().toString(36).substr(2, 9)}`);
   const [isOpen, setIsOpen] = useState(false);
   const [internalValue, setInternalValue] = useState(externalValue);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -51,17 +53,35 @@ export const MultiSelect = ({
 
   return (
     <div className="w-full" ref={containerRef}>
-      <label className={`block text-sm font-medium ${styles.ACCENT.text} mb-1`}>
+      <label 
+        htmlFor={selectId.current}
+        className={`${styleConstants.LABEL_TEXT_SIZE} ${styles.ACCENT.text} block font-medium mb-1`}
+      >
         {label}
       </label>
       <div className="relative">
         <div
+          id={selectId.current}
           onClick={() => setIsOpen(!isOpen)}
-          className={`cursor-pointer border rounded-md p-2 min-h-[40px] flex items-center flex-wrap gap-2 ${className}`}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              setIsOpen(!isOpen);
+            }
+            if (e.key === 'Escape') {
+              setIsOpen(false);
+            }
+          }}
+          tabIndex={0}
+          role="combobox"
+          aria-expanded={isOpen}
+          aria-haspopup="listbox"
+          aria-labelledby={selectId.current}
+          className={`${styles.ACCENT.focusRing} ${styles.ACCENT.border} ${styleConstants.MIN_CONTROL_HEIGHT} cursor-pointer border rounded-md p-1 flex items-center flex-wrap gap-2 focus:outline-none focus:ring-2 focus:ring-offset-2 ${className}`}
         >
           {selectedLabels.length > 0 ? (
             selectedLabels.map(label => (
-              <span key={label} className={`text-sm ${styles.ACCENT.background} px-2 rounded-md flex items-center gap-1`}>
+              <span key={label} className={`text-sm ${styles.ACCENT.background} ${styles.ACCENT.border} border py-1 px-2 rounded-md flex items-center gap-1`}>
                 {label}
                 <X
                   size={14}
@@ -77,7 +97,7 @@ export const MultiSelect = ({
               </span>
             ))
           ) : (
-            <span className="text-gray-400">{placeholder}</span>
+            <span className="px-2 text-gray-400">{placeholder}</span>
           )}
           <ChevronDown size={20} className="ml-auto" />
         </div>

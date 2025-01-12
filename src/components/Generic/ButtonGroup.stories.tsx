@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
+import { ArrowLeft, ArrowRight, RotateCw, CircleOff } from 'lucide-react';
+
 import { ButtonGroup } from './ButtonGroup';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
 
 const meta = {
   title: 'UI/Atoms/ButtonGroup',
@@ -26,10 +27,10 @@ export const ActionButtons: Story = {
   render: () => (
     <ButtonGroup 
       items={[
-        { id: '1', label: 'Proceed', onClick: action('first-option-clicked') },
-        { id: '2', label: 'Go back', onClick: action('second-option-clicked'), disabled: true },
-        { id: '3', label: 'Restart', onClick: action('second-option-clicked'), fill: 'OUTLINED' },
-        { id: '4', label: 'Cancel', onClick: action('third-option-clicked'), variant: 'ALERT' }
+        { id: '1', label: 'Proceed', icon: ArrowRight, onClick: action('first-option-clicked') },
+        { id: '2', label: 'Go back', icon: ArrowLeft, onClick: action('second-option-clicked'), disabled: true },
+        { id: '3', label: 'Restart', icon: RotateCw, onClick: action('second-option-clicked'), fill: 'OUTLINED' },
+        { id: '4', label: 'Cancel', icon: CircleOff, onClick: action('third-option-clicked'), variant: 'ALERT' }
       ]}
     />
   )

@@ -37,7 +37,7 @@ interface BaseRowProps {
 
 function BaseRow({ children, className = '' }: BaseRowProps) {
   return (
-    <div className={`grid grid-cols-[1fr_1fr_1fr_auto] gap-4 ${className}`}>
+    <div className={`flex gap-4 mt-4 ${className}`}>
       {children}
     </div>
   );
@@ -50,7 +50,7 @@ function ToggleButton() {
   return (
     <button
       onClick={context.toggleMode}
-      className={`mt-6 p-2 rounded-full transition-transform ${
+      className={`w-12 h-12 mt-5 p-2 rounded-full transition-transform ${
         context.mode === 'EXPANDED' ? 'rotate-90' : ''
       } ${styles.ACCENT.textHover}`}
     >

@@ -40,6 +40,10 @@ If icons are needed, use `lucide-react`, it's already there.
 
 Use existing typography, when possible: `./src/components/Typography/*`. If an important element of typography is missing, suggest adding it!
 
+## form controls
+
+Form controls (TextInput, Autocompleter, Dropdown, MultiSelect etc.) should have total height of 40px. Adjust internal styling and/or use `styleConstants.MIN_CONTROL_HEIGHT` to meet this requirement.
+
 ## storybook
 
 Each non-global component (i.e. displaying entity list, entity details, a styled atom such as buttons, checkboxes, card etc) should have storybook stories defined:

@@ -4,6 +4,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { createBenefit } from '../../api/BenefitApi.axios';
 import { Benefit } from '../../contract-types/data-contracts';
+import { styleConstants, styles } from '../../components/DesignLanguage';
 
 interface AddBenefitForm {
   type: Benefit['service'];
@@ -41,7 +42,7 @@ export function AddBenefitModal({
         <form onSubmit={handleSubmit((data) => mutation.mutate(data))}>
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700">Type</label>
+              <label className={`${styleConstants.LABEL_TEXT_SIZE} block font-medium text-gray-700`}>Type</label>
               <select
                 {...register('type', { required: true })}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
@@ -54,7 +55,7 @@ export function AddBenefitModal({
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700">Provider</label>
+              <label className={`${styleConstants.LABEL_TEXT_SIZE} block font-medium text-gray-700`}>Provider</label>
               <input
                 type="text"
                 {...register('provider', { required: true })}

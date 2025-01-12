@@ -10,27 +10,31 @@ import { Button } from '../../components/Generic/Button';
 import { getBenefitSubscriptions, cancelBenefit, renewBenefit } from '../../api/BenefitApi.axios';
 import { BenefitSearchBar } from './BenefitSearchBar';
 import { BenefitSearchFilters } from './BenefitSearchFilters';
+import { H1 } from '../../components/Typography/Headings';
+import { FlexText } from '../../components/Typography/FlexText';
+import { Text } from '../../components/Typography/Text';
 
 export function BenefitList() {
   const [isAddModalOpen, setIsAddModalOpen] = React.useState(false);
   const [searchState, setSearchState] = useState<BenefitSearchFilters>({
     serviceName: '',
-    selectedCategories: [],
-    selectedEmployees: [],
+    categories: [],
+    beneficiaryEmployee: '',
     feeRange: {},
     selectedStatus: 'ACTIVE'
   });
   const { addNotification } = useNotifications();
   
-  const { data: benefits, isLoading, isFetching } = useQuery({
+  const { data: benefits, isFetching } = useQuery({
     queryKey: ['benefits', searchState],
     queryFn: () => getBenefitSubscriptions(({
       serviceName: searchState.serviceName || undefined,
-      employeeId: searchState.selectedEmployees.join(',') || undefined,
+      employeeId: searchState.beneficiaryEmployee,
       feeFrom: searchState.feeRange.from?.toString(),
       feeTo: searchState.feeRange.to?.toString(),
       status: searchState.selectedStatus ?? 'ALL'
-    }))
+    })),
+    placeholderData: (prev) => prev
   });
 
 
@@ -55,12 +59,15 @@ export function BenefitList() {
   return (
     <div className='px-2 py-2'>
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Benefit Subscriptions</h1>
+        <FlexText>
+          <H1>Benefit Subscriptions</H1>
+          {benefits && <Text>({benefits.length} results)</Text>}
+        </FlexText>
         <Button
+        icon={Plus}
           onClick={() => setIsAddModalOpen(true)}
           className="flex items-center space-x-2"
         >
-          <Plus className="h-5 w-5" />
           Add Benefit
         </Button>
       </div>
@@ -73,7 +80,9 @@ export function BenefitList() {
       </div>
 
       <div className="relative min-h-[200px]">
-        {(isLoading || isFetching) && <Spinner size='LARGE' layout='OVERLAY' />}
+        {isFetching && 
+          <Spinner size='LARGE' layout='OVERLAY' />
+        }
         
         <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ${isFetching ? 'pointer-events-none opacity-50' : ''}`}>
           {benefits?.map((benefit) => (

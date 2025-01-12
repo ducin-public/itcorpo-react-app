@@ -1,8 +1,10 @@
-import { Edit, Trash2 } from 'lucide-react';
+import { Edit, Search, Trash2 } from 'lucide-react';
 import type { Employee } from '../../contract-types/data-contracts';
 import { Button } from '../../components/Generic/Button';
 import { employeeImageURL } from './employeeImageURL';
 import { EmployeeSkills } from './EmployeeSkills';
+import { H3 } from '../../components/Typography/Headings';
+import { Text } from '../../components/Typography/Text';
 
 interface EmployeeCardProps {
   employee: Employee;
@@ -27,10 +29,10 @@ export function EmployeeCard({
             className="h-12 w-12 rounded-full object-cover"
           />
           <div>
-            <h3 className="text-lg font-semibold text-gray-900">
+            <H3 className='mb-1'>
               {employee.firstName} {employee.lastName}
-            </h3>
-            <p className="text-sm text-gray-600">{employee.title}</p>
+            </H3>
+            <Text>{employee.title}</Text>
           </div>
         </div>
         <div className="flex space-x-2">
@@ -59,6 +61,9 @@ export function EmployeeCard({
       </div>
 
       <Button
+        icon={Search}
+        size='SMALL'
+        fill='OUTLINED'
         onClick={onView}
         className="mt-4"
       >
