@@ -1,7 +1,7 @@
 import { type ButtonHTMLAttributes } from 'react';
 import type { LucideIcon } from 'lucide-react';
-
 import { DesignSize, styles } from '../DesignLanguage';
+import { cn } from '../cn';
 
 const sizeClasses: { [key in DesignSize]: string } = {
   SMALL: 'h-8 w-8',
@@ -33,20 +33,21 @@ export const IconButton = ({
   return (
     <button
       {...props}
-      className={`
-        inline-flex items-center justify-center
-        rounded-full
-        ${sizeClasses[size]}
-        ${styles[variant].background}
-        ${styles[variant].text}
-        shadow-[0_2px_10px] shadow-black/20
-        transition-all duration-200
-        hover:shadow-[0_4px_12px] hover:shadow-black/40 hover:scale-105
-        focus:outline-none focus:ring-2 focus:ring-offset-2 ${styles[variant].focusRing}
-        active:scale-95
-        disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:shadow-[0_2px_10px]
-        ${className}
-      `}
+      className={cn(
+        'inline-flex items-center justify-center',
+        'rounded-full',
+        sizeClasses[size],
+        styles[variant].background,
+        styles[variant].text,
+        'shadow-[0_2px_10px] shadow-black/20',
+        'transition-all duration-200',
+        'hover:shadow-[0_4px_12px] hover:shadow-black/40 hover:scale-105',
+        'focus:outline-none focus:ring-2 focus:ring-offset-2',
+        styles[variant].focusRing,
+        'active:scale-95',
+        'disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:shadow-[0_2px_10px]',
+        className
+      )}
       aria-label={label}
     >
       <Icon className={iconSizeClasses[size]} />
