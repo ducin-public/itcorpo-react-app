@@ -2,7 +2,6 @@
 - [ ] iconbutton typing issues (styles.constants) src/components/Generic/IconButton.tsx
 emp search
 - [ ] dept - single
-- [ ] w ogóle nie są uywane filtry
 projects
 - [ ] status vs statuses
 

@@ -30,7 +30,7 @@ const categoryOptions = Object.entries(categoryLabels).map(([value, label]) => (
 
 export function BenefitSearchBar({ searchState, onCriteriaUpdate }: BenefitSearchBarProps) {
   const { data: employees = [] } = useQuery({
-    queryKey: ['employees'],
+    queryKey: ['employees'], // FIXME
     queryFn: () => getEmployees()
   });
 

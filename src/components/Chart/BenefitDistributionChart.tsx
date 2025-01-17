@@ -48,6 +48,7 @@ const renderActiveShape = (props: any) => {
         innerRadius={innerRadius}
         outerRadius={outerRadius}
         fill={fill}
+        onClick={console.log}
       />
       <Sector
         cx={cx}
@@ -57,6 +58,7 @@ const renderActiveShape = (props: any) => {
         innerRadius={outerRadius + 6}
         outerRadius={outerRadius + 10}
         fill={fill}
+        onClick={console.log}
       />
       <path d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`} stroke={fill} fill="none" />
       <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none" />

@@ -31,7 +31,7 @@ export function EmployeesList() {
   });
 
   const { data: employees, isFetching } = useQuery({
-    queryKey: ['employees'],
+    queryKey: ['employees', filters],
     queryFn: () => getEmployees({
       employeeName: filters.searchTerm,
       departmentId: filters.departments[0],

@@ -12,7 +12,6 @@ import { employeeImageURL } from './employeeImageURL';
 
 export const EmployeeDetails = observer(() => {
   const { id } = useParams();
-  const navigate = useNavigate();
 
   const { data: employee, isLoading } = useQuery({
     queryKey: ['employee', id],

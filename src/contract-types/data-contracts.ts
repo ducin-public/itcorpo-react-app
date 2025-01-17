@@ -32,6 +32,8 @@ export interface ErrorResponse {
   code?: string;
   /** Text description of the error that has occurred */
   message: string;
+  /** unique identifier of the error */
+  errorGUID?: string;
 }
 
 export interface HealthStatus {
@@ -175,7 +177,16 @@ export interface DepartmentInput {
  * Nationality of employee as an ISO 3166-1 alpha-2 country code
  * @example "US"
  */
-export type Nationality = "US" | "UK" | "FR" | "DE" | "NL" | "PL" | "IT" | "ES";
+export type Nationality =
+  | "US"
+  | "UK"
+  | "FR"
+  | "DE"
+  | "NL"
+  | "PL"
+  | "IT"
+  | "ES"
+  | "IN";
 
 /**
  * Type of employment contract
@@ -236,10 +247,17 @@ export interface Employee {
   imgURL?: string;
 }
 
+/** @example {"id":1234,"name":"Hans Schmidt"} */
+export interface EmployeeSearchFeed {
+  /** @example 91720 */
+  id: number;
+  name: string;
+}
+
 export interface EmployeeInput {
   /** Nationality of employee as an ISO 3166-1 alpha-2 country code */
   nationality: Nationality;
-  department: string;
+  departmentId: number;
   keycardId: string;
   account: string;
   /** Monetary value in EUR */
@@ -358,6 +376,16 @@ export interface OfficeInput {
  */
 export type ProjectStatus = "PLANNING" | "ACTIVE" | "COMPLETED" | "ON_HOLD";
 
+/**
+ * Level of employee engagement in the project
+ * @example "FULL_TIME"
+ */
+export type EngagementLevel =
+  | "FULL_TIME"
+  | "PARTIAL_PLUS"
+  | "HALF_TIME"
+  | "ON_DEMAND";
+
 /** @example {"id":"579ef28f-c539-41ff-abe2-e4f6b1c1afed","name":"Licensed Cotton Pants","status":"on-hold","budget":490000,"startDate":"2013-04-16","endDate":"2019-04-27","team":[{"id":4247456,"name":"Anna Bahringer"}],"manager":67429059,"description":"Deleniti rerum impedit.\nCum sed eaque quo accusantium."} */
 export interface Project {
   id: string;
@@ -369,7 +397,7 @@ export interface Project {
   /** @format date */
   startDate: string;
   /** @format date */
-  endDate: string;
+  endDate?: string;
   team: {
     id: number;
     name: string;
@@ -394,4 +422,18 @@ export interface ProjectInput {
   }[];
   manager: number;
   description: string;
+}
+
+/** Employee's involvement in a project */
+export interface ProjectEmployeeInvolvement {
+  employeeId: number;
+  projectId: string;
+  employeeName: string;
+  projectName: string;
+  /** Status of the ongoing project's workflow */
+  projectStatus: ProjectStatus;
+  /** Level of employee engagement in the project */
+  engagementLevel: EngagementLevel;
+  /** @format date */
+  since: string;
 }

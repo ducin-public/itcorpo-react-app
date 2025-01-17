@@ -59,8 +59,17 @@ export function EmployeesSearchBar({ onFiltersChange, filters }: EmployeesSearch
             fromPlaceholder="Min salary..." toPlaceholder="Max salary..." prefix="$"
           />
           <div className="flex gap-4">
-            <TextInput label="Skills (comma separated)" value={filters.skills} onChange={(value) => onFiltersChange({ ...filters, skills: value })} placeholder="React, TypeScript, Node.js..." />
-            <FilteringChoice label="Skills Filtering" value={filters.skillsFiltering} onChange={(value) => onFiltersChange({ ...filters, skillsFiltering: value })} />
+            <TextInput
+              label="Skills (comma separated)"
+              value={filters.skills}
+              onChange={(value) => onFiltersChange({ ...filters, skills: value })}
+              placeholder="React, TypeScript, Node.js..."
+            />
+            <FilteringChoice
+              label="Skills Filtering"
+              value={filters.skillsFiltering}
+              onChange={(value) => onFiltersChange({ ...filters, skillsFiltering: value })}
+            />
           </div>
         </div>
       </ExpandableSearchBar.ExpandedContent>
