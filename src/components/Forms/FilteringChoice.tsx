@@ -1,4 +1,6 @@
 import { useRef } from 'react';
+import { v4 as uuid } from 'uuid';
+
 import { ButtonChoice } from './ButtonChoice';
 import { styleConstants, styles } from '../DesignLanguage';
 
@@ -15,7 +17,7 @@ export const FilteringChoice = ({
     onChange,
     label = 'Filtering'
 }: FilteringChoiceProps) => {
-    const id = useRef(`filtering-${Math.random().toString(36).substr(2, 9)}`);
+    const id = useRef(`filtering-${uuid()}`);
     
     return (
         <div>

@@ -9,13 +9,6 @@ const projectTypes = {
   'ML': 'Machine Learning Solution',
 };
 
-const programmingLanguages = {
-  'TS': 'TypeScript',
-  'JAVA': 'Java Enterprise',
-  'PYTHON': 'Python',
-  'GO': 'Golang',
-};
-
 const meta = {
   title: 'UI/Forms/Dropdown',
   component: Dropdown,
@@ -25,8 +18,8 @@ const meta = {
   tags: ['autodocs'],
   args: {
     label: 'Project Type',
-    items: projectTypes,
-    onChanged: action('changed'),
+    options: projectTypes,
+    onChange: action('changed'),
   }
 } satisfies Meta<typeof Dropdown>;
 
@@ -45,9 +38,9 @@ export const WithPlaceholder: Story = {
 export const Sizes: Story = {
   render: () => (
     <div className="space-y-4 w-64">
-      <Dropdown label="Quick Project Select" items={projectTypes} size="SMALL" onChanged={action('changed')} />
-      <Dropdown label="Standard Project Select" items={projectTypes} size="MEDIUM" onChanged={action('changed')} />
-      <Dropdown label="Large Project Select" items={projectTypes} size="LARGE" onChanged={action('changed')} />
+      <Dropdown label="Quick Project Select" options={projectTypes} size="SMALL" onChange={action('changed')} />
+      <Dropdown label="Standard Project Select" options={projectTypes} size="MEDIUM" onChange={action('changed')} />
+      <Dropdown label="Large Project Select" options={projectTypes} size="LARGE" onChange={action('changed')} />
     </div>
   ),
 };

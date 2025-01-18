@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
+import { v4 as uuid } from 'uuid';
 
 interface Toast {
   id: string;
@@ -31,8 +32,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
       window.clearTimeout(timeoutId);
     }
 
-    const id = Math.random().toString(36).substring(7);
-    setToast({ id, message, type });
+    setToast({ id: uuid(), message, type });
 
     const newTimeoutId = window.setTimeout(() => {
       hideToast();

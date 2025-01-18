@@ -20,10 +20,10 @@ export function EmployeesSearchBar({ onFiltersChange, filters }: EmployeesSearch
     queryFn: getDepartments,
   });
 
-  const departmentOptions = departments.map(dept => ({
-    label: dept.name,
-    value: dept.id.toString()
-  }));
+  const departmentOptions = departments.reduce((acc, department) => {
+    acc[department.id] = department.name;
+    return acc;
+  }, {} as Record<string, string>);
 
   return (
     <ExpandableSearchBar>

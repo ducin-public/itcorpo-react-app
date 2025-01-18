@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { v4 as uuid } from 'uuid';
 
 import { DesignSize, styles } from '../DesignLanguage';
 import { cn } from '../cn';
@@ -29,7 +30,7 @@ export const ButtonChoice = <T extends string>({
     size = 'MEDIUM',
     className = '',
     options,
-    id = Math.random().toString(36).substr(2, 9)
+    id = uuid()
 }: ButtonChoiceProps<T>) => {
     const [localValue, setLocalValue] = useState(value ?? options[0].value);
     const [focusIndex, setFocusIndex] = useState<number>(-1);

@@ -14,14 +14,14 @@ const mockEngineers = [
   { id: '4', label: 'James Miller', specialization: 'Solution Architect' },
 ];
 
-const mockTechnologies = [
-  { label: 'React Development', value: 'react' },
-  { label: 'Cloud Architecture', value: 'cloud' },
-  { label: 'API Integration', value: 'api' },
-  { label: 'DevOps Pipeline', value: 'devops' },
-  { label: 'Database Design', value: 'database' },
-  { label: 'Security Implementation', value: 'security' },
-];
+const mockTechnologies = {
+  react: 'React Development',
+  cloud: 'Cloud Architecture',
+  api: 'API Integration',
+  devops: 'DevOps Pipeline',
+  database: 'Database Design',
+  security: 'Security Implementation',
+} as const;
 
 const meta = {
   title: 'UI/Organisms/ExpandableSearchBar',

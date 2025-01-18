@@ -6,8 +6,8 @@ import { cn } from '../cn';
 
 interface DropdownProps {
   label: string;
-  items: Record<string, string>;
-  onChanged: (key: string) => void;
+  options: Record<string, string>;
+  onChange: (key: string) => void;
   placeholder?: string;
   disabled?: boolean;
   error?: string;
@@ -35,8 +35,8 @@ const generateStyles = ({ disabled, error, value }: Pick<DropdownProps, 'disable
 
 export function Dropdown({
   label,
-  items,
-  onChanged,
+  options,
+  onChange,
   placeholder = 'Select...',
   disabled = false,
   error,
@@ -49,7 +49,7 @@ export function Dropdown({
 
   const handleChange = (key: string) => {
     setLocalState(key);
-    onChanged(key);
+    onChange(key);
   };
 
   return (
@@ -71,7 +71,7 @@ export function Dropdown({
             )}
           >
             <option value="">{placeholder}</option>
-            {Object.entries(items).map(([key, value]) => (
+            {Object.entries(options).map(([key, value]) => (
               <option key={key} value={key}>
                 {value}
               </option>

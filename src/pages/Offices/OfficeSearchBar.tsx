@@ -39,6 +39,11 @@ export const OfficeSearchBar = ({
     queryFn: getOfficeAmenities
   });
 
+  const amenityOptions = amenities.reduce((acc, amenity) => {
+    acc[amenity.code] = amenity.name;
+    return acc;
+  }, {} as Record<string, string>);
+
   return (
     <ExpandableSearchBar>
       <ExpandableSearchBar.BaseRow>
@@ -51,20 +56,14 @@ export const OfficeSearchBar = ({
         />
         <MultiSelect
           label="Countries"
-          options={geoData ? Object.entries(geoData).map(([code, name]) => ({
-            label: name,
-            value: code
-          })) : []}
+          options={geoData ? geoData : {}} // FIXME
           placeholder='Select countries...'
           value={selectedCountries}
           onChange={onCountriesChange}
         />
         <MultiSelect
           label="Amenities"
-          options={amenities.map(amenity => ({
-            label: amenity.name,
-            value: amenity.code
-          }))}
+          options={amenityOptions}
           placeholder='Select amenities...'
           value={selectedAmenities}
           onChange={onAmenitiesChange}

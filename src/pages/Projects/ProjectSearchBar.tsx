@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { MultiSelect } from '../../components/Forms/MultiSelect';
 import { TextInput } from '../../components/Forms/TextInput';
-import { projectStatusOptions } from './ProjectStatus';
+import { projectStatusDict } from './ProjectStatus';
 import { type ProjectSearchFilters } from './ProjectSearchFilters';
 import { ProjectStatus } from '../../contract-types/data-contracts';
 import { ExpandableSearchBar } from '../../components/Generic/ExpandableSearchBar';
@@ -39,7 +39,7 @@ export function ProjectSearchBar({ onCriteriaUpdate }: ProjectSearchBarProps) {
           <div className="flex-1">
             <MultiSelect
               label="Status"
-              options={projectStatusOptions}
+              options={projectStatusDict}
               value={criteria.statuses}
               onChange={(value) => updateCriteria({ statuses: value as ProjectStatus[] })}
               placeholder="Select statuses..."

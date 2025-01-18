@@ -1,20 +1,15 @@
-- [ ] text input vs multi select font size
-- [ ] iconbutton typing issues (styles.constants) src/components/Generic/IconButton.tsx
+
 emp search
 - [ ] dept - single
 projects
 - [ ] status vs statuses
+-------------
+- [ ] text input vs multi select font size
+- [ ] iconbutton typing issues (styles.constants) src/components/Generic/IconButton.tsx
+- [ ] inputy - icon clear
+- [ ] form label nietypowo - switch, autocomplete, radio/grop, checkbox/group
 
-inputy - icon clear
-form label nietypowo - switch, autocomplete, radio/grop, checkbox/group
-przypadkowe `Math.random().toString(36).substr(2, 9)`
-onChanged, onChange, handleChange
-
-ten plik do oczyszczenia: src/pages/Benefits/BenefitSearchCriteria.ts
-  - są tam jakieś niepotrzbene duplikaty
-
-multiSelect przyjmuje jedną strukturę (słownik), a Dropdown drugą - ujednolicić
-
+-------------
 
 please add the FilteringChoice component (from src/components/Forms/FilteringChoice.tsx) to ProjectSearchBar (in src/pages/Projects/ProjectSearchBar.tsx) - it shhould be placed right after TextInput/Team Member.
 

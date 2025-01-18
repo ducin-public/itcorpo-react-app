@@ -44,6 +44,13 @@ Use existing typography, when possible: `./src/components/Typography/*`. If an i
 
 Form controls (TextInput, Autocompleter, Dropdown, MultiSelect etc.) should have total height of 40px. Adjust internal styling and/or use `styleConstants.MIN_CONTROL_HEIGHT` to meet this requirement.
 
+### form control props
+
+- events: follow the `on<Event>` name for props: `onChange`, `onUpdate` etc.
+- internal event handlers: if the callback received via props (e.g. `onChange`) has to be wrapped internally, follow the `handle<Event>` name for the internal implementation: `handleChange`, `handleUpdate` etc.
+- if a form control accepts multiple choices (e.g. Dropdown, MultiSelect, etc.) follow the `options` name for the prop that defines the available choices. I.e. **not** `values`, not `items` etc.
+- avoid `value` or `values` for prop names, as they are too ambiguous - suggest more precise names instead
+
 ## storybook
 
 Each non-global component (i.e. displaying entity list, entity details, a styled atom such as buttons, checkboxes, card etc) should have storybook stories defined:

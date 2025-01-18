@@ -16,17 +16,12 @@ interface BenefitSearchBarProps {
   onCriteriaUpdate: (criteria: BenefitSearchFilters) => void;
 }
 
-const categoryLabels: Record<BenefitCategory, string> = {
+const categories: Record<BenefitCategory, string> = {
   'HEALTHCARE': 'Healthcare & Medical',
   'SPORT_WELLNESS': 'Sport & Wellness',
   'LUNCH_FOOD': 'Lunch & Food',
   'CULTURE_RECREATION': 'Culture & Recreation',
 };
-
-const categoryOptions = Object.entries(categoryLabels).map(([value, label]) => ({
-  value,
-  label,
-}));
 
 export function BenefitSearchBar({ searchState, onCriteriaUpdate }: BenefitSearchBarProps) {
   const { data: employees = [] } = useQuery({
@@ -59,7 +54,7 @@ export function BenefitSearchBar({ searchState, onCriteriaUpdate }: BenefitSearc
           <MultiSelect
             label="Categories"
             placeholder="Select categories..."
-            options={categoryOptions}
+            options={categories}
             value={searchState.categories || []}
             onChange={(selectedCategories) => handleChange({ 
               categories: selectedCategories as BenefitCategory[] 
@@ -68,9 +63,9 @@ export function BenefitSearchBar({ searchState, onCriteriaUpdate }: BenefitSearc
           <Dropdown
             label="Beneficiary Employee"
             placeholder="Select employees..."
-            items={employeeOptions}
+            options={employeeOptions}
             value={searchState.beneficiaryEmployee}
-            onChanged={(beneficiaryEmployee) => handleChange({ beneficiaryEmployee })}
+            onChange={(beneficiaryEmployee) => handleChange({ beneficiaryEmployee })}
           />
           <ExpandableSearchBar.ToggleButton />
         </ExpandableSearchBar.BaseRow>
@@ -88,9 +83,9 @@ export function BenefitSearchBar({ searchState, onCriteriaUpdate }: BenefitSearc
                 <Dropdown
                     label="Status"
                     placeholder="Select status..."
-                    items={BenefitSubscriptionSearchStatusDict}
+                    options={BenefitSubscriptionSearchStatusDict}
                     value={searchState.selectedStatus || ''}
-                    onChanged={(value) => handleChange({ 
+                    onChange={(value) => handleChange({ 
                         selectedStatus: value as (keyof typeof BenefitSubscriptionSearchStatusDict)
                     })}
                 />

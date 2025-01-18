@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
+import { v4 as uuid } from 'uuid';
 
 type NotificationType = 'error' | 'warning' | 'info' | 'notice';
 
@@ -20,8 +21,7 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
   const [notifications, setNotifications] = useState<Notification[]>([]);
 
   const addNotification = useCallback((type: NotificationType, message: string) => {
-    const id = Math.random().toString(36).substring(7);
-    setNotifications((prev) => [...prev, { id, type, message }]);
+    setNotifications((prev) => [...prev, { id: uuid(), type, message }]);
   }, []);
 
   const removeNotification = useCallback((id: string) => {

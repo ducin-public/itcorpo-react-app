@@ -1,10 +1,11 @@
 import { useEffect, useState, useRef } from 'react';
 import { ChevronDown, X } from 'lucide-react';
+import { v4 as uuid } from 'uuid';
 
 import { styleConstants, styles } from '../DesignLanguage';
 
 interface MultiSelectProps {
-  options: Array<{ label: string; value: string }>;
+  options: Record<string, string>;
   value: string[];
   onChange: (value: string[]) => void;
   label: string;
@@ -20,7 +21,7 @@ export const MultiSelect = ({
   placeholder = 'Select...', 
   className = '' 
 }: MultiSelectProps) => {
-  const selectId = useRef(`multiselect-${Math.random().toString(36).substr(2, 9)}`);
+  const selectId = useRef(`multiselect-${uuid()}`);
   const [isOpen, setIsOpen] = useState(false);
   const [internalValue, setInternalValue] = useState(externalValue);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -42,9 +43,9 @@ export const MultiSelect = ({
     };
   }, []);
 
-  const selectedLabels = options
-    .filter(option => internalValue.includes(option.value))
-    .map(option => option.label);
+  const selectedLabels = Object.entries(options)
+    .filter(([value, _label]) => internalValue.includes(value))
+    .map(([_, label]) => label);
 
   const handleValueChange = (newValue: string[]) => {
     setInternalValue(newValue);
@@ -89,7 +90,7 @@ export const MultiSelect = ({
                   onClick={(e) => {
                     e.stopPropagation();
                     const newValue = internalValue.filter(v => 
-                      options.find(opt => opt.value === v)?.label !== label
+                      options[v] !== label
                     );
                     handleValueChange(newValue);
                   }}
@@ -104,21 +105,21 @@ export const MultiSelect = ({
 
         {isOpen && (
           <div className="absolute z-[100] w-full mt-1 bg-white border rounded-md shadow-lg max-h-60 overflow-auto">
-            {options.map(option => (
+            {Object.entries(options).map(([value, label]) => (
               <div
-                key={option.value}
+                key={value}
                 className={`p-2 cursor-pointer ${styles.ACCENT.backgroundHover} ${
-                  internalValue.includes(option.value) ? styles.ACCENT.background : ''
+                  internalValue.includes(value) ? styles.ACCENT.background : ''
                 }`}
                 onClick={() => {
-                  const newValue = internalValue.includes(option.value)
-                    ? internalValue.filter(v => v !== option.value)
-                    : [...internalValue, option.value];
+                  const newValue = internalValue.includes(value)
+                    ? internalValue.filter(v => v !== value)
+                    : [...internalValue, value];
                   handleValueChange(newValue);
                   setIsOpen(false);
                 }}
               >
-                {option.label}
+                {label}
               </div>
             ))}
           </div>

@@ -21,10 +21,10 @@ type CheckboxGroupProps = {
   layout?: Layout;
 };
 
-const PanelCheckbox = ({ options, localValues, handleChange, name }: { 
+const PanelCheckbox = ({ options, localValues, onChange, name }: { 
   options: Option[], 
   localValues: string[], 
-  handleChange: (value: string, checked: boolean) => void,
+  onChange: (value: string, checked: boolean) => void,
   name: string 
 }) => (
   <div className="bg-white rounded-md -space-y-px" role="group">
@@ -45,7 +45,7 @@ const PanelCheckbox = ({ options, localValues, handleChange, name }: {
           <Checkbox
             id={`${name}-${option.value}`}
             checked={localValues.includes(option.value)}
-            onChange={(checked) => handleChange(option.value, checked)}
+            onChange={(checked) => onChange(option.value, checked)}
             label=""
             className="h-4 w-4"
           />
@@ -69,10 +69,10 @@ const PanelCheckbox = ({ options, localValues, handleChange, name }: {
   </div>
 );
 
-const TableCheckbox = ({ options, localValues, handleChange, name }: {
+const TableCheckbox = ({ options, localValues, onChange, name }: {
   options: Option[],
   localValues: string[],
-  handleChange: (value: string, checked: boolean) => void,
+  onChange: (value: string, checked: boolean) => void,
   name: string
 }) => {
   if (!options.every(option => Array.isArray(option.description))) {
@@ -103,7 +103,7 @@ const TableCheckbox = ({ options, localValues, handleChange, name }: {
                 <Checkbox
                   id={`${name}-${option.value}`}
                   checked={localValues.includes(option.value)}
-                  onChange={(checked) => handleChange(option.value, checked)}
+                  onChange={(checked) => onChange(option.value, checked)}
                   label=""
                 />
                 <label 
@@ -162,7 +162,7 @@ export const CheckboxGroup: FC<CheckboxGroupProps> = ({
         <PanelCheckbox 
           options={options} 
           localValues={localValues} 
-          handleChange={handleChange}
+          onChange={handleChange}
           name={header?.toString() ?? 'checkbox-group'}
         />
       </div>
@@ -176,7 +176,7 @@ export const CheckboxGroup: FC<CheckboxGroupProps> = ({
         <TableCheckbox 
           options={options} 
           localValues={localValues} 
-          handleChange={handleChange}
+          onChange={handleChange}
           name={header?.toString() ?? 'checkbox-group'}
         />
       </div>

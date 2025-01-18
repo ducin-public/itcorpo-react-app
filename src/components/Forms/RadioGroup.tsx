@@ -23,10 +23,10 @@ type RadioGroupProps = {
   layout?: Layout;
 };
 
-const PanelRadio = ({ options, localValue, handleChange, name }: { 
+const PanelRadio = ({ options, localValue, onChange, name }: { 
   options: Option[], 
   localValue: string, 
-  handleChange: (value: string) => void,
+  onChange: (value: string) => void,
   name: string 
 }) => (
   <div className="bg-white rounded-md -space-y-px" role="radiogroup">
@@ -49,7 +49,7 @@ const PanelRadio = ({ options, localValue, handleChange, name }: {
             name={name}
             value={option.value}
             checked={localValue === option.value}
-            onChange={handleChange}
+            onChange={onChange}
             label=""
             className="h-4 w-4"
           />
@@ -79,10 +79,10 @@ const PanelRadio = ({ options, localValue, handleChange, name }: {
   </div>
 );
 
-const TableRadio = ({ options, localValue, handleChange, name }: {
+const TableRadio = ({ options, localValue, onChange, name }: {
   options: Option[],
   localValue: string,
-  handleChange: (value: string) => void,
+  onChange: (value: string) => void,
   name: string
 }) => {
   // Validate that all options have array descriptions for table layout
@@ -117,7 +117,7 @@ const TableRadio = ({ options, localValue, handleChange, name }: {
                   name={name}
                   value={option.value}
                   checked={localValue === option.value}
-                  onChange={handleChange}
+                  onChange={onChange}
                   label=""
                 />
                 <label 
@@ -172,7 +172,7 @@ export const RadioGroup = ({
         <PanelRadio 
           options={options} 
           localValue={localValue} 
-          handleChange={handleChange}
+          onChange={handleChange}
           name={header?.toString() ?? 'radio-group'}
         />
       </div>
@@ -186,7 +186,7 @@ export const RadioGroup = ({
         <TableRadio 
           options={options} 
           localValue={localValue} 
-          handleChange={handleChange}
+          onChange={handleChange}
           name={header?.toString() ?? 'radio-group'}
         />
       </div>
