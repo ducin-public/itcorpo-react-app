@@ -1,29 +1,52 @@
 import type { TextareaHTMLAttributes } from 'react';
-import { styleConstants, styles } from '../DesignLanguage';
+import { controlStyles, styleConstants, styles } from '../DesignLanguage';
+
+import { cn } from '../cn';
 
 interface TextAreaProps extends Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, 'onChange'> {
   label: string;
   value: string;
   onChange: (value: string) => void;
-  error?: string;
+  error?: boolean;
+  disabled?: boolean;
 }
 
-export const TextArea = ({ label, value, onChange, error, rows = 4, id, ...props }: TextAreaProps) => {
+const generateStyles = ({ disabled, error, value }: Pick<TextAreaProps, 'disabled' | 'error' | 'value'>) => {
+  return cn(
+    controlStyles({ disabled, error, value: Boolean(value) }),
+    'px-4 py-2 rounded-lg transition border',
+    'focus:outline-none focus:ring-2 focus:border-transparent',
+    styleConstants.CONTROL_OUTER_WRAPPER,
+  );
+};
+
+export const TextArea = ({
+  label,
+  value,
+  onChange,
+  error,
+  placeholder = "Enter text...",
+  disabled,
+  rows = 4,
+  id,
+  ...props
+}: TextAreaProps) => {
   const textareaId = id || `textarea-${label.replace(/\s+/g, '-').toLowerCase()}`;
   return (
-    <div>
+    <div className={styleConstants.CONTROL_OUTER_WRAPPER}>
       <label htmlFor={textareaId} className={`block ${styleConstants.LABEL_TEXT_SIZE} font-medium ${styles.ACCENT.text} mb-1`}>
         {label}
         <textarea
           id={textareaId}
-          className={`${styles.ACCENT.focusRing} ${styles.ACCENT.border} w-full px-4 py-2 border rounded-lg focus:ring-2 focus:border-transparent outline-none transition mt-1`}
+          className={generateStyles({ disabled, error, value })}
           value={value}
           onChange={(e) => onChange(e.target.value)}
+          placeholder={placeholder}
+          disabled={disabled}
           rows={rows}
           {...props}
         />
       </label>
-      {error && <p className={`mt-1 text-sm ${styles.ALERT.text}`}>{error}</p>}
     </div>
   );
 };

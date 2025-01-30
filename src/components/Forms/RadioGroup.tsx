@@ -10,8 +10,6 @@ export interface Option {
   label: string;
   value: string;
   description?: ReactNode | ReactNode[];
-  duration?: string;
-  price?: string;
 }
 
 type RadioGroupProps = {

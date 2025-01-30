@@ -1,13 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { DayPicker } from 'react-day-picker';
+import { DayPicker, DayPickerProps } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
 
-interface DatePickerProps {
-  selected: Date | null;
-  onSelect: (date: Date | null) => void;
+type DatePickerProps = Omit<DayPickerProps, 'selected' | 'onSelect'> & {
+  selected: Date | undefined;
+  onSelect: (date: Date | undefined) => void;
   className?: string;
-  disabled?: boolean;
-  disabledDays?: Date[];
   footer?: React.ReactNode;
 }
 
@@ -15,38 +12,28 @@ export function DatePicker({
   selected,
   onSelect,
   className = '',
-  disabled = false,
-  disabledDays,
+  disabled,
   footer
 }: DatePickerProps) {
-  const [privateSelected, setPrivateSelected] = useState<Date | null>(selected);
-
-  useEffect(() => {
-    setPrivateSelected(selected);
-  }, [selected]);
-
-  const handleSelect = (date: Date | null) => {
-    setPrivateSelected(date);
-    onSelect(date);
-  };
-
   return (
     <div className={`bg-white p-4 rounded-lg shadow ${className}`}>
       <DayPicker
         mode="single"
-        selected={privateSelected}
-        onSelect={handleSelect}
-        disabled={disabled || disabledDays}
+        selected={selected}
+        onSelect={onSelect}
+        disabled={disabled}
         footer={footer}
+        weekStartsOn={1}
+        showOutsideDays
+        title='Select date...'
         classNames={{
-            // se
-            // selected: `bg-amber-500 border-amber-500 text-white`,
-          day_selected: "bg-emerald-600 text-white hover:bg-emerald-600",
-        //   day_today: "text-emerald-600 font-bold",
-        //   day: "hover:bg-emerald-50",
-        //   nav_button_previous: "hover:bg-emerald-50",
-        //   nav_button_next: "hover:bg-emerald-50",
-        //   caption_label: "font-medium",
+          selected: `bg-purple-500 border-purple-500 hover:bg-purple:400 text-white`,
+          day: "hover:bg-purple-300",
+          button_previous: "text-red-500 hover:bg-purple-200 hover:text-purple-700",
+          button_next: "text-red-500 hover:bg-purple-200 hover:text-purple-700",
+          today: "text-purple-600 font-extrabold",
+          disabled: "text-gray-300 hover:bg-transparent",
+          outside: "text-gray-400",
         }}
       />
     </div>

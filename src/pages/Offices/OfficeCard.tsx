@@ -1,10 +1,11 @@
-import React from 'react';
-import { Edit, Users, DollarSign, Eye } from 'lucide-react';
-import { OfficeAmenitiesList } from './OfficeAmenitiesList';
+import { Edit, Users, DollarSign, Eye, Search } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
+import { OfficeAmenitiesList } from './OfficeAmenitiesList';
 import { Office } from '../../contract-types/data-contracts';
 import { officeImageURL } from './officeImageURL';
 import { formatCurrency } from '../../contexts/CurrencyContext';
+import { ActionButtons } from '../../components/Generic/ActionButtons';
 
 export function OfficeCard({
   office,
@@ -34,12 +35,6 @@ export function OfficeCard({
           </div>
           <div className="flex space-x-2">
             <button
-              onClick={onView}
-              className="text-gray-400 hover:text-indigo-600"
-            >
-              <Eye className="h-5 w-5" />
-            </button>
-            <button
               onClick={onEdit}
               className="text-gray-400 hover:text-indigo-600"
             >
@@ -65,12 +60,14 @@ export function OfficeCard({
           <OfficeAmenitiesList amenities={office.amenities} />
         </div>
 
-        <button
-          onClick={onView}
-          className="mt-4 text-sm text-indigo-600 hover:text-indigo-700 font-medium"
-        >
-          View Details
-        </button>
+        <ActionButtons
+          actions={[{
+            icon: Search,
+            text: 'View Details',
+            onClick: onView
+          }]}
+          className="mt-4"
+        />
       </div>
     </div>
   );

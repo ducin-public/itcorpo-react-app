@@ -1,35 +1,77 @@
-import type { InputHTMLAttributes } from 'react';
-import { styleConstants, styles } from '../DesignLanguage';
-import { cn } from '../cn';
+import { type InputHTMLAttributes, useRef } from 'react';
+import { v4 as uuid } from 'uuid';
+import { X } from 'lucide-react';
 
-interface TextInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
+import { controlStyles, styleConstants, styles } from '../DesignLanguage';
+import { cn } from '../cn';
+import { ValidationError } from './ValidationError';
+
+const generateStyles = ({ disabled, error, value }: Pick<TextInputProps, 'disabled' | 'error' | 'value'>) => {
+  return cn(
+    controlStyles({ disabled, error, value: Boolean(value) }),
+    'border rounded-lg transition outline-none',
+    'focus:ring-2 focus:border-transparent',
+    styleConstants.CONTROL_OUTER_WRAPPER,
+    'pr-8',
+  );
+};
+
+interface TextInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'value' | 'defaultValue'> {
   label: string;
   value: string;
-  onChange: (phrase: string) => void;
-  error?: string;
+  onChange: (value: string) => void;
+  error?: boolean;
 }
 
-export const TextInput = ({ label, value, onChange, error, type = 'text', id, ...props }: TextInputProps) => {
-  const inputId = id || `text-input-${label.replace(/\s+/g, '-').toLowerCase()}`;
+export const TextInput = ({ 
+  label, 
+  value, 
+  onChange,
+  error, 
+  placeholder = "Enter text...", 
+  type = 'text',
+  disabled,
+  id, 
+  ...props 
+}: TextInputProps) => {
+  const inputId = useRef((id || uuid()) || `text-input-${label.replace(/\s+/g, '-').toLowerCase()}`);
+
+  const handleClear = () => {
+    onChange('');
+  };
+
   return (
-    <div className='w-full'>
-      <label htmlFor={inputId} className={`block ${styleConstants.LABEL_TEXT_SIZE} font-medium mb-1 ${styles.ACCENT.text}`}>
+    <div className={styleConstants.CONTROL_OUTER_WRAPPER}>
+      <label htmlFor={inputId.current} className={`block ${styleConstants.LABEL_TEXT_SIZE} font-medium ${styles.ACCENT.text}`}>
         {label}
-        <input
-          id={inputId}
-          type={type}
-          className={cn(
-            styles.ACCENT.focusRing,
-            styles.ACCENT.border,
-            styleConstants.MIN_CONTROL_HEIGHT,
-            `w-full px-2 py-1 text-base border rounded-lg focus:ring-2 focus:border-transparent outline-none transition mt-1`
+        <div className="relative">
+          <input
+            id={inputId.current}
+            type={type}
+            disabled={disabled}
+            className={generateStyles({ disabled, error, value })}
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            placeholder={placeholder}
+            {...props}
+          />
+          {value && !disabled && (
+            <button
+              type="button"
+              className={cn(
+                'focus:outline-none focus:ring-2',
+                styles.ACCENT.focusRing,
+                "absolute right-2 top-5 -translate-y-1/2 p-1 rounded-full hover:bg-gray-100 transition-colors"
+              )}
+              onClick={handleClear}
+              aria-label="Clear input"
+            >
+              <X size={16} className="text-gray-400" />
+            </button>
           )}
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          {...props}
-        />
+        </div>
       </label>
-      {error && <p className={`mt-1 text-sm ${styles.ALERT.text}`}>{error}</p>}
+      {error && <ValidationError>{error}</ValidationError>}
     </div>
   );
 };

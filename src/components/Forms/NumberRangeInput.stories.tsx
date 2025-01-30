@@ -1,86 +1,135 @@
+import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { NumberRangeInput } from './NumberRangeInput';
+import { ValidationError } from './ValidationError';
+import { getArgsPropsOrDie } from '../story-utils';
 
-const meta: Meta<typeof NumberRangeInput> = {
+const meta = {
   title: 'UI/Forms/NumberRangeInput',
   component: NumberRangeInput,
-  tags: ['autodocs'],
   parameters: {
     layout: 'centered',
-    docs: {
-      description: {
-        component: 'A component for inputting numeric ranges, useful for salary ranges, budgets, and other financial data.'
-      }
-    }
-  }
-};
+  },
+  tags: ['autodocs'],
+  args: {
+    label: 'Project Budget Range',
+    fromPlaceholder: 'Min budget',
+    toPlaceholder: 'Max budget',
+    step: 10,
+    prefix: '$',
+    suffix: 'K',
+    value: { from: undefined, to: undefined },
+    onChange: action('onChange'),
+  },
+} satisfies Meta<typeof NumberRangeInput>;
 
 export default meta;
 type Story = StoryObj<typeof NumberRangeInput>;
 
-export const ProjectBudget: Story = {
-  args: {
-    label: 'Project Budget Range',
-    value: { from: undefined, to: undefined },
-    onChange: action('budget range changed'),
-    fromPlaceholder: 'Min budget',
-    toPlaceholder: 'Max budget',
-    prefix: '$',
-    suffix: 'K',
-    min: 50,         // Minimum 50K budget
-    max: 10000,      // Maximum 10M budget
-    step: 50         // Step by 50K
-  }
+const Template = (args: Story['args']) => {
+  const [value, setValue] = useState(args?.value ?? { from: undefined, to: undefined });
+  const label = getArgsPropsOrDie(args, 'label');
+
+  return (
+    <>
+      <NumberRangeInput
+        {...args}
+        label={label}
+        value={value}
+        errorFrom={args?.errorFrom}
+        errorTo={args?.errorTo}
+        onChange={(newValue) => {
+          setValue(newValue);
+          action('onChange')(newValue);
+        }}
+      />
+      {(args?.errorFrom || args?.errorTo) && (
+        <ValidationError>
+          Value range is required
+        </ValidationError>
+      )}
+    </>
+  );
 };
 
-export const SalaryRange: Story = {
+export const Default = Template.bind({});
+
+export const WithStep: Story = {
+  render: Template,
   args: {
-    label: 'Annual Salary Range',
-    value: { from: 60000, to: 120000 },
-    onChange: action('salary range changed'),
-    prefix: '$',
-    min: 30000,      // Entry level
-    max: 500000,     // Executive level
-    step: 5000       // Common salary increment
-  }
+    value: { from: 50000, to: 100000 },
+    step: 10000,
+  },
 };
 
+export const WithValue: Story = {
+  render: Template,
+  args: {
+    value: { from: 50000, to: 100000 },
+  },
+};
+
+export const WithErrorFrom: Story = {
+  render: Template,
+  args: {
+    errorFrom: true,
+  },
+};
+
+export const WithErrorTo: Story = {
+  render: Template,
+  args: {
+    errorTo: true,
+  },
+};
+
+export const WithErrorBoth: Story = {
+  render: Template,
+  args: {
+    errorFrom: true,
+    errorTo: true,
+  },
+};
+
+export const Disabled: Story = {
+  render: Template,
+  args: {
+    disabled: true,
+  },
+};
+
+export const DisabledWithValue: Story = {
+  render: Template,
+  args: {
+    value: { from: 50000, to: 100000 },
+    disabled: true,
+  },
+};
+
+// Additional stories specific to NumberRangeInput
 export const ContractorRate: Story = {
+  render: Template,
   args: {
     label: 'Hourly Rate Range',
-    value: { from: 100, to: 250 },
-    onChange: action('rate range changed'),
     prefix: '$',
     suffix: '/h',
-    min: 50,         // Minimum contractor rate
-    max: 500,        // Maximum contractor rate
-    step: 5          // Common rate increment
-  }
+    value: { from: 100, to: 250 },
+    min: 50,
+    max: 500,
+    step: 5,
+  },
 };
 
 export const TeamSize: Story = {
+  render: Template,
   args: {
-    label: 'Team Size Range',
+    label: 'Team Size',
     value: { from: 5, to: 15 },
-    onChange: action('team size changed'),
     fromPlaceholder: 'Min team members',
     toPlaceholder: 'Max team members',
-    min: 1,          // Minimum team size
-    max: 100,        // Maximum team size
-    step: 1          // One person at a time
-  }
-};
-
-export const DisabledBillingRange: Story = {
-  args: {
-    label: 'Monthly Billing Range',
-    value: { from: 5000, to: 25000 },
-    onChange: action('billing range changed'),
-    prefix: '$',
-    min: 1000,       // Minimum monthly billing
-    max: 100000,     // Maximum monthly billing
-    step: 1000,      // Bill in thousands
-    disabled: true
-  }
+    min: 1,
+    max: 100,
+    step: 1,
+  },
 };

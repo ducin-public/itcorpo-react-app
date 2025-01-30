@@ -1,26 +1,14 @@
-import { useState, useEffect } from 'react';
-import { styleConstants, styles } from '../DesignLanguage';
+import { controlStyles, styleConstants, styles } from '../DesignLanguage';
 import { cn } from '../cn';
 
-export interface NumberRangeStrOrNumber {
-  from?: number | string;
-  to?: number | string;
-}
-
-export interface NumberRangeUpdate {
+export interface NumberRange {
   from?: number;
   to?: number;
 }
 
-const toNumberOrUndefined = (value: number | string | undefined): number | undefined => {
-  if (typeof value === 'number') return value;
-  if (typeof value === 'string') return value === '' ? undefined : parseFloat(value);
-  return undefined;
-}
-
 interface NumberRangeInputProps {
-  value: NumberRangeStrOrNumber;
-  onChange: (range: NumberRangeUpdate) => void;
+  value: NumberRange;
+  onChange: (range: NumberRange) => void;
   label: string;
   fromPlaceholder?: string;
   toPlaceholder?: string;
@@ -29,6 +17,8 @@ interface NumberRangeInputProps {
   step?: number;
   className?: string;
   disabled?: boolean;
+  errorFrom?: boolean;
+  errorTo?: boolean;
   required?: boolean;
   prefix?: string;
   suffix?: string;
@@ -46,7 +36,42 @@ interface InputWithAffixesProps {
   min?: number;
   max?: number;
   step?: number;
+  error?: boolean;
 }
+
+const generateInputStyles = ({ disabled, error, value }: { 
+  disabled: boolean;
+  error?: boolean;
+  value: number | string;
+}) => {
+  return cn(
+    controlStyles({ disabled, error, value: Boolean(value) }),
+    'w-full py-1 border focus:outline-none focus:ring-2',
+  );
+};
+
+const generateAffixStyles = ({ disabled, error, isPrefix }: { 
+  disabled: boolean;
+  error?: boolean;
+  isPrefix: boolean;
+}) => {
+  return cn(
+    'min-w-[40px] px-3 py-2 text-sm border flex items-center justify-center',
+    styleConstants.CONTROL_TEXT,
+    {
+      'bg-gray-50 cursor-not-allowed': disabled,
+      [styleConstants.CONTROL_PLACEHOLDER_DISABLED]: !error,
+      [`${styles.ALERT.border} ${styles.ALERT.background}`]: !disabled && error,
+      [`${styles.ACCENT.border} ${styles.ACCENT.background}`]: !disabled && !error,
+      [`${styles.ALERT.text}`]: error,
+      [`${styles.DEFAULT.border}`]: disabled,
+      [`${styles.ALERT.border}`]: !disabled && error,
+      [`${styles.ACCENT.border}`]: !disabled && !error,
+      'rounded-l-lg border-r-0': isPrefix,
+      'rounded-r-lg border-l-0': !isPrefix,
+    }
+  );
+};
 
 const InputWithAffixes = ({
   value,
@@ -56,40 +81,16 @@ const InputWithAffixes = ({
   prefix,
   suffix,
   disabled = false,
+  error,
   required = false,
   min,
   max,
   step,
 }: InputWithAffixesProps) => {
-  const inputWrapperClassName = cn(
-    'flex items-stretch',
-    disabled && 'cursor-not-allowed opacity-75'
-  );
-
-  const inputClassName = cn(
-    'w-full px-2 py-1 text-base',
-    styleConstants.MIN_CONTROL_HEIGHT,
-    'border',
-    disabled ? styles.DEFAULT.border : styles.ACCENT.border,
-    'focus:outline-none',
-    'focus:ring-2',
-    styles.ACCENT.focusRing,
-    disabled && 'cursor-not-allowed bg-gray-50'
-  );
-
-  const affixClassName = cn(
-    'px-3 py-2 text-gray-500 text-sm',
-    'border',
-    disabled ? styles.DEFAULT.border : styles.ACCENT.border,
-    'flex items-center',
-    disabled && 'bg-gray-50',
-    disabled && 'cursor-not-allowed'
-  );
-
   return (
-    <div className={inputWrapperClassName}>
+    <div className={cn('flex items-stretch', { 'cursor-not-allowed opacity-75': disabled })}>
       {prefix && (
-        <span className={cn(affixClassName, 'rounded-l-lg border-r-0')}>
+        <span className={generateAffixStyles({ disabled, error, isPrefix: true })}>
           {prefix}
         </span>
       )}
@@ -105,7 +106,7 @@ const InputWithAffixes = ({
         disabled={disabled}
         required={required}
         className={cn(
-          inputClassName,
+          generateInputStyles({ disabled, error, value }),
           {
             'rounded-lg border-x': !prefix && !suffix,
             'border-l-0 rounded-r-lg border-r': prefix && !suffix,
@@ -115,7 +116,7 @@ const InputWithAffixes = ({
         )}
       />
       {suffix && (
-        <span className={cn(affixClassName, 'rounded-r-lg border-l-0')}>
+        <span className={generateAffixStyles({ disabled, error, isPrefix: false })}>
           {suffix}
         </span>
       )}
@@ -137,44 +138,14 @@ export const NumberRangeInput = ({
   required = false,
   prefix,
   suffix,
+  errorFrom,
+  errorTo,
 }: NumberRangeInputProps) => {
-  const [localValue, setLocalValue] = useState<NumberRangeStrOrNumber>(value);
-
-  useEffect(() => {
-    setLocalValue(value);
-  }, [value]);
-
-  const handleFromChange = (fromStr: string) => {
-    const from = fromStr === '' ? undefined : Number(fromStr);
-    if (typeof from == 'number' && isNaN(from)) {
-      throw new Error('Invalid number'); // TODO: error handling
-    }
-    const newValue = {
-      to: toNumberOrUndefined(localValue.to),
-      from: toNumberOrUndefined(from),
-    };
-    setLocalValue(newValue);
-    onChange(newValue);
-  };
-
-  const handleToChange = (toStr: string) => {
-    const to = toStr === '' ? undefined : Number(toStr);
-    if (typeof to == 'number' && isNaN(to)) {
-      throw new Error('Invalid number'); // TODO: error handling
-    }
-    const newValue = {
-      to: toNumberOrUndefined(to),
-      from: toNumberOrUndefined(localValue.from),
-    };
-    setLocalValue(newValue);
-    onChange(newValue);
-  };
-
   return (
-    <div className={`${className}`}>
+    <div className={className}>
       <label
         htmlFor="range-from"
-        className={`${styleConstants.LABEL_TEXT_SIZE} font-medium ${styles.ACCENT.text} mb-1 block`}
+        className={cn(styleConstants.LABEL_TEXT_SIZE, 'font-medium block', styles.ACCENT.text)}
       >
         {label}
         {required && <span className="text-red-500 ml-1">*</span>}
@@ -183,8 +154,12 @@ export const NumberRangeInput = ({
         <div className="flex-1">
           <InputWithAffixes
             id="range-from"
-            value={localValue.from || ''}
-            onChange={handleFromChange}
+            value={value.from || ''}
+            onChange={(fromStr) => {
+              const from = fromStr === '' ? undefined : Number(fromStr);
+              
+              onChange({ ...value, from });
+            }}
             placeholder={fromPlaceholder || 'From...'}
             prefix={prefix}
             suffix={suffix}
@@ -193,15 +168,17 @@ export const NumberRangeInput = ({
             step={step}
             disabled={disabled}
             required={required}
+            error={errorFrom}
           />
         </div>
-
         <span className="text-gray-400">—</span>
-
         <div className="flex-1">
           <InputWithAffixes
-            value={localValue.to || ''}
-            onChange={handleToChange}
+            value={value.to || ''}
+            onChange={(toStr) => {
+              const to = toStr === '' ? undefined : Number(toStr);
+              onChange({ ...value, to });
+            }}
             placeholder={toPlaceholder || 'To...'}
             prefix={prefix}
             suffix={suffix}
@@ -210,6 +187,7 @@ export const NumberRangeInput = ({
             step={step}
             disabled={disabled}
             required={required}
+            error={errorTo}
           />
         </div>
       </div>

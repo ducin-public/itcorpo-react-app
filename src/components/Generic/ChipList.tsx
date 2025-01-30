@@ -13,6 +13,7 @@ interface ChipListProps {
   onRemove?: (item: string) => void;
   onClick?: (item: string) => void;
   className?: string;
+  disabled?: boolean;
 }
 
 export function ChipList({ 
@@ -23,7 +24,8 @@ export function ChipList({
   icon, 
   onRemove,
   onClick,
-  className 
+  className,
+  disabled = false
 }: ChipListProps) {
   if (!items?.length) return null;
 
@@ -36,8 +38,9 @@ export function ChipList({
           variant={variant}
           size={size}
           icon={icon}
-          onRemove={onRemove ? () => onRemove(item) : undefined}
-          onClick={onClick ? () => onClick(item) : undefined}
+          onRemove={!disabled && onRemove ? () => onRemove(item) : undefined}
+          onClick={!disabled && onClick ? () => onClick(item) : undefined}
+          className={cn(disabled && 'opacity-60 cursor-not-allowed')}
         >
           {item}
         </Chip>

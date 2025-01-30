@@ -1,8 +1,11 @@
+import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { DateRangePicker } from './DateRangePicker';
+import type { DateRange } from 'react-day-picker';
+import { Text } from '../Typography/Text';
 
-const meta = {
+const meta: Meta = {
   title: 'UI/Forms/DateRangePicker',
   component: DateRangePicker,
   parameters: {
@@ -14,73 +17,74 @@ const meta = {
     }
   },
   tags: ['autodocs'],
+  args: {
+    selected: {
+      from: undefined,
+      to: undefined
+    },
+    onSelect: action('date selected'),
+  }
 } satisfies Meta<typeof DateRangePicker>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const ProjectTimeline: Story = {
+const YESTERDAY = new Date(new Date().setDate(new Date().getDate() - 1))
+const TOMORROW = new Date(new Date().setDate(new Date().getDate() + 1))
+
+const Template = (args: Story['args']) => {
+  const [selected, setSelected] = useState<DateRange>(args?.selected);
+  
+  const handleSelect = (range: DateRange) => {
+    setSelected(range);
+    action('date range selected')(range);
+  };
+
+  return <DateRangePicker
+    {...args}
+    selected={selected}
+    onSelect={handleSelect}
+  />;
+};
+
+export const Default: Story = {
+  render: Template,
+};
+
+export const WithSelectedDate: Story = {
+  render: Template,
   args: {
-    label: 'Project Timeline',
     selected: {
-      from: null,
-      to: null
+      from: new Date(2024, 0, 15),
+      to: new Date(2024, 0, 29),
     },
-    onSelect: action('project dates selected'),
-    fromLabel: 'Project Start',
-    toLabel: 'Project End'
   },
 };
 
-export const SprintDuration: Story = {
+export const WithFooter: Story = {
+  render: Template,
   args: {
-    selected: {
-      from: new Date(2024, 0, 15), // January 15, 2024
-      to: new Date(2024, 0, 29), // January 29, 2024
-    },
-    onSelect: action('sprint dates selected'),
-    fromLabel: 'Sprint Start',
-    toLabel: 'Sprint End'
+    footer: <Text>Please select a date</Text>
   },
 };
 
-export const ContractPeriod: Story = {
+export const DisabledAll: Story = {
+  render: Template,
   args: {
-    label: 'Contract Duration',
-    selected: {
-      from: new Date(2024, 0, 1),
-      to: new Date(2024, 11, 31)
-    },
-    onSelect: action('contract dates selected')
+    disabled: true,
   },
 };
 
-export const DisabledTrainingDates: Story = {
+export const WithDisabledFixedDates: Story = {
+  render: Template,
   args: {
-    label: 'Training Period',
-    selected: {
-      from: null,
-      to: null
-    },
-    onSelect: action('training dates selected'),
-    disabled: true
+    disabled: [YESTERDAY, TOMORROW]
   },
 };
 
-export const WithCompanyHolidays: Story = {
+export const WithDisabledRange: Story = {
+  render: Template,
   args: {
-    label: 'Work Period',
-    selected: {
-      from: null,
-      to: null
-    },
-    onSelect: action('work dates selected'),
-    disabledDays: [
-      new Date(2024, 0, 1), // New Year's Day
-      new Date(2024, 11, 25), // Christmas
-      new Date(2024, 11, 26), // Boxing Day
-    ],
-    fromLabel: 'Start Date',
-    toLabel: 'End Date'
+    disabled: { before: YESTERDAY }
   },
 };

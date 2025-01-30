@@ -1,4 +1,3 @@
-import { Employee, EmployeeInput } from '../contract-types/data-contracts';
 import { Employees } from '../contract-types/EmployeesRoute';
 import { apiClient } from './client';
 
@@ -6,6 +5,9 @@ import { apiClient } from './client';
 const buildEmployeeSearchParams__LEGACY = (criteria: Employees.GetEmployees.RequestQuery = {}): URLSearchParams => {
   const params = new URLSearchParams();
 
+  if (criteria.group) {
+    params.append('group', criteria.group);
+  }
   if (criteria.departmentId) {
     params.append('departmentId', criteria.departmentId);
   }
@@ -98,5 +100,19 @@ export const updateEmployee = (
  */
 export const deleteEmployee = ({ employeeId }: Employees.DeleteEmployee.RequestParams) => {
   return apiClient.delete<Employees.DeleteEmployee.ResponseBody>(`/employees/${employeeId}`)
+    .then(res => res.data);
+};
+
+/**
+ * GET /employees/{employeeId}/projects
+ * @see https://ducin-public.github.io/itcorpo-api/#tag/Employees/operation/getEmployeeProjects
+ * @see {@link Employees.GetEmployeeProjects.RequestParams}
+ * @see {@link Employees.GetEmployeeProjects.RequestQuery}
+ * @returns {Promise<Employees.GetEmployeeProjects.ResponseBody>}
+ */
+export const getEmployeeProjects = (
+  { employeeId }: Employees.GetEmployeeProjects.RequestParams
+) => {
+  return apiClient.get<Employees.GetEmployeeProjects.ResponseBody>(`/employees/${employeeId}/projects`)
     .then(res => res.data);
 };

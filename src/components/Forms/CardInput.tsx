@@ -1,97 +1,105 @@
-import { useState } from 'react';
-import { styleConstants, styles } from '../DesignLanguage';
+import { controlStyles, styleConstants, styles } from '../DesignLanguage';
+import { cn } from '../cn';
 
-export type CardInputLayout = 'SEPARATE' | 'STACKED'
+export type CardInputLayout = 'SEPARATE' | 'STACKED';
 
-interface CardInputProps {
+interface CardInputValues {
   cardNumber: string;
   expiryDate: string;
   cvv: string;
-  onChange: (values: { cardNumber: string; expiryDate: string; cvv: string }) => void;
-  className?: string;
-  layout?: CardInputLayout;
 }
 
-export const CardInput = ({ 
-  cardNumber, 
-  expiryDate, 
-  cvv, 
-  onChange, 
-  className = '',
-  layout = 'SEPARATE' 
-}: CardInputProps) => {
-  const [localCardNumber, setLocalCardNumber] = useState(cardNumber);
-  const [localExpiryDate, setLocalExpiryDate] = useState(expiryDate);
-  const [localCvv, setLocalCvv] = useState(cvv);
+interface CardInputProps extends CardInputValues {
+  onChange: (values: CardInputValues) => void;
+  className?: string;
+  layout?: CardInputLayout;
+  disabled?: boolean;
+  error?: boolean;
+}
 
-  const formatCardNumber = (value: string) => {
+const generateInputStyles = ({ 
+  disabled, 
+  error, 
+  value,
+  position,
+  layout,
+}: { 
+  disabled?: boolean; 
+  error?: boolean;
+  value: string;
+  position?: 'first' | 'middle' | 'last';
+  layout: CardInputLayout;
+}) => {
+  const baseStyles = cn(
+    controlStyles({ disabled, error, value: Boolean(value) }),
+    styleConstants.CONTROL_HEIGHT,
+    'w-full px-3 py-2 border',
+    'focus:outline-none focus:ring-2 focus:border-transparent transition',
+  );
+
+  if (layout === 'SEPARATE') {
+    return cn(baseStyles, 'rounded-md');
+  }
+
+  if (layout === 'STACKED') {
+    return cn(
+      baseStyles,
+      {
+        'rounded-t-md border-b-0': position === 'first',
+        'rounded-bl-md border-r-0': position === 'middle',
+        'rounded-br-md': position === 'last',
+      }
+    );
+  }
+};
+
+export const CardInput = ({ 
+  cardNumber,
+  expiryDate,
+  cvv,
+  onChange,
+  className = '',
+  layout = 'SEPARATE',
+  disabled = false,
+  error = false,
+}: CardInputProps) => {
+  const labelClassName = cn(styleConstants.LABEL_TEXT_SIZE, 'block font-medium mb-1', styles.ACCENT.text);
+  
+  const handleCardNumberChange = (value: string) => {
     const digits = value.replace(/\D/g, '');
     const groups = digits.match(/.{1,4}/g) || [];
-    return groups.join(' ').substr(0, 19);
-  };
-
-  const formatExpiryDate = (value: string) => {
-    const digits = value.replace(/\D/g, '');
-    if (digits.length >= 2) {
-      return `${digits.substr(0, 2)}/${digits.substr(2, 2)}`;
-    }
-    return digits;
-  };
-
-  const handleCardNumberChange = (value: string) => {
-    const formatted = formatCardNumber(value);
-    setLocalCardNumber(formatted);
-    onChange({ cardNumber: formatted, expiryDate: localExpiryDate, cvv: localCvv });
+    const formatted = groups.join(' ').slice(0, 19);
+    onChange({ cardNumber: formatted, expiryDate, cvv });
   };
 
   const handleExpiryDateChange = (value: string) => {
-    const formatted = formatExpiryDate(value);
-    setLocalExpiryDate(formatted);
-    onChange({ cardNumber: localCardNumber, expiryDate: formatted, cvv: localCvv });
+    const digits = value.replace(/\D/g, '');
+    const formatted = digits.length >= 2 
+      ? `${digits.slice(0, 2)}/${digits.slice(2, 4)}`
+      : digits;
+    onChange({ cardNumber, expiryDate: formatted, cvv });
   };
 
   const handleCvvChange = (value: string) => {
-    const formatted = value.replace(/\D/g, '').substr(0, 3);
-    setLocalCvv(formatted);
-    onChange({ cardNumber: localCardNumber, expiryDate: localExpiryDate, cvv: formatted });
-  };
-
-  const inputClassName = `w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 ${styles.ACCENT.focusRing} focus:border-transparent`;
-  const labelClassName = `${styles.ACCENT.text} block ${styleConstants.LABEL_TEXT_SIZE} font-medium mb-1`;
-
-  const getInputClassName = (position?: 'first' | 'middle' | 'last') => {
-    if (layout === 'SEPARATE') {
-      return inputClassName;
-    }
-
-    const baseStackedClass = `w-full px-3 py-2 focus:outline-none focus:ring-2 ${styles.ACCENT.focusRing} focus:border-transparent border border-gray-300`;
-    
-    switch (position) {
-      case 'first':
-        return `${baseStackedClass} rounded-t-md border-b-0`;
-      case 'middle':
-        return `${baseStackedClass} rounded-bl-md border-r-0`;
-      case 'last':
-        return `${baseStackedClass} rounded-br-md`;
-      default:
-        return inputClassName;
-    }
+    const formatted = value.replace(/\D/g, '').slice(0, 3);
+    onChange({ cardNumber, expiryDate, cvv: formatted });
   };
 
   if (layout === 'STACKED') {
     return (
-      <div className={className}>
+      <div className={cn(styleConstants.CONTROL_OUTER_WRAPPER, className)}>
         <label className={labelClassName}>Payment Card Details</label>
         <div className="grid gap-0">
           <input
             id="cardNumber"
             type="text"
             inputMode="numeric"
-            className={getInputClassName('first')}
-            value={localCardNumber}
+            className={generateInputStyles({ disabled, error, value: cardNumber, position: 'first', layout })}
+            value={cardNumber}
             onChange={(e) => handleCardNumberChange(e.target.value)}
-            placeholder="Card Number"
+            placeholder="Enter Card Number..."
             maxLength={19}
+            disabled={disabled}
             aria-label="Card Number"
           />
           <div className="grid grid-cols-2">
@@ -99,22 +107,24 @@ export const CardInput = ({
               id="expiryDate"
               type="text"
               inputMode="numeric"
-              className={getInputClassName('middle')}
-              value={localExpiryDate}
+              className={generateInputStyles({ disabled, error, value: expiryDate, position: 'middle', layout })}
+              value={expiryDate}
               onChange={(e) => handleExpiryDateChange(e.target.value)}
               placeholder="MM/YY"
               maxLength={5}
+              disabled={disabled}
               aria-label="Expiry Date"
             />
             <input
               id="cvv"
               type="password"
               inputMode="numeric"
-              className={getInputClassName('last')}
-              value={localCvv}
+              className={generateInputStyles({ disabled, error, value: cvv, position: 'last', layout })}
+              value={cvv}
               onChange={(e) => handleCvvChange(e.target.value)}
               placeholder="CVV"
               maxLength={3}
+              disabled={disabled}
               aria-label="CVV"
             />
           </div>
@@ -124,32 +134,34 @@ export const CardInput = ({
   }
 
   return (
-    <div className={`grid ${layout === 'SEPARATE' ? 'gap-4' : 'gap-0'} ${className}`}>
+    <div className={cn('mb-1 grid gap-2', className)}>
       <div>
         <label htmlFor="cardNumber" className={labelClassName}>Card Number</label>
         <input
           id="cardNumber"
           type="text"
           inputMode="numeric"
-          className={getInputClassName('first')}
-          value={localCardNumber}
+          className={generateInputStyles({ disabled, error, value: cardNumber, layout })}
+          value={cardNumber}
           onChange={(e) => handleCardNumberChange(e.target.value)}
-          placeholder="1234 5678 9012 3456"
+          placeholder="Enter Card Number..."
           maxLength={19}
+          disabled={disabled}
         />
       </div>
-      <div className={layout === 'SEPARATE' ? 'grid grid-cols-2 gap-4' : 'grid grid-cols-2'}>
+      <div className="grid grid-cols-2 gap-4">
         <div>
           <label htmlFor="expiryDate" className={labelClassName}>Expiry Date</label>
           <input
             id="expiryDate"
             type="text"
             inputMode="numeric"
-            className={getInputClassName('middle')}
-            value={localExpiryDate}
+            className={generateInputStyles({ disabled, error, value: expiryDate, layout })}
+            value={expiryDate}
             onChange={(e) => handleExpiryDateChange(e.target.value)}
             placeholder="MM/YY"
             maxLength={5}
+            disabled={disabled}
           />
         </div>
         <div>
@@ -158,11 +170,12 @@ export const CardInput = ({
             id="cvv"
             type="password"
             inputMode="numeric"
-            className={getInputClassName('last')}
-            value={localCvv}
+            className={generateInputStyles({ disabled, error, value: cvv, layout })}
+            value={cvv}
             onChange={(e) => handleCvvChange(e.target.value)}
             placeholder="123"
             maxLength={3}
+            disabled={disabled}
           />
         </div>
       </div>

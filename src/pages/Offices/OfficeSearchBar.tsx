@@ -6,7 +6,8 @@ import type { OfficeAmenity, Geo } from '../../contract-types/data-contracts';
 import { getOfficeAmenities } from '../../api/OfficeApi.axios';
 import { getGeo } from '../../api/GeoApi.axios';
 import { ExpandableSearchBar } from '../../components/Generic/ExpandableSearchBar';
-import { FilteringChoice } from '../../components/Forms/FilteringChoice';
+import { FilteringChoice } from '../../components/Generic/FilteringChoice';
+import { geoQuery } from '../../api/GeoQueries';
 
 export type OfficeSearchBarProps = {
   onSearchChange: (search: string) => void;
@@ -29,10 +30,7 @@ export const OfficeSearchBar = ({
   amenitiesFiltering,
   searchPhrase,
 }: OfficeSearchBarProps) => {
-  const { data: geoData } = useQuery<Geo>({
-    queryKey: ['geo'],
-    queryFn: getGeo
-  });
+  const { data: geoData } = useQuery(geoQuery);
 
   const { data: amenities = [] } = useQuery<OfficeAmenity[]>({
     queryKey: ['amenities'],

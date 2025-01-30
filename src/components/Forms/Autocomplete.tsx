@@ -1,42 +1,72 @@
 import { useState, useRef, useEffect } from 'react';
+
 import { TextInput } from './TextInput';
 import { styles } from '../DesignLanguage';
+import { cn } from '../cn';
 
-type Option = {
+interface Option {
   id: string;
   label: string;
-};
+}
 
-type AutocompleteProps = {
+interface AutocompleteProps {
+  value: string;
+  onChange: (key: string) => void;
   options: Option[];
+  label: string;
+  placeholder?: string;
+  maxItems?: number;
+  disabled?: boolean;
+  error?: boolean;
+  className?: string;
   renderInput?: (params: { 
     value: string; 
-    onChange: (phrase: string) => void;
-    onFocus?: () => void;
+    onChange: (value: string) => void;
+    onFocus: () => void;
+    disabled?: boolean;
+    error?: boolean;
   }) => React.ReactNode;
-  onSelect: (option: Option) => void;
-  maxItems?: number;
-  label?: string;
-  placeholder?: string;
+}
+
+const generateOptionStyles = ({ isHighlighted }: { isHighlighted: boolean }) => {
+  return cn(
+    'px-4 py-2 cursor-pointer transition-colors',
+    {
+      [styles.ACCENT.background]: isHighlighted,
+      [styles.ACCENT.backgroundHover]: !isHighlighted,
+    }
+  );
+};
+
+const generateDropdownStyles = () => {
+  return cn(
+    'absolute top-[62px] z-10 w-full bg-white border rounded-lg shadow-lg',
+    'max-h-60 overflow-y-auto',
+    styles.ACCENT.border
+  );
 };
 
 export const Autocomplete = ({
-  options, onSelect, maxItems = 5, label = 'Search', placeholder = 'Search...',
-  renderInput = ({ value, onChange }) => ( <TextInput value={value} onChange={onChange} placeholder={placeholder} label={label} /> ),
+  value,
+  onChange,
+  options,
+  label,
+  placeholder = 'Search...',
+  maxItems = 5,
+  disabled = false,
+  error = false,
+  className,
+  renderInput,
 }: AutocompleteProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [inputValue, setInputValue] = useState('');
-  const [filteredOptions, setFilteredOptions] = useState<Option[]>([]);
+  const [highlightedIndex, setHighlightedIndex] = useState(-1);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const filtered = options
-      .filter((option) => 
-        option.label.toLowerCase().includes(inputValue.toLowerCase())
-      )
-      .slice(0, maxItems);
-    setFilteredOptions(filtered);
-  }, [inputValue, options, maxItems]);
+  const filteredOptions = options
+    .filter(option => 
+      option.label.toLowerCase().includes(value.toLowerCase())
+    )
+    .slice(0, maxItems);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -53,35 +83,48 @@ export const Autocomplete = ({
     const parts = text.split(new RegExp(`(${query})`, 'gi'));
     return parts.map((part, i) => 
       part.toLowerCase() === query.toLowerCase() ? 
-        <strong key={i}>{part}</strong> : part
+        <strong key={i} className={styles.ACCENT.text}>{part}</strong> : part
     );
   };
 
-  const handleInputChange = (phrase: string) => {
-    setInputValue(phrase);
-    setIsOpen(true);
-  };
+  const defaultInput = (
+    <TextInput
+      label={label}
+      value={value}
+      onChange={onChange}
+      onFocus={() => !disabled && setIsOpen(true)}
+      placeholder={placeholder}
+      disabled={disabled}
+      error={error}
+    />
+  );
 
   return (
-    <div ref={wrapperRef} className="relative">
-      {renderInput({
-        value: inputValue,
-        onChange: handleInputChange,
-        onFocus: () => setIsOpen(true)
-      })}
-      {isOpen && filteredOptions.length > 0 && (
-        <ul className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg">
-          {filteredOptions.map((option) => (
+    <div ref={wrapperRef} className={cn('relative', className)}>
+      {renderInput ? 
+        renderInput({ 
+          value, 
+          onChange, 
+          onFocus: () => !disabled && setIsOpen(true),
+          disabled,
+          error,
+        }) : 
+        defaultInput
+      }
+      
+      {isOpen && !disabled && filteredOptions.length > 0 && (
+        <ul className={generateDropdownStyles()}>
+          {filteredOptions.map((option, index) => (
             <li
               key={option.id}
-              className={`px-4 py-2 cursor-pointer ${styles.ACCENT.backgroundHover}`}
+              className={generateOptionStyles({ isHighlighted: index === highlightedIndex })}
+              onMouseEnter={() => setHighlightedIndex(index)}
               onClick={() => {
-                onSelect(option);
-                setInputValue(option.label);
+                onChange(option.id);
                 setIsOpen(false);
               }}
             >
-              {highlightMatch(option.label, inputValue)}
+              {highlightMatch(option.label, value)}
             </li>
           ))}
         </ul>

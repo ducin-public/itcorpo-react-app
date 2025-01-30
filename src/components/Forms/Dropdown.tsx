@@ -1,19 +1,16 @@
-import { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
-
-import { DesignSize, styleConstants, styles } from '../DesignLanguage';
+import { controlStyles, DesignSize, styleConstants, styles } from '../DesignLanguage';
 import { cn } from '../cn';
 
 interface DropdownProps {
   label: string;
   options: Record<string, string>;
   onChange: (key: string) => void;
+  value: string;
   placeholder?: string;
   disabled?: boolean;
-  error?: string;
-  value?: string;
+  error?: boolean;
   size?: DesignSize;
-  className?: string;
 }
 
 const sizeClasses: Record<DesignSize, string> = {
@@ -23,66 +20,50 @@ const sizeClasses: Record<DesignSize, string> = {
 };
 
 const generateStyles = ({ disabled, error, value }: Pick<DropdownProps, 'disabled' | 'error' | 'value'>) => {
-  const pureDisabledStyles = 'opacity-50 cursor-not-allowed text-gray-500 bg-gray-100 border-gray-300'
-  const nonErrorStyles = `${Boolean(value) ? styles.ACCENT.text : 'text-gray-400'} ${styles.ACCENT.border} ${styles.ACCENT.borderHover}`
-  const errorStyles = `${styles.ALERT.text} ${styles.ALERT.border} ${styles.ALERT.borderHover}`
   return cn(
-    'bg-white',
-    disabled && pureDisabledStyles,
-    error ? errorStyles : nonErrorStyles,
-  )
-}
+    controlStyles({ disabled, error, value: Boolean(value) }),
+    'w-full rounded-lg border appearance-none cursor-pointer transition pr-10',
+    `focus:outline-none focus:ring-2 focus:border-transparent`,
+  );
+};
 
 export function Dropdown({
   label,
   options,
   onChange,
+  value,
+  size = 'MEDIUM',
   placeholder = 'Select...',
   disabled = false,
   error,
-  value = '',
-  size = 'MEDIUM',
-  className
 }: DropdownProps) {
-  const [localState, setLocalState] = useState(value);
   const selectId = `dropdown-${label.replace(/\s+/g, '-').toLowerCase()}`;
 
-  const handleChange = (key: string) => {
-    setLocalState(key);
-    onChange(key);
-  };
-
   return (
-    <div className="w-full">
-      <label htmlFor={selectId} className={`block ${styleConstants.LABEL_TEXT_SIZE} font-medium ${error ? styles.ALERT.text : styles.ACCENT.text} mb-1`}>
+    <div className={styleConstants.CONTROL_OUTER_WRAPPER}>
+      <label htmlFor={selectId} className={`block ${styleConstants.LABEL_TEXT_SIZE} font-medium ${styles.ACCENT.text}`}>
         {label}
-        <div className="relative mt-1">
+        <div className="relative">
           <select
             id={selectId}
-            onChange={(e) => handleChange(e.target.value)}
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
             disabled={disabled}
             className={cn(
-              'w-full rounded-lg border px-3 pr-10 appearance-none cursor-pointer',
-              `focus:outline-none focus:ring-2 ${styles.ACCENT.focusRing} focus:border-transparent`,
-              styleConstants.MIN_CONTROL_HEIGHT,
-              generateStyles({ disabled, error, value }),
               sizeClasses[size],
-              className
+              generateStyles({ disabled, error, value })
             )}
           >
             <option value="">{placeholder}</option>
-            {Object.entries(options).map(([key, value]) => (
+            {Object.entries(options).map(([key, optionValue]) => (
               <option key={key} value={key}>
-                {value}
+                {optionValue}
               </option>
             ))}
           </select>
           <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 pointer-events-none" />
         </div>
       </label>
-      {error && (
-        <p className={`mt-1 text-sm ${styles.ALERT.text}`}>{error}</p>
-      )}
     </div>
   );
 }

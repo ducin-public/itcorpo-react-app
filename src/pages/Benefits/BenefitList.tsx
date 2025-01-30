@@ -60,7 +60,7 @@ export function BenefitList() {
     <div className='px-2 py-2'>
       <div className="flex justify-between items-center mb-6">
         <FlexText>
-          <H1>Benefit Subscriptions</H1>
+          <H1 className='mb-0'>Benefit Subscriptions</H1>
           {benefits && <Text>({benefits.length} results)</Text>}
         </FlexText>
         <Button

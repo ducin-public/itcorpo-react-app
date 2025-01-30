@@ -32,6 +32,15 @@ export const textStyle: StyleDictionary = {
   UPDATE: { hex: '#2563EB', tailwindClass: 'text-blue-600' },
 };
 
+export const placeholderStyle: StyleDictionary = {
+  DEFAULT: { hex: '#1F2937', tailwindClass: 'placeholder-gray-800' },
+  ACCENT: { hex: '#9333EA', tailwindClass: 'placeholder-purple-600' },
+  SUCCESS: { hex: '#16A34A', tailwindClass: 'placeholder-green-600' },
+  WARNING: { hex: '#EA580C', tailwindClass: 'placeholder-orange-600' },
+  ALERT: { hex: '#DC2626', tailwindClass: 'placeholder-red-600' },
+  UPDATE: { hex: '#2563EB', tailwindClass: 'placeholder-blue-600' },
+};
+
 export const textDarkStyle: StyleDictionary = {
   DEFAULT: { hex: '#111827', tailwindClass: 'text-gray-900' },
   ACCENT: { hex: '#6B21A8', tailwindClass: 'text-purple-800' },
@@ -170,6 +179,7 @@ export const backgroundGradientDarkStyle: StyleDictionary = {
 const allStyles = {
   textStyle,
   textDarkStyle,
+  placeholderStyle,
   textHoverStyle,
   textHoverLightStyle,
   accentStyle,
@@ -202,6 +212,7 @@ const createStyleMap = (variant: VariantType) => ({
   mainColor: mainColor[variant],
   text: getClass('textStyle', variant),
   textDark: getClass('textDarkStyle', variant),
+  placeholder: getClass('placeholderStyle', variant),
   textHover: getClass('textHoverStyle', variant),
   textHoverLight: getClass('textHoverLightStyle', variant),
   accent: getClass('accentStyle', variant),

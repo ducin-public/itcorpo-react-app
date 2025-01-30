@@ -1,4 +1,3 @@
-import React from 'react';
 import { ChipList } from '../../components/Generic/ChipList';
 
 export type OfficeAmenitiesListProps = {
@@ -11,6 +10,7 @@ export const OfficeAmenitiesList = ({ amenities, className }: OfficeAmenitiesLis
     <ChipList
       items={amenities}
       variant="DEFAULT"
+      fill='OUTLINED'
       size="SMALL"
       className={className}
     />

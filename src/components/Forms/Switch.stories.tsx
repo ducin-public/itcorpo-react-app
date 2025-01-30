@@ -1,67 +1,62 @@
+import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { Switch } from './Switch';
 
-const meta: Meta<typeof Switch> = {
+const meta = {
   title: 'UI/Forms/Switch',
   component: Switch,
-  tags: ['autodocs'],
   parameters: {
-    docs: {
-      description: {
-        component: 'A toggle switch component that can be used to switch between two states.'
-      }
-    }
+    layout: 'centered',
   },
-  argTypes: {
-    checked: {
-      description: 'The current state of the switch',
-      control: 'boolean'
-    },
-    onChange: {
-      description: 'Callback function called when the switch state changes'
-    },
-    disabled: {
-      description: 'Whether the switch is disabled',
-      control: 'boolean'
-    },
-    className: {
-      description: 'Additional CSS classes to apply to the switch'
-    }
-  }
-};
+  tags: ['autodocs'],
+  args: {
+    label: 'Enable Feature',
+    checked: false,
+    onChange: action('onChange'),
+  },
+} satisfies Meta<typeof Switch>;
 
 export default meta;
 type Story = StoryObj<typeof Switch>;
 
-export const Default: Story = {
-  args: {
-    checked: false,
-    onChange: action('switch toggled'),
-    label: 'Enable CI/CD pipeline'
-  }
+const Template = (args: Story['args']) => {
+  const [checked, setChecked] = useState(args?.checked ?? false);
+  return (
+    <Switch
+      {...args}
+      checked={checked}
+      onChange={(newValue) => {
+        setChecked(newValue);
+        action('onChange')(newValue);
+      }}
+    />
+  );
 };
 
-export const Checked: Story = {
+export const Default = Template.bind({});
+
+export const WithValue: Story = {
+  render: Template,
   args: {
     checked: true,
-    onChange: action('switch toggled'),
-    label: 'Auto-deploy to staging'
-  }
+    label: 'Auto-deploy to staging',
+  },
 };
 
 export const Disabled: Story = {
+  render: Template,
   args: {
-    checked: false,
+    label: 'Production deployment (requires approval)',
     disabled: true,
-    onChange: action('switch toggled'),
-    label: 'Production deployment (requires approval)'
-  }
+  },
 };
 
-export const WithoutLabel: Story = {
+export const DisabledWithValue: Story = {
+  render: Template,
   args: {
-    checked: false,
-    onChange: action('switch toggled')
-  }
+    label: 'System maintenance mode',
+    checked: true,
+    disabled: true,
+  },
 };

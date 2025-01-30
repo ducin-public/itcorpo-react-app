@@ -1,12 +1,15 @@
+import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { Dropdown } from './Dropdown';
+import { assertExists, getArgsPropsOrDie } from '../story-utils';
 
 const projectTypes = {
-  'WEB': 'Web Development Project',
-  'MOBILE': 'Mobile App Development',
-  'CLOUD': 'Cloud Infrastructure',
-  'ML': 'Machine Learning Solution',
+  'CLOUD_MIGRATION': 'Cloud Migration',
+  'ENTERPRISE_APP': 'Enterprise Application',
+  'MOBILE_APP': 'Mobile Application',
+  'DATA_ANALYTICS': 'Data Analytics',
+  'DEVOPS': 'DevOps Transformation',
 };
 
 const meta = {
@@ -19,51 +22,67 @@ const meta = {
   args: {
     label: 'Project Type',
     options: projectTypes,
-    onChange: action('changed'),
-  }
+    placeholder: 'Select project type...',
+    onChange: action('onChange'),
+    value: '',
+  },
 } satisfies Meta<typeof Dropdown>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof Dropdown>;
 
-export const Default: Story = {};
+const Template = (args: Story['args']) => {
+  const [value, setValue] = useState(args?.value ?? '');
+  const label = getArgsPropsOrDie(args, 'label');
+  const options = getArgsPropsOrDie(args, 'options');
+  return (
+    <Dropdown
+      {...args}
+      label={label}
+      options={options}
+      value={value}
+      onChange={(newValue) => {
+        setValue(newValue);
+        action('onChange')(newValue);
+      }}
+    />
+  );
+};
 
-export const WithPlaceholder: Story = {
+export const Default = Template.bind({});
+
+export const WithValue: Story = {
+  render: Template,
   args: {
-    ...Default.args,
-    placeholder: 'Select project type',
+    value: 'CLOUD_MIGRATION',
   },
 };
 
-export const Sizes: Story = {
-  render: () => (
-    <div className="space-y-4 w-64">
-      <Dropdown label="Quick Project Select" options={projectTypes} size="SMALL" onChange={action('changed')} />
-      <Dropdown label="Standard Project Select" options={projectTypes} size="MEDIUM" onChange={action('changed')} />
-      <Dropdown label="Large Project Select" options={projectTypes} size="LARGE" onChange={action('changed')} />
-    </div>
-  ),
-};
-
-export const Disabled: Story = {
+export const WithPlaceholder: Story = {
+  render: Template,
   args: {
-    ...Default.args,
-    disabled: true,
-    label: 'Archived Projects',
+    placeholder: 'Choose project category...',
   },
 };
 
 export const WithError: Story = {
+  render: Template,
   args: {
-    ...Default.args,
-    error: 'Project type is required for budget estimation',
+    error: true,
   },
 };
 
-export const WithValue: Story = {
+export const Disabled: Story = {
+  render: Template,
   args: {
-    ...Default.args,
-    value: 'WEB',
-    label: 'Active Project Type',
+    disabled: true,
+  },
+};
+
+export const DisabledWithValue: Story = {
+  render: Template,
+  args: {
+    value: 'ENTERPRISE_APP',
+    disabled: true,
   },
 };

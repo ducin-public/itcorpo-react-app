@@ -1,25 +1,19 @@
-import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { Spinner } from '../../components/Generic/Spinner';
-import { Office } from '../../contract-types/data-contracts';
-import { getOffices } from '../../api/OfficeApi.axios';
+import { getOfficeByCode } from '../../api/OfficeApi.axios';
 import { officeImageURL } from './officeImageURL';
 import { formatCurrency } from '../../contexts/CurrencyContext';
 import { OfficeAmenitiesList } from './OfficeAmenitiesList';
+import { useQuery } from '@tanstack/react-query';
 
 export function OfficeDetails() {
-  const { id } = useParams();
-  const [isLoading, setIsLoading] = useState(true);
-  const [offices, setOffices] = useState<Office[]>([]);
-  const office = offices.find(o => o.city.toLowerCase() == id);
+  const { code } = useParams();
 
-  useEffect(() => {
-    getOffices().then(result => {
-      setOffices(result);
-      setIsLoading(false);
-    })
-  }, []);
+  const { data: office, isLoading } = useQuery({
+    queryKey: ['office', code],
+    queryFn: () => getOfficeByCode({ officeCode: code! }),
+  })
 
   if (isLoading) return <Spinner />;
   if (!office) return null;
@@ -55,7 +49,7 @@ export function OfficeDetails() {
               <div className="space-y-1 text-sm text-gray-600">
                 <p>{office.address}</p>
                 <p>
-                  {office.city}, {office.estate.owner} {office.estate.phone}
+                  {office.city}, {office.estateOwner.name} {office.estateOwner.phone}
                 </p>
                 <p>{office.country}</p>
               </div>

@@ -1,38 +1,28 @@
-import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { Plus } from 'lucide-react';
-  
+import { Pagination } from '../../components/Generic/Pagination';
+
 import { Spinner } from '../../components/Generic/Spinner';
 import { ProjectCard } from './ProjectCard';
 import { useNotifications } from '../../contexts/NotificationContext';
 import { deleteProject, getProjects } from '../../api/ProjectApi.axios';
-import { ProjectSearchBar } from './ProjectSearchBar';
-import { ProjectSearchFilters } from './ProjectSearchFilters';
+import { ProjectSearchBar } from './search/ProjectSearchBar';
 import { Button } from '../../components/Generic/Button';
 import { H1 } from '../../components/Typography/Headings';
 import { FlexText } from '../../components/Typography/FlexText';
 import { Text } from '../../components/Typography/Text';
+import { useProjectSearch } from './search/ProjectSearchContext';
 
 export function ProjectList() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { addNotification } = useNotifications();
-  const [searchCriteria, setSearchCriteria] = useState<ProjectSearchFilters>({ 
-    statuses: [], 
-    teamMemberFiltering: 'ANY' 
-  });
-  
-  const { data: projects, isFetching } = useQuery({
-    queryKey: ['projects', searchCriteria],
-    queryFn: () => getProjects({
-      projectName: searchCriteria.projectName,
-      status: searchCriteria.statuses.length ? searchCriteria.statuses[0] : undefined,
-      teamMembers: searchCriteria.teamMemberName,
-      teamMembersFiltering: searchCriteria.teamMemberFiltering,
-      budgetFrom: searchCriteria.budgetMin?.toString(),
-      budgetTo: searchCriteria.budgetMax?.toString()
-    }),
+  const { queryParams, params, setPage } = useProjectSearch();
+
+  const { data: response, isFetching } = useQuery({
+    queryKey: ['projects', params],
+    queryFn: () => getProjects(queryParams),
     placeholderData: (prev) => prev
   });
 
@@ -51,8 +41,8 @@ export function ProjectList() {
     <div className="px-2 py-2">
       <div className="flex justify-between items-center mb-6">
         <FlexText>
-          <H1>Projects</H1>
-          {projects && <Text>({projects.length} results)</Text>}
+          <H1 className='mb-0'>Projects</H1>
+          {response && <Text>(available: {response.totalCount}, showing: {response.items.length})</Text>}
         </FlexText>
         <Button
           icon={Plus}
@@ -63,7 +53,17 @@ export function ProjectList() {
         </Button>
       </div>
 
-      <ProjectSearchBar onCriteriaUpdate={setSearchCriteria} />
+      <ProjectSearchBar />
+
+      {response && (
+        <div className="mt-4 mb-6">
+          <Pagination
+            currentPage={params.pagination.page}
+            totalPages={response.totalPages}
+            onPageChange={setPage}
+          />
+        </div>
+      )}
 
       <div className="relative min-h-[200px]">
         {(isFetching) && (
@@ -71,7 +71,7 @@ export function ProjectList() {
         )}
 
         <div className={`space-y-6 ${isFetching ? 'pointer-events-none' : ''}`}>
-          {projects?.map((project) => (
+          {response?.items.map((project) => (
             <ProjectCard
               key={project.id}
               project={project}
@@ -82,6 +82,16 @@ export function ProjectList() {
           ))}
         </div>
       </div>
+
+      {response && (
+        <div className="mt-6">
+          <Pagination
+            currentPage={params.pagination.page}
+            totalPages={response.totalPages}
+            onPageChange={setPage}
+          />
+        </div>
+      )}
     </div>
   );
 }

@@ -1,6 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
+import { v4 as uuid } from 'uuid'
+
 import { RadioGroup } from './RadioGroup';
+import { getArgsPropsOrDie } from '../story-utils';
 
 const meta: Meta<typeof RadioGroup> = {
   title: 'UI/Forms/RadioGroup',
@@ -103,7 +106,23 @@ const serviceTiers = [
   }
 ];
 
+const Template = (args: Story['args']) => {
+  const header = getArgsPropsOrDie(args, 'header');
+  const options = getArgsPropsOrDie(args, 'options');
+  const value = getArgsPropsOrDie(args, 'value');
+  const onChange = getArgsPropsOrDie(args, 'onChange');
+
+  return <RadioGroup
+    {...args}
+    header={header}
+    options={options.map(opt => ({ ...opt, id: `${opt.id}-${uuid()}` }))}
+    value={value}
+    onChange={onChange}
+  />;
+}
+
 export const Vertical: Story = {
+  render: Template,
   args: {
     header: 'Select Project Type',
     options: projectTypes,
@@ -113,6 +132,7 @@ export const Vertical: Story = {
 };
 
 export const VerticalWithSelection: Story = {
+  render: Template,
   args: {
     header: 'Select Project Type (With Selection)',
     options: projectTypes,
@@ -122,6 +142,7 @@ export const VerticalWithSelection: Story = {
 };
 
 export const Horizontal: Story = {
+  render: Template,
   args: {
     header: 'Select Development Approach',
     options: developmentApproaches,
@@ -132,6 +153,7 @@ export const Horizontal: Story = {
 };
 
 export const HorizontalWithSelection: Story = {
+  render: Template,
   args: {
     header: 'Select Development Approach (Horizontal with Selection)',
     options: developmentApproaches,
@@ -142,6 +164,7 @@ export const HorizontalWithSelection: Story = {
 };
 
 export const PanelView: Story = {
+  render: Template,
   args: {
     header: 'Select Service Tier',
     options: serviceTiers,

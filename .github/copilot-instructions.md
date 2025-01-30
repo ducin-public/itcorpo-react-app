@@ -1,3 +1,5 @@
+Whenever in doubt, ask. We'll get better results if you ask me when facing a non-obvious problem. In such case suggest various solutions along with their pros and cons.
+
 remember that `./` refers to the current working directory.
 
 Don't add new files unless absolutely necessary. When I ask you to use an existing file, search the codebase because most probably the file already exists.
@@ -42,7 +44,7 @@ Use existing typography, when possible: `./src/components/Typography/*`. If an i
 
 ## form controls
 
-Form controls (TextInput, Autocompleter, Dropdown, MultiSelect etc.) should have total height of 40px. Adjust internal styling and/or use `styleConstants.MIN_CONTROL_HEIGHT` to meet this requirement.
+Form controls (TextInput, Autocompleter, Dropdown, MultiSelect etc.) should have total height of 40px. Adjust internal styling and/or use `styleConstants.CONTROL_MIN_HEIGHT` to meet this requirement.
 
 ### form control props
 
@@ -50,6 +52,32 @@ Form controls (TextInput, Autocompleter, Dropdown, MultiSelect etc.) should have
 - internal event handlers: if the callback received via props (e.g. `onChange`) has to be wrapped internally, follow the `handle<Event>` name for the internal implementation: `handleChange`, `handleUpdate` etc.
 - if a form control accepts multiple choices (e.g. Dropdown, MultiSelect, etc.) follow the `options` name for the prop that defines the available choices. I.e. **not** `values`, not `items` etc.
 - avoid `value` or `values` for prop names, as they are too ambiguous - suggest more precise names instead
+- form controls should usually accept following props:
+  - `disabled?: boolean`
+  - `error?: string`
+
+### form control stories
+
+Each form control should have its separate stories file, providing the `meta: Meta` definition, including:
+- title
+- components
+- parameters/layout: centered
+- tags: autodocs
+- args:
+  - label
+  - value/values/etc. with empty value
+  - callback (onChange, onSelect, etc) with action from `'@storybook/addon-actions'`
+
+Each form control should provide following stories in the following order:
+- Default - relying on all `args` in `meta` story declaration, either no `value` or empty string or empty array (whatever is needed)
+- WithValue - pass `value` explicitly
+- WithPlaceholder - only if component have `placeholder` prop
+- WithError - pass `error` explicitly
+- Disabled - pass `disabled` explicitly
+- DisabledWithValue - pass both `disabled` and `value` explicitly
+- CustomRendering - pass custom `className` explicitly - change colors, widget size, font size and whatever can be changed
+
+But don't enforce creating stories if they make no sense, e.g. if a component doesn't have a `placeholder` prop, don't create illogical WithPlaceholder story.
 
 ## storybook
 

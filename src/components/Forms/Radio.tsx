@@ -1,4 +1,4 @@
-import { FC, useState, useEffect } from 'react';
+import { FC } from 'react';
 import { styleConstants, styles } from '../DesignLanguage';
 
 type RadioProps = {
@@ -8,6 +8,8 @@ type RadioProps = {
   value: string;
   checked: boolean;
   onChange: (value: string) => void;
+  disabled?: boolean;
+  error?: boolean;
   className?: string;
 };
 
@@ -18,33 +20,52 @@ export const Radio: FC<RadioProps> = ({
   value,
   checked, 
   onChange,
+  disabled = false,
+  error,
   className = '' 
 }) => {
-  const [localChecked, setLocalChecked] = useState(checked);
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLocalChecked(true);
     onChange(e.target.value);
   };
 
-  useEffect(() => {
-    setLocalChecked(checked);
-  }, [checked]);
-
   return (
-    <div className={`flex items-center space-x-3 ${className}`}>
-      <input
-        type="radio"
-        id={id}
-        name={name}
-        value={value}
-        checked={localChecked}
-        onChange={handleChange}
-        className={`${styles.ACCENT.accent} h-4 w-4 border-gray-300 ${styles.ACCENT.text} focus:ring-2 ${styles.ACCENT.focusRing} checked:${styles.ACCENT.background} ${styles.ACCENT.backgroundHover}`}
-      />
-      <label htmlFor={id} className={`${styleConstants.LABEL_TEXT_SIZE} ${styles.ACCENT.text}`}>
-        {label}
-      </label>
+    <div className={`flex flex-col ${className}`}>
+      <div className="flex items-center space-x-3">
+        <input
+          type="radio"
+          id={id}
+          name={name}
+          value={value}
+          checked={checked}
+          onChange={handleChange}
+          disabled={disabled}
+          className={`h-4 w-4 border-gray-300
+            ${disabled 
+              ? 'cursor-not-allowed opacity-50' 
+              : error 
+                ? `${styles.ALERT.accent} ${styles.ALERT.text} ${styles.ALERT.focusRing}` 
+                : `${styles.ACCENT.accent} ${styles.ACCENT.text} ${styles.ACCENT.focusRing}`
+            }
+          `}
+        />
+        <label 
+          htmlFor={id} 
+          className={`${styleConstants.LABEL_TEXT_SIZE}
+            ${disabled 
+              ? 'cursor-not-allowed text-gray-400' 
+              : error 
+                ? styles.ALERT.text 
+                : styles.DEFAULT.text
+            }`}
+        >
+          {label}
+        </label>
+      </div>
+      {error && (
+        <span className={`mt-1 text-xs ${styles.ALERT.text}`}>
+          {error}
+        </span>
+      )}
     </div>
   );
 };

@@ -8,3 +8,12 @@ export interface EmployeeSearchFilters {
   skills: string;
   skillsFiltering: SkillsFiltering;
 }
+
+export const emptyEmployeeSearchFilters: EmployeeSearchFilters = {
+  searchTerm: '',
+  departments: [],
+  skills: '',
+  minSalary: undefined,
+  maxSalary: undefined,
+  skillsFiltering: 'ANY',
+}

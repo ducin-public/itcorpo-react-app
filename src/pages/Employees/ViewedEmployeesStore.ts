@@ -1,21 +1,24 @@
 import { makeAutoObservable } from 'mobx';
 import { Employee } from '../../contract-types/data-contracts';
+import { ViewedEmployee } from './viewedEmployee';
 
 class ViewedEmployeesStore {
-  viewedEmployees: Employee[] = []
+  private viewedEmployees = new Map<Employee['id'], ViewedEmployee>();
+
+  getViewedEmployees() {
+    return Array.from(this.viewedEmployees.values());
+  }
 
   constructor() {
     makeAutoObservable(this);
   }
 
-  addViewedEmployee(employee: Employee) {
-    if (!this.viewedEmployees.find(e => e.id === employee.id)) {
-      this.viewedEmployees.push(employee);
-    }
+  addViewedEmployee(employee: ViewedEmployee) {
+    this.viewedEmployees.set(employee.id, employee);
   }
 
   clearViewedEmployees() {
-    this.viewedEmployees = [];
+    this.viewedEmployees.clear();
   }
 }
 

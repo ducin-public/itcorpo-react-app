@@ -1,13 +1,12 @@
-import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 import { MultiSelect } from '../../components/Forms/MultiSelect';
 import { NumberRangeInput } from '../../components/Forms/NumberRangeInput';
 import { ExpandableSearchBar } from '../../components/Generic/ExpandableSearchBar';
-import { getDepartments } from '../../api/DepartmentApi.axios';
 import type { EmployeeSearchFilters } from './EmployeeSearchFilters';
 import { TextInput } from '../../components/Forms/TextInput';
-import { FilteringChoice } from '../../components/Forms/FilteringChoice';
+import { FilteringChoice } from '../../components/Generic/FilteringChoice';
+import { departmentsListQuery } from '../../api/DepartmentQueries';
 
 interface EmployeesSearchBarProps {
   onFiltersChange: (filters: EmployeeSearchFilters) => void;
@@ -15,10 +14,7 @@ interface EmployeesSearchBarProps {
 }
 
 export function EmployeesSearchBar({ onFiltersChange, filters }: EmployeesSearchBarProps) {
-  const { data: departments = [] } = useQuery({
-    queryKey: ['departments'],
-    queryFn: getDepartments,
-  });
+  const { data: departments = [] } = useQuery(departmentsListQuery);
 
   const departmentOptions = departments.reduce((acc, department) => {
     acc[department.id] = department.name;

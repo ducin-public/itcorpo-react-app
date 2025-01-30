@@ -105,6 +105,27 @@ export const RemovableList: Story = {
   )
 };
 
+export const DisabledList: Story = {
+  render: () => (
+    <ChipList
+      items={['React', 'TypeScript', 'Node.js']}
+      disabled
+    />
+  )
+};
+
+export const DisabledInteractiveList: Story = {
+  render: () => (
+    <ChipList
+      items={['React', 'TypeScript', 'Node.js']}
+      icon={X}
+      onRemove={action('chip-removed')}
+      onClick={action('chip-clicked')}
+      disabled
+    />
+  )
+};
+
 export const AllCases: Story = {
   render: () => (
     <div className="space-y-4">

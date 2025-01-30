@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { DatePicker } from './DatePicker';
+import { Text } from '../Typography/Text';
+import { useState } from 'react';
 
 const meta = {
   title: 'UI/Forms/DatePicker',
@@ -9,48 +11,62 @@ const meta = {
     layout: 'centered',
   },
   tags: ['autodocs'],
+  args: {
+    selected: undefined,
+    onSelect: action('date selected'),
+  }
 } satisfies Meta<typeof DatePicker>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+const YESTERDAY = new Date(new Date().setDate(new Date().getDate() - 1))
+const TOMORROW = new Date(new Date().setDate(new Date().getDate() + 1))
+
+const Template = (args: Story['args']) => {
+  const [selected, setSelected] = useState(args?.selected);
+  return <DatePicker
+    {...args}
+    selected={selected}
+    onSelect={setSelected}
+  />;
+}
+
 export const Default: Story = {
-  args: {
-    selected: null,
-    onSelect: action('date selected'),
-  },
+  render: Template,
 };
 
 export const WithSelectedDate: Story = {
+  render: Template,
   args: {
-    selected: new Date(2024, 0, 15), // January 15, 2024
-    onSelect: action('date selected'),
-  },
-};
-
-export const Disabled: Story = {
-  args: {
-    selected: null,
-    onSelect: action('date selected'),
-    disabled: true,
-  },
-};
-
-export const WithDisabledDays: Story = {
-  args: {
-    selected: null,
-    onSelect: action('date selected'),
-    disabledDays: [
-      new Date(2024, 0, 1), // New Year's Day
-      new Date(2024, 11, 25), // Christmas
-    ],
+    selected: new Date(2024, 0, 15),
   },
 };
 
 export const WithFooter: Story = {
+  render: Template,
   args: {
-    selected: null,
-    onSelect: action('date selected'),
-    footer: <p className="text-sm text-gray-500">Please select an appointment date</p>,
+    footer: <Text>Please select a date</Text>
+  },
+};
+
+export const DisabledAll: Story = {
+  render: Template,
+  args: {
+    disabled: true,
+  },
+};
+
+export const WithDisabledFixedDates: Story = {
+  render: Template,
+  args: {
+    disabled: [YESTERDAY, TOMORROW]
+  },
+};
+
+export const WithDisabledRange: Story = {
+  render: Template,
+  args: {
+    disabled: { before: YESTERDAY }
   },
 };

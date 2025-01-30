@@ -1,74 +1,48 @@
-import { Edit, Search, Trash2 } from 'lucide-react';
-import type { Employee } from '../../contract-types/data-contracts';
-import { Button } from '../../components/Generic/Button';
 import { employeeImageURL } from './employeeImageURL';
-import { EmployeeSkills } from './EmployeeSkills';
-import { H3 } from '../../components/Typography/Headings';
+import { H2, H3 } from '../../components/Typography/Headings';
 import { Text } from '../../components/Typography/Text';
+import { Employee } from '../../contract-types/data-contracts';
 
-interface EmployeeCardProps {
-  employee: Employee;
-  onView: () => void;
-  onEdit: () => void;
-  onDelete: () => void;
+type EmployeeCardProps = {
+    employee: Pick<Employee, 'name' | 'position' | 'department' | 'imgURL'>;
+    size: 'SMALL' | 'LARGE';
 }
 
-export function EmployeeCard({
-  employee,
-  onView,
-  onEdit,
-  onDelete
-}: EmployeeCardProps) {
-  return (
-    <div className="bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow">
-      <div className="flex items-start justify-between">
-        <div className="flex items-center space-x-4">
-          <img
+const EmployeeCardSmall = ({ employee }: Pick<EmployeeCardProps, 'employee'>) => {
+    return <div className="flex items-center space-x-6">
+        <img
             src={employeeImageURL(employee)}
-            alt={`${employee.firstName} ${employee.lastName}`}
-            className="h-12 w-12 rounded-full object-cover"
-          />
-          <div>
-            <H3 className='mb-1'>
-              {employee.firstName} {employee.lastName}
-            </H3>
-            <Text>{employee.title}</Text>
-          </div>
+            alt={`${employee.name}`}
+            className="h-16 w-16 rounded-full object-cover"
+        />
+        <div>
+            <H3 className='mb-0'>{employee.name}</H3>
+            <Text>{employee.position}</Text>
+            <Text size="SMALL" className='block'>{employee.department}</Text>
         </div>
-        <div className="flex space-x-2">
-          <button
-            onClick={onEdit}
-            className="text-gray-400 hover:text-indigo-600"
-          >
-            <Edit className="h-5 w-5" />
-          </button>
-          <button
-            onClick={onDelete}
-            className="text-gray-400 hover:text-red-600"
-          >
-            <Trash2 className="h-5 w-5" />
-          </button>
-        </div>
-      </div>
-
-      <div className="mt-4">
-        <p className="text-sm text-gray-600">{employee.email}</p>
-        <p className="text-sm text-gray-600">{employee.department}</p>
-      </div>
-
-      <div className="mt-4">
-        <EmployeeSkills skills={employee.skills} expanded={false} collapseAbove={3} />
-      </div>
-
-      <Button
-        icon={Search}
-        size='SMALL'
-        fill='OUTLINED'
-        onClick={onView}
-        className="mt-4"
-      >
-        View Details
-      </Button>
     </div>
-  );
+}
+
+const EmployeeCardLarge = ({ employee }: Pick<EmployeeCardProps, 'employee'>) => {
+    return <div className="flex items-center space-x-6">
+        <img
+            src={employeeImageURL(employee)}
+            alt={`${employee.name}`}
+            className="h-24 w-24 rounded-full object-cover"
+        />
+        <div>
+            <H2>{employee.name}</H2>
+            <Text>{employee.position}</Text>
+            <Text size="SMALL" className='block'>{employee.department}</Text>
+        </div>
+    </div>
+}
+
+export const EmployeeCard = ({ employee, size }: EmployeeCardProps) => {
+    switch (size) {
+        case 'SMALL':
+            return <EmployeeCardSmall employee={employee} />;
+        case 'LARGE':
+            return <EmployeeCardLarge employee={employee} />;
+    }
 }

@@ -1,6 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
+import { v4 as uuid } from 'uuid'
+
 import { CheckboxGroup } from './CheckboxGroup';
+import { getArgsPropsOrDie } from '../story-utils';
 
 const meta: Meta<typeof CheckboxGroup> = {
   title: 'UI/Forms/CheckboxGroup',
@@ -152,7 +155,23 @@ const extendedServiceOptions = [
   }
 ];
 
+const Template = (args: Story['args']) => {
+  const header = getArgsPropsOrDie(args, 'header');
+  const options = getArgsPropsOrDie(args, 'options');
+  const values = getArgsPropsOrDie(args, 'values');
+  const onChange = getArgsPropsOrDie(args, 'onChange');
+
+  return <CheckboxGroup
+    {...args}
+    header={header}
+    options={options.map(opt => ({ ...opt, id: `${opt.id}-${uuid()}` }))}
+    values={values}
+    onChange={onChange}
+  />;
+}
+
 export const Vertical: Story = {
+  render: Template,
   args: {
     header: 'Required Testing Procedures',
     options: simpleOptions,
@@ -162,6 +181,7 @@ export const Vertical: Story = {
 };
 
 export const VerticalWithSelection: Story = {
+  render: Template,
   args: {
     header: 'Required Testing Procedures (With Selection)',
     options: simpleOptions,
@@ -171,6 +191,7 @@ export const VerticalWithSelection: Story = {
 };
 
 export const Horizontal: Story = {
+  render: Template,
   args: {
     header: 'Required Testing Procedures (Horizontal)',
     options: simpleOptions,
@@ -181,6 +202,7 @@ export const Horizontal: Story = {
 };
 
 export const HorizontalWithSelection: Story = {
+  render: Template,
   args: {
     header: 'Required Testing Procedures (Horizontal with Selection)',
     options: simpleOptions,
@@ -191,6 +213,7 @@ export const HorizontalWithSelection: Story = {
 };
 
 export const PanelView: Story = {
+  render: Template,
   args: {
     header: 'Select Project Requirements',
     options: projectOptions,
@@ -201,6 +224,7 @@ export const PanelView: Story = {
 };
 
 export const TableView: Story = {
+  render: Template,
   args: {
     header: 'Select Required Services',
     options: serviceOptions,
@@ -211,6 +235,7 @@ export const TableView: Story = {
 };
 
 export const ExtendedTableView: Story = {
+  render: Template,
   args: {
     header: 'Select Required Services (Detailed View)',
     options: extendedServiceOptions,

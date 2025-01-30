@@ -1,82 +1,138 @@
-import React from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { format } from 'date-fns';
+import { ArrowLeft, LayoutList } from 'lucide-react';
+import { format, formatDistance } from 'date-fns';
 import { observer } from 'mobx-react-lite';
 
 import { Spinner } from '../../components/Generic/Spinner';
 import { viewedEmployeesStore } from './ViewedEmployeesStore';
 import { getEmployeeById } from '../../api/EmployeeApi.axios';
 import { formatCurrency } from '../../contexts/CurrencyContext';
-import { employeeImageURL } from './employeeImageURL';
+import { DetailsSection } from '../../components/Generic/DetailsSection';
+import { contractTypeDict, nationalityDict } from './EmployeeDictionaries';
+import { H3 } from '../../components/Typography/Headings';
+import { ActionButtons } from '../../components/Generic/ActionButtons';
+import { EmployeeCard } from './EmployeeCard';
+
+const MultiParagraphText = ({ text }: { text: string }) => {
+  return (
+    <div>
+      {text.split('\n').map((paragraph, index) => (
+        <p key={index} className="text-gray-900">{paragraph}</p>
+      ))}
+    </div>
+  );
+}
 
 export const EmployeeDetails = observer(() => {
   const { id } = useParams();
+  const employeeId = Number(id!);
+  const navigate = useNavigate();
 
   const { data: employee, isLoading } = useQuery({
     queryKey: ['employee', id],
-    queryFn: () => getEmployeeById({ employeeId: Number(id!) }),
-    // onSuccess: (data) => {
-    //   viewedEmployeesStore.addViewedEmployee(data);
-    // },
+    queryFn: () => getEmployeeById({ employeeId })
   });
+
+  useEffect(() => {
+    if (employee) {
+      viewedEmployeesStore.addViewedEmployee(employee);
+    }
+  }, [employee]);
 
   if (isLoading) return <Spinner />;
   if (!employee) return null;
+
+  const personalInformationLines = [
+    { label: 'Email', value: employee.email },
+    { label: 'Phone', value: employee.personalInfo.phone },
+    { label: 'Address', value:
+      <>
+        { employee.personalInfo.address.street }
+        <div>{ employee.personalInfo.address.city }, { employee.personalInfo.address.country }</div>
+      </>
+    },
+    { label: 'Nationality', value: nationalityDict[employee.nationality] },
+  ];
+
+  const officeDetailsLines = [
+    {
+      label: 'Office',
+      value: employee.office
+    },
+    {
+      label: 'Keycard ID',
+      value: employee.keycardId
+    }
+  ]
+
+  const employmentDetailsLines = [
+    {
+      label: 'Employment',
+      value: contractTypeDict[employee.employment.contractType]
+    },
+    {
+      label: 'Employment Start Date',
+      value: format(new Date(employee.employment.startDate), 'MMM d, yyyy')
+    },
+    ...(employee.employment.endDate ? [{
+      label: 'Employment Termination Date',
+      value: format(new Date(employee.employment.endDate), 'MMM d, yyyy')
+    }] : []),
+    {
+      label: 'Duration',
+      value: formatDistance(new Date(employee.employment.startDate), new Date(employee.employment.endDate || new Date()))
+    },
+    {
+      label: 'Salary',
+      value: `${formatCurrency(employee.employment.currentSalary)} /month`
+    },
+    {
+      label: 'Bank Account',
+      value: employee.account
+    },
+  ];
 
   return (
     <div className="max-w-3xl mx-auto">
       <div className="bg-white rounded-lg shadow-sm overflow-hidden">
         <div className="p-6">
-          <div className="flex items-center space-x-6">
-            <img
-              src={employeeImageURL(employee)}
-              alt={`${employee.firstName} ${employee.lastName}`}
-              className="h-24 w-24 rounded-full object-cover"
+
+          <ActionButtons
+            actions={[{
+              icon: ArrowLeft,
+              text: 'Back to Employee Search',
+              onClick: () => navigate(`/employees`)
+            }, {
+              text: 'Projects involved in',
+              icon: LayoutList,
+              onClick: () => navigate(`/employees/${employee.id}/projects`)
+            }]}
+            className="mb-4"
+          />
+
+          <EmployeeCard employee={employee} size='LARGE' />
+
+          <div className="mt-6 grid grid-cols-2 gap-6">
+            <DetailsSection
+              title="Personal Information"
+              lines={personalInformationLines}
             />
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">
-                {employee.firstName} {employee.lastName}
-              </h1>
-              <p className="text-lg text-gray-600">{employee.title}</p>
-              <p className="text-sm text-gray-500">{employee.department}</p>
-            </div>
+            
+            <DetailsSection
+              title="Employment Details"
+              lines={employmentDetailsLines}
+            />
+
+            <DetailsSection
+              title="Office Details"
+              lines={officeDetailsLines}
+            />
           </div>
 
-          <div className="mt-8 grid grid-cols-2 gap-6">
-            <div>
-              <h2 className="text-lg font-semibold text-gray-900 mb-4">Contact Information</h2>
-              <div className="space-y-2">
-                <p className="text-sm">
-                  <span className="text-gray-500">Email:</span>{' '}
-                  <span className="text-gray-900">{employee.email}</span>
-                </p>
-                <p className="text-sm">
-                  <span className="text-gray-500">Phone:</span>{' '}
-                  <span className="text-gray-900">{employee.personalInfo.phone}</span>
-                </p>
-              </div>
-            </div>
-
-            <div>
-              <h2 className="text-lg font-semibold text-gray-900 mb-4">Employment Details</h2>
-              <div className="space-y-2">
-                <p className="text-sm">
-                  <span className="text-gray-500">Hire Date:</span>{' '}
-                  <span className="text-gray-900">
-                    {format(new Date(employee.hiredAt), 'MMM d, yyyy')}
-                  </span>
-                </p>
-                <p className="text-sm">
-                  <span className="text-gray-500">Salary:</span>{' '}
-                  <span className="text-gray-900">{formatCurrency(employee.salary)}/year</span>
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-8">
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">Skills</h2>
+          <div className="mt-6">
+            <H3>Skills</H3>
             <div className="flex flex-wrap gap-2">
               {employee.skills.map((skill) => (
                 <span
@@ -89,14 +145,15 @@ export const EmployeeDetails = observer(() => {
             </div>
           </div>
 
-          <div className="mt-8">
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">Address</h2>
-            <div className="space-y-1 text-sm text-gray-600">
-              <p>{employee.personalInfo.address.street}</p>
-              <p>
-                {employee.personalInfo.address.city}, {employee.personalInfo.address.country}</p>
+          <div className="mt-6">
+            <H3>Biography</H3>
+            <div className="flex flex-wrap gap-2">
+              <MultiParagraphText text={employee.bio} />
             </div>
           </div>
+
+          
+
         </div>
       </div>
     </div>

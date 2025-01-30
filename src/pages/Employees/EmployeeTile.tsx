@@ -1,0 +1,75 @@
+import React from 'react';
+import { Edit, Trash2 } from 'lucide-react';
+
+import type { Employee } from '../../contract-types/data-contracts';
+import { EmployeeSkills } from './EmployeeSkills';
+import { Text } from '../../components/Typography/Text';
+import { EmployeeCard } from './EmployeeCard';
+import { formatCurrency } from '../../contexts/CurrencyContext';
+import { A } from '../../components/Typography/A';
+import { formatDate, formatDistance } from 'date-fns';
+
+interface EmployeeTileProps {
+  employee: Employee;
+  onEdit: () => void;
+  onDelete: () => void;
+  footer?: React.ReactNode;
+}
+
+export function EmployeeTile({
+  employee,
+  onEdit,
+  onDelete,
+  footer
+}: EmployeeTileProps) {
+  return (
+    <div className="bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow">
+      <div className="flex items-start justify-between">
+
+        <EmployeeCard employee={employee} size="SMALL" />
+
+        <div className="flex space-x-2">
+          <button
+            onClick={onEdit}
+            className="text-gray-400 hover:text-indigo-600"
+          >
+            <Edit className="h-5 w-5" />
+          </button>
+          <button
+            onClick={onDelete}
+            className="text-gray-400 hover:text-red-600"
+          >
+            <Trash2 className="h-5 w-5" />
+          </button>
+        </div>
+      </div>
+
+      <div className="mt-4">
+        <Text size='SMALL' className='block'>monthly salary:&nbsp;
+          {formatCurrency(employee.employment.currentSalary)}
+        </Text>
+        <Text size='SMALL' className='block'>e-mail:&nbsp;
+          <A size='SMALL' href={`mailto:${employee.email}`}>{employee.email}</A>
+        </Text>
+        <Text size='SMALL' className='block'>office:&nbsp;
+          {employee.office}
+        </Text>
+        <Text size='SMALL' className='block'>employment:&nbsp;
+          {formatDate(new Date(employee.employment.startDate), 'MMM dd, yyyy')} -&nbsp;
+          {employee.employment.endDate ?
+            formatDate(new Date(employee.employment.endDate), 'MMM dd, yyyy') : 'present'}
+        </Text>
+        <Text size='SMALL' className='block'>(total:&nbsp;
+          {formatDistance(new Date(employee.employment.startDate), new Date(employee.employment.endDate || new Date()))}
+        )
+        </Text>
+      </div>
+
+      <div className="mt-4">
+        <EmployeeSkills skills={employee.skills} expanded={false} collapseAbove={3} />
+      </div>
+
+      {footer || null}
+    </div>
+  );
+}

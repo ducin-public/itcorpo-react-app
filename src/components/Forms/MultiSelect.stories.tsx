@@ -1,8 +1,17 @@
+import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import { useState } from 'react';
-
 import { MultiSelect } from './MultiSelect';
+import { getArgsPropsOrDie } from '../story-utils';
+import { ValidationError } from './ValidationError';
+
+const projectTechnologies = {
+  'REACT': 'React',
+  'NODEJS': 'Node.js',
+  'TYPESCRIPT': 'TypeScript',
+  'PYTHON': 'Python',
+  'JAVA': 'Java',
+};
 
 const meta = {
   title: 'UI/Forms/MultiSelect',
@@ -11,82 +20,77 @@ const meta = {
     layout: 'centered',
   },
   tags: ['autodocs'],
+  args: {
+    label: 'Project Technologies',
+    options: projectTechnologies,
+    placeholder: 'Select technologies...',
+    onChange: action('onChange'),
+    value: [],
+  },
   decorators: [(Story) => <div className="w-[300px]">{Story()}</div>],
 } satisfies Meta<typeof MultiSelect>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof MultiSelect>;
 
-export const Technologies: Story = {
+const Template = (args: Story['args']) => {
+  const [value, setValue] = useState<string[]>(args?.value ?? []);
+  const label = getArgsPropsOrDie(args, 'label');
+  const options = getArgsPropsOrDie(args, 'options');
+
+  return (
+    <>
+      <MultiSelect
+        {...args}
+        label={label}
+        options={options}
+        value={value}
+        onChange={(newValue) => {
+          setValue(newValue);
+          action('onChange')(newValue);
+        }}
+      />
+      {args?.error && <ValidationError>At least one option must be selected</ValidationError>}
+    </>
+  );
+};
+
+export const Default = Template.bind({});
+
+export const WithValue: Story = {
+  render: Template,
   args: {
-    label: "Technologies",
-    options: [
-      { label: 'React', value: 'react' },
-      { label: 'Node.js', value: 'nodejs' },
-      { label: 'TypeScript', value: 'typescript' },
-      { label: 'Python', value: 'python' },
-      { label: 'Java', value: 'java' },
-    ],
-    placeholder: "Select technologies...",
-    value: [],
-    onChange: action('onChange'),
+    value: ['REACT', 'TYPESCRIPT'],
   },
 };
 
-export const ProjectTypes: Story = {
+export const WithPlaceholder: Story = {
+  render: Template,
   args: {
-    label: "Project Categories",
-    options: [
-      { label: 'Frontend Development', value: 'frontend' },
-      { label: 'Backend Services', value: 'backend' },
-      { label: 'DevOps', value: 'devops' },
-      { label: 'Cloud Infrastructure', value: 'cloud' },
-      { label: 'Data Engineering', value: 'data' },
-    ],
-    placeholder: "Select project types...",
-    value: [],
-    onChange: action('onChange'),
+    placeholder: 'Choose required technologies...',
   },
 };
 
-export const Departments: Story = {
+export const WithError: Story = {
+  render: Template,
   args: {
-    label: "Department Access",
-    options: [
-      { label: 'Development Team', value: 'dev' },
-      { label: 'QA Department', value: 'qa' },
-      { label: 'DevOps Team', value: 'devops' },
-      { label: 'Project Management', value: 'pm' },
-      { label: 'Security Team', value: 'security' },
-    ],
-    placeholder: "Select departments...",
+    error: true,
     value: [],
-    onChange: action('onChange'),
   },
 };
 
-export const WithPreselectedValues: Story = {
+export const Disabled: Story = {
+  render: Template,
   args: {
-    label: "Required Skills",
-    options: [
-      { label: 'React', value: 'react' },
-      { label: 'TypeScript', value: 'typescript' },
-      { label: 'Node.js', value: 'nodejs' },
-      { label: 'AWS', value: 'aws' },
-      { label: 'Docker', value: 'docker' },
-    ],
-    value: ['react', 'typescript'],
-    onChange: action('onChange'),
-    placeholder: "Select required skills...",
+    disabled: true,
+    value: [],
   },
 };
 
-export const Empty: Story = {
+export const DisabledWithValue: Story = {
+  render: Template,
   args: {
-    label: "No Options",
-    options: [],
-    value: [],
-    onChange: action('onChange'),
-    placeholder: "No options available",
+    value: ['REACT', 'TYPESCRIPT'],
+    disabled: true,
   },
 };

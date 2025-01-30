@@ -14,7 +14,7 @@ const preview: Preview = {
       storySort: {
         order: [
           'UI',
-          ['Typography', 'Forms', 'Atoms', 'Molecules'], 
+          ['Typography', 'Forms', ['📚 Index'], 'Atoms', 'Molecules'], 
           'ITCORPO'
         ],
       },
