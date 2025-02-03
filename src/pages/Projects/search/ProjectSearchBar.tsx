@@ -7,6 +7,8 @@ import { FilteringChoice } from '../../../components/Generic/FilteringChoice';
 import { ButtonChoice } from '../../../components/Generic/ButtonChoice';
 import { styleConstants, styles } from '../../../components/DesignLanguage';
 import { useProjectSearch } from './ProjectSearchContext';
+import { Autocomplete } from '../../../components/Forms/Autocomplete';
+import { getEmployeesSearchFeed } from '../../../api/EmployeeApi.axios';
 
 export function ProjectSearchBar() {
   const { params, setFilters, setSorting } = useProjectSearch();
@@ -37,9 +39,13 @@ export function ProjectSearchBar() {
 
         <ExpandableSearchBar.ExpandedContent>
           <div className="flex-1">
-            <TextInput
+            <Autocomplete
               label="Team Members"
               value={params.filters.teamMemberName || ''}
+              fetchOptions={async (phrase) => {
+                const result = await getEmployeesSearchFeed({ employeeName: phrase })
+                return result.map((employee) => ({ id: String(employee.id), label: employee.name }));
+              }}
               onChange={(value) => setFilters({ teamMemberName: value })}
               placeholder="Search by team member name..."
             />

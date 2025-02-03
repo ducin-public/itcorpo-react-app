@@ -75,7 +75,7 @@ export function ProjectListing() {
             <ProjectCard
               key={project.id}
               project={project}
-              onView={() => navigate(`/projects/${project.id}`)}
+              onView={() => navigate(`/projects/${project.id}/details`)}
               onEdit={() => navigate(`/projects/${project.id}/edit`)}
               onDelete={() => deleteMutation.mutate({ projectId: project.id })}
             />

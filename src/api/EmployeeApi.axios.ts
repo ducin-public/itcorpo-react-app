@@ -12,7 +12,7 @@ const buildEmployeeSearchParams__LEGACY = (criteria: Employees.GetEmployees.Requ
     params.append('departmentId', criteria.departmentId);
   }
   if (criteria.employeeName) {
-    params.append('employeeName', criteria.employeeName);
+    params.append('employeeName', encodeURIComponent(criteria.employeeName));
   }
   if (criteria.salaryFrom) {
     params.append('salaryFrom', criteria.salaryFrom);
@@ -40,6 +40,19 @@ const buildEmployeeSearchParams__LEGACY = (criteria: Employees.GetEmployees.Requ
 export const getEmployees = (criteria: Employees.GetEmployees.RequestQuery = {}) => {
   const params = buildEmployeeSearchParams__LEGACY(criteria);
   return apiClient.get<Employees.GetEmployees.ResponseBody>('/employees', { params })
+    .then(res => res.data);
+};
+
+/**
+ * GET /employees/search-feed
+ * @see https://ducin-public.github.io/itcorpo-api/#tag/Employees/operation/getEmployeesSearchFeed
+ * @see {@link Employees.GetEmployeesSearchFeed.RequestQuery}
+ * @see {@link Employee}
+ * @returns {Promise<Employees.GetEmployeesSearchFeed.ResponseBody>}
+ */
+export const getEmployeesSearchFeed = (criteria: Employees.GetEmployeesSearchFeed.RequestQuery = {}) => {
+  const params = buildEmployeeSearchParams__LEGACY(criteria);
+  return apiClient.get<Employees.GetEmployeesSearchFeed.ResponseBody>('/employees/search-feed', { params })
     .then(res => res.data);
 };
 

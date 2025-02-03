@@ -41,9 +41,18 @@ export function ProjectTeamMembers({ project, team }: ProjectTeamMembersProps) {
     }
   };
 
-  const handleAddEmployee = async (employee: Employee) => {
+  const handleAddProjectMember = async (employee: Employee) => {
     try {
-      await addProjectTeamMember(); // FIXME; add mutation (invalidate query, but also modify project/id state)
+      await addProjectTeamMember({
+        projectId: project.id
+      }, {
+        employeeId: employee.id,
+        projectId: project.id,
+        // FIXME: remove hardcoded values
+        engagementLevel: 'FULL_TIME',
+        startDate: new Date() + '',
+        // endDate: null,
+      }); // FIXME; add mutation (invalidate query, but also modify project/id state)
       queryClient.invalidateQueries({ queryKey: ['project', project.id] });
       addNotification('notice', `${employee.name} added to the project`);
       setSearchTerm('');
@@ -53,9 +62,12 @@ export function ProjectTeamMembers({ project, team }: ProjectTeamMembersProps) {
     }
   };
 
-  const handleRemoveEmployee = async (employeeId: Employee['id']) => {
+  const handleRemoveProjectMember = async (employeeId: Employee['id']) => {
     try {
-      await removeProjectTeamMember() // FIXME; add mutation (invalidate query, but also modify project/id state)
+      await removeProjectTeamMember({
+        projectId: project.id,
+        memberId: employeeId,
+      }) // FIXME; add mutation (invalidate query, but also modify project/id state)
       queryClient.invalidateQueries({ queryKey: ['project', project.id] });
       addNotification('notice', 'Employee removed from project');
     } catch (error) {
@@ -93,7 +105,7 @@ export function ProjectTeamMembers({ project, team }: ProjectTeamMembersProps) {
                 <div
                   key={employee.id}
                   className="p-3 hover:bg-gray-50 cursor-pointer flex items-center justify-between"
-                  onClick={() => handleAddEmployee(employee)}
+                  onClick={() => handleAddProjectMember(employee)}
                 >
                   <div className="flex items-center space-x-3">
                     <img
@@ -133,7 +145,7 @@ export function ProjectTeamMembers({ project, team }: ProjectTeamMembersProps) {
               <p className="text-sm text-gray-600">{employee.employeePosition}</p>
             </div>
             <button
-              onClick={() => handleRemoveEmployee(employee.employeeId)}
+              onClick={() => handleRemoveProjectMember(employee.employeeId)}
               className="opacity-0 group-hover:opacity-100 text-gray-400 hover:text-red-600"
             >
               <X className="h-5 w-5" />

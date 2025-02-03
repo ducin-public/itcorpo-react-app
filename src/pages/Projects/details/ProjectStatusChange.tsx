@@ -2,7 +2,9 @@ import { useQueryClient } from '@tanstack/react-query';
 
 import { useNotifications } from '../../../contexts/NotificationContext';
 import { Project, ProjectStatus } from '../../../contract-types/data-contracts';
-import { updateProject } from '../../../api/ProjectApi.axios';
+import { updateProjectStatus } from '../../../api/ProjectApi.axios';
+import { Dropdown } from '../../../components/Forms/Dropdown';
+import { projectStatusDict } from '../ProjectStatus';
 
 const statusColors: { [key in ProjectStatus]: string } = {
   'PLANNING': 'bg-yellow-100 text-yellow-800',
@@ -28,8 +30,9 @@ export function ProjectStatusChange({ project }: ProjectStatusChangeProps) {
 
     if (!confirmed) return;
 
+    // FIXME: this should be a mutation
     try {
-      await updateProject({ projectId: project.id }, { status: newStatus }); // FIXME: PATCH vs PUT
+      await updateProjectStatus({ projectId: project.id }, { status: newStatus });
       queryClient.invalidateQueries({ queryKey: ['project', project.id] });
       addNotification('notice', `Project status updated to ${newStatus}`);
     } catch (error) {
@@ -39,19 +42,12 @@ export function ProjectStatusChange({ project }: ProjectStatusChangeProps) {
 
   return (
     <div className="flex items-center space-x-4">
-      <span className="text-sm text-gray-500">Status:</span>
-      <select
+      <Dropdown
+        label="Project Status"
         value={project.status}
-        onChange={(e) => handleStatusChange(e.target.value as Project['status'])}
-        className={`px-3 py-1 rounded-full text-sm font-medium ${
-          statusColors[project.status]
-        } border-0 cursor-pointer focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
-      >
-        <option value="planning">Planning</option>
-        <option value="active">Active</option>
-        <option value="completed">Completed</option>
-        <option value="on-hold">On Hold</option>
-      </select>
+        onChange={(newStatus) => handleStatusChange(newStatus as Project['status'])}
+        options={projectStatusDict}
+      />
     </div>
   );
 }

@@ -4,7 +4,7 @@ import { Plus } from 'lucide-react';
 import { Pagination } from '../../components/Generic/Pagination';
 
 import { Spinner } from '../../components/Generic/Spinner';
-import { ProjectCard } from './ProjectCard';
+import { ProjectCard } from './listing/ProjectCard';
 import { useNotifications } from '../../contexts/NotificationContext';
 import { deleteProject, getProjects } from '../../api/ProjectApi.axios';
 import { ProjectSearchBar } from './search/ProjectSearchBar';
@@ -75,7 +75,7 @@ export function ProjectList() {
             <ProjectCard
               key={project.id}
               project={project}
-              onView={() => navigate(`/projects/${project.id}`)}
+              onView={() => navigate(`/projects/${project.id}/details`)}
               onEdit={() => navigate(`/projects/${project.id}/edit`)}
               onDelete={() => deleteMutation.mutate({ projectId: project.id })}
             />

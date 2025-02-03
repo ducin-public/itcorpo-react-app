@@ -1,6 +1,6 @@
 import { apiClient, buildURLSearchParams } from './client';
 import { Projects } from '../contract-types/ProjectsRoute';
-import type { Project, ProjectInput, ProjectEmployeeInvolvement } from '../contract-types/data-contracts';
+import type { ProjectInput, ProjectEmployeeInvolvement } from '../contract-types/data-contracts';
 
 /**
  * GET /projects
@@ -45,17 +45,6 @@ export const getProjectById = ({ projectId }: Projects.GetProjectById.RequestPar
 };
 
 /**
- * GET /projects/{projectId}/team
- * @see https://ducin-public.github.io/itcorpo-api/#tag/Projects/operation/getProjectTeam
- * @see {@link ProjectEmployeeInvolvement}
- * @returns {Promise<Projects.GetProjectTeam.ResponseBody>}
- */
-export const getProjectTeam = ({ projectId }: Projects.GetProjectTeam.RequestParams) => {
-  return apiClient.get<Projects.GetProjectTeam.ResponseBody>(`/projects/${projectId}/team`)
-    .then(res => res.data);
-}
-
-/**
  * POST /projects
  * @see https://ducin-public.github.io/itcorpo-api/#tag/Projects/operation/createProject
  * @see {@link ProjectInput}
@@ -93,22 +82,52 @@ export const deleteProject = ({ projectId }: Projects.DeleteProject.RequestParam
 };
 
 /**
+ * PUT /projects/{projectId}/status
+ */
+export const updateProjectStatus = (
+  { projectId }: Projects.UpdateProjectStatus.RequestParams,
+  status: Projects.UpdateProjectStatus.RequestBody
+) => {
+  return apiClient.put<Projects.UpdateProjectStatus.ResponseBody>(`/projects/${projectId}/status`, status)
+    .then(res => res.data);
+}
+
+/**
+ * GET /projects/{projectId}/team
+ * @see https://ducin-public.github.io/itcorpo-api/#tag/Projects/operation/getProjectTeam
+ * @see {@link ProjectEmployeeInvolvement}
+ * @returns {Promise<Projects.GetProjectTeam.ResponseBody>}
+ */
+export const getProjectTeam = ({ projectId }: Projects.GetProjectTeam.RequestParams) => {
+  return apiClient.get<Projects.GetProjectTeam.ResponseBody>(`/projects/${projectId}/team`)
+    .then(res => res.data);
+}
+
+/**
  * POST /projects/{projectId}/team
  */
-export const addProjectTeamMember = () => {
-  throw new Error('Not implemented');
+export const addProjectTeamMember = (
+  { projectId }: Projects.AssignMemberToProject.RequestParams,
+  involvement: Projects.AssignMemberToProject.RequestBody,
+) => {
+  return apiClient.post<Projects.AssignMemberToProject.ResponseBody>(`/projects/${projectId}/team`, involvement)
 }
 
 /**
- * PUT /projects/{projectId}/team
+ * PUT /projects/{projectId}/team/{memberId}
  */
-export const updateProjectTeamMember = () => {
-  throw new Error('Not implemented');
+export const updateProjectTeamMember = (
+  { projectId, memberId }: Projects.UpdateProjectMember.RequestParams,
+  involvement: Projects.UpdateProjectMember.RequestBody,
+) => {
+  return apiClient.put<Projects.UpdateProjectMember.ResponseBody>(`/projects/${projectId}/team/${memberId}`, involvement)
 }
 
 /**
- * DELETE /projects/{projectId}/team/{employeeId}
+ * DELETE /projects/{projectId}/team/{memberId}
  */
-export const removeProjectTeamMember = () => {
-  throw new Error('Not implemented');
+export const removeProjectTeamMember = (
+  { projectId, memberId }: Projects.RemoveProjectMember.RequestParams,
+) => {
+  return apiClient.delete<Projects.RemoveProjectMember.ResponseBody>(`/projects/${projectId}/team/${memberId}`)
 }

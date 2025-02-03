@@ -2,12 +2,12 @@ import { Eye, Edit, Trash2, Users, Calendar } from 'lucide-react';
 import { formatDate } from 'date-fns/format';
 
 import { projectStatusDict } from '../ProjectStatus';
-import type { Project, ProjectStatus } from '../../../contract-types/data-contracts';
+import type { ProjectListingItem, ProjectStatus } from '../../../contract-types/data-contracts';
 import { Chip } from '../../../components/Generic/Chip';
 import { styles, VariantType } from '../../../components/DesignLanguage';
 
 interface ProjectCardProps {
-  project: Project;
+  project: ProjectListingItem;
   onView: () => void;
   onEdit: () => void;
   onDelete: () => void;
@@ -64,7 +64,7 @@ export function ProjectCard({ project, onView, onEdit, onDelete }: ProjectCardPr
         >{projectStatusDict[project.status]}</Chip>
         <div className="flex items-center">
           <Users className="h-4 w-4 mr-1" />
-          <span>{project.team.length} members</span> {/* FIXME */}
+          <span>{project.teamSize} members</span> {/* FIXME */}
         </div>
         {project.endDate && <div className="flex items-center">
           <Calendar className="h-4 w-4 mr-1" />

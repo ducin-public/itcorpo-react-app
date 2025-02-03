@@ -22,6 +22,8 @@ import { OfficeDetails } from './pages/Offices/OfficeDetails';
 import { ProjectListing } from './pages/Projects/listing/ProjectListing';
 import { ProjectDetails } from './pages/Projects/details/ProjectDetails';
 import { ProjectPage } from './pages/Projects/ProjectPage';
+import { ProjectEdit } from './pages/Projects/edit/ProjectEdit';
+import { Error404 } from './Error404';
 
 const queryClient = new QueryClient();
 
@@ -54,6 +56,7 @@ export function App() {
                   <Route index element={<Navigate to='/projects/listing' />} />
                   <Route path="listing" element={<ProjectListing />} />
                   <Route path=":id/details" element={<ProjectDetails />} />
+                  <Route path=":id/edit" element={<ProjectEdit />} />
                 </Route>
 
                 <Route path="/offices" element={<OfficeList />} />
@@ -66,14 +69,7 @@ export function App() {
 
                 <Route path="/locations" element={<Locations />} />
 
-                <Route
-                  path="*"
-                  element={
-                    <main style={{ padding: "1rem" }}>
-                      <H2>There's nothing here!</H2>
-                    </main>
-                  }
-                />
+                <Route path="*" element={<Error404 />} />
               </Route>
             </Routes>
           </ToastProvider>
