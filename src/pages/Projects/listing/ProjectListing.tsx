@@ -13,6 +13,7 @@ import { Spinner } from '../../../components/Generic/Spinner';
 import { H1 } from '../../../components/Typography/Headings';
 import { FlexText } from '../../../components/Typography/FlexText';
 import { Text } from '../../../components/Typography/Text';
+import { projectsListQuery } from '../../../api/ProjectQueries';
 
 export function ProjectListing() {
   const navigate = useNavigate();
@@ -20,11 +21,7 @@ export function ProjectListing() {
   const { addNotification } = useNotifications();
   const { queryParams, params, setPage } = useProjectSearch();
 
-  const { data: response, isFetching } = useQuery({
-    queryKey: ['projects', params],
-    queryFn: () => getProjects(queryParams),
-    placeholderData: (prev) => prev
-  });
+  const { data: response, isFetching } = useQuery(projectsListQuery(queryParams));
 
   const deleteMutation = useMutation({
     mutationFn: deleteProject,

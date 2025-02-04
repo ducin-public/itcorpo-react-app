@@ -3,7 +3,6 @@ import { useQuery } from '@tanstack/react-query';
 import { format, formatDistance } from 'date-fns';
 import { ArrowLeft } from 'lucide-react';
 
-import { getProjectTeam } from '../../../api/ProjectApi.axios';
 import { formatCurrency } from '../../../contexts/CurrencyContext';
 import { EditableProjectName } from './EditableProjectName';
 import { ProjectTeamMembers } from './ProjectTeamMembers';
@@ -11,15 +10,13 @@ import { ProjectStatusChange } from './ProjectStatusChange';
 import { Spinner } from '../../../components/Generic/Spinner';
 import { DetailsSection } from '../../../components/Generic/DetailsSection';
 import { ActionButtons } from '../../../components/Generic/ActionButtons';
+import { projectTeamQuery } from '../../../api/ProjectQueries';
 
 export function ProjectDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const { data: projectInvolvement, isLoading: isLoading } = useQuery({
-    queryKey: ['project-team', id],
-    queryFn: () => getProjectTeam({ projectId: id! }),
-  });
+  const { data: projectInvolvement, isLoading: isLoading } = useQuery(projectTeamQuery(id!));
 
   if (isLoading) return <Spinner />;
   if (!projectInvolvement) return null;
