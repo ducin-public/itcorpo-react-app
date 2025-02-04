@@ -21,7 +21,10 @@ export function ProjectList() {
   const { addNotification } = useNotifications();
   const { queryParams, params, setPage } = useProjectSearch();
 
-  const { data: response, isFetching } = useQuery(projectsListQuery(queryParams));
+  const { data: response, isFetching } = useQuery({
+    ...projectsListQuery(queryParams),
+    placeholderData: (prev) => prev
+  });
 
   const deleteMutation = useMutation({
     mutationFn: deleteProject,

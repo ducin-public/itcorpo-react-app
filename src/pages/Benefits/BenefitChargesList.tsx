@@ -8,6 +8,7 @@ import { getBenefitCharges } from '../../api/BenefitApi.axios';
 import { formatCurrency } from '../../contexts/CurrencyContext';
 import { styles } from '../../components/DesignLanguage';
 import { Spinner } from '../../components/Generic/Spinner';
+import { benefitChargesListQuery } from '../../api/BenefitQueries';
 
 const statusStyles: Record<BenefitCharge['status'], keyof typeof styles> = {
   'PENDING': 'WARNING',
@@ -21,10 +22,7 @@ export function BenefitChargesList() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
-  const { data: charges, isLoading } = useQuery({
-    queryKey: ['benefit-charges', id],
-    queryFn: () => getBenefitCharges({ employeeId: id! })
-  });
+  const { data: charges, isLoading } = useQuery(benefitChargesListQuery({ employeeId: id! }));
 
   if (isLoading) return <Spinner size="LARGE" layout="OVERLAY" />;
   if (!charges) return null;

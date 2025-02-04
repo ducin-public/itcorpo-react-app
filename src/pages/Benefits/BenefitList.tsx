@@ -2,44 +2,38 @@ import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Plus } from 'lucide-react';
 
+import { cancelBenefit, renewBenefit } from '../../api/BenefitApi.axios';
+import { benefitSubscriptionListQuery } from '../../api/BenefitQueries';
 import { Spinner } from '../../components/Generic/Spinner';
 import { BenefitCard } from './BenefitCard';
 import { useNotifications } from '../../contexts/NotificationContext';
 import { AddBenefitModal } from './AddBenefitModal';
 import { Button } from '../../components/Generic/Button';
-import { getBenefitSubscriptions, cancelBenefit, renewBenefit } from '../../api/BenefitApi.axios';
 import { BenefitSearchBar } from './BenefitSearchBar';
-import { BenefitSearchFilters } from './BenefitSearchFilters';
+import { BenefitSearchFilters, emptyBenefitSearchFilters } from './BenefitSearchFilters';
 import { H1 } from '../../components/Typography/Headings';
 import { FlexText } from '../../components/Typography/FlexText';
 import { Text } from '../../components/Typography/Text';
 
 export function BenefitList() {
   const [isAddModalOpen, setIsAddModalOpen] = React.useState(false);
-  const [searchState, setSearchState] = useState<BenefitSearchFilters>({
-    serviceName: '',
-    categories: [],
-    beneficiaryEmployee: '',
-    feeRange: {},
-    selectedStatus: 'ACTIVE'
-  });
+  const [searchState, setSearchState] = useState<BenefitSearchFilters>(emptyBenefitSearchFilters);
   const { addNotification } = useNotifications();
   
   const { data: benefits, isFetching } = useQuery({
-    queryKey: ['benefits', searchState],
-    queryFn: () => getBenefitSubscriptions(({
+    ...benefitSubscriptionListQuery({
       serviceName: searchState.serviceName || undefined,
       employeeId: searchState.beneficiaryEmployee,
       feeFrom: searchState.feeRange.from?.toString(),
       feeTo: searchState.feeRange.to?.toString(),
       status: searchState.selectedStatus ?? 'ALL'
-    })),
+    }),
     placeholderData: (prev) => prev
   });
 
-
   const handleCancel = async (benefitId: string) => {
     try {
+      // FIXME: mutation
       await cancelBenefit({ benefitId });
       addNotification('notice', 'Benefit subscription cancelled');
     } catch (error) {
@@ -49,6 +43,7 @@ export function BenefitList() {
 
   const handleRenew = async (benefitId: string) => {
     try {
+      // FIXME: mutation
       await renewBenefit({ benefitId });
       addNotification('notice', 'Benefit subscription renewed');
     } catch (error) {

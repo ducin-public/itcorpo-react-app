@@ -16,6 +16,7 @@ import { FlexText } from '../../components/Typography/FlexText';
 import { Text } from '../../components/Typography/Text';
 import { ActionButtons } from '../../components/Generic/ActionButtons';
 import { EmployeeGroup, employeeGroupDict } from './EmployeeDictionaries';
+import { employeeListQuery } from '../../api/EmployeeQueries';
 
 interface EmployeesListProps {
   group: EmployeeGroup
@@ -28,8 +29,7 @@ export function EmployeesList({ group }: EmployeesListProps) {
   const [filters, setFilters] = useState<EmployeeSearchFilters>(emptyEmployeeSearchFilters);
 
   const { data: employees, isFetching } = useQuery({
-    queryKey: ['employees', 'list', { group}, filters],
-    queryFn: () => getEmployees({
+    ...employeeListQuery({
       group,
       employeeName: filters.searchTerm,
       departmentId: filters.departments[0],

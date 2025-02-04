@@ -7,7 +7,7 @@ import { Spinner } from '../../components/Generic/Spinner';
 import { ButtonChoice } from '../../components/Generic/ButtonChoice';
 import { InvolvementTile } from './ImprovementTile';
 import { ProjectEmployeeInvolvement } from '../../contract-types/data-contracts';
-import { employeeProjectOptions } from '../../api/EmployeeQueries';
+import { employeeProjectsListQuery } from '../../api/EmployeeQueries';
 import { ActionButtons } from '../../components/Generic/ActionButtons';
 import { EmployeeCard } from './EmployeeCard';
 import { viewedEmployeesStore } from './ViewedEmployeesStore';
@@ -41,7 +41,7 @@ export const EmployeeProjects = observer(() => {
   const employeeId = Number(id!);
   const [status, setStatus] = useState<InvolvementStatus>('ACTIVE');
 
-  const { data: involvements, isLoading } = useQuery(employeeProjectOptions(employeeId));
+  const { data: involvements, isLoading } = useQuery(employeeProjectsListQuery(employeeId));
 
   useEffect(() => {
     if (involvements?.employee) {

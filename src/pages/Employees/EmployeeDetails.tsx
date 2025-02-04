@@ -14,6 +14,7 @@ import { contractTypeDict, nationalityDict } from './EmployeeDictionaries';
 import { H3 } from '../../components/Typography/Headings';
 import { ActionButtons } from '../../components/Generic/ActionButtons';
 import { EmployeeCard } from './EmployeeCard';
+import { employeeDetailsQuery } from '../../api/EmployeeQueries';
 
 const MultiParagraphText = ({ text }: { text: string }) => {
   return (
@@ -30,10 +31,7 @@ export const EmployeeDetails = observer(() => {
   const employeeId = Number(id!);
   const navigate = useNavigate();
 
-  const { data: employee, isLoading } = useQuery({
-    queryKey: ['employee', id],
-    queryFn: () => getEmployeeById({ employeeId })
-  });
+  const { data: employee, isLoading } = useQuery(employeeDetailsQuery(employeeId));
 
   useEffect(() => {
     if (employee) {

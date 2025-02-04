@@ -5,6 +5,7 @@ import { EmployeeEditForm } from './EmployeeEditForm';
 import { Spinner } from '../../components/Generic/Spinner';
 import { useNotifications } from '../../contexts/NotificationContext';
 import type { Employee } from '../../contract-types/data-contracts';
+import { employeeDetailsQuery } from '../../api/EmployeeQueries';
 
 export const EditEmployee = () => {
   const { id } = useParams<{ id: string }>();
@@ -12,14 +13,10 @@ export const EditEmployee = () => {
   const { addNotification } = useNotifications();
   const queryClient = useQueryClient();
 
-  const { data: employee, isLoading } = useQuery({
-    queryKey: ['employees', employeeId],
-    queryFn: () => getEmployeeById({ employeeId }),
-    enabled: !!id
-  });
+  const { data: employee, isLoading } = useQuery(employeeDetailsQuery(employeeId));
 
   const updateMutation = useMutation({
-    mutationFn: (data: Employee) => updateEmployee({ employeeId }, data as any),
+    mutationFn: (data: Employee) => updateEmployee({ employeeId }, data as any), // FIXME
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['employees'] });
       addNotification('info', 'Employee updated successfully');

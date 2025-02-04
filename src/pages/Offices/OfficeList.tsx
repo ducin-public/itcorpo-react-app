@@ -12,6 +12,7 @@ import { OfficeSearchFilters } from './OfficeSearchFilters';
 import { H1 } from '../../components/Typography/Headings';
 import { Text } from '../../components/Typography/Text';
 import { FlexText } from '../../components/Typography/FlexText';
+import { officesListQuery } from '../../api/OfficeQueries';
 
 export const OfficeList = () => {
   const navigate = useNavigate();
@@ -26,8 +27,7 @@ export const OfficeList = () => {
   const { searchPhrase, selectedCountries, selectedAmenities } = searchState;
 
   const { data: offices, isFetching } = useQuery({
-    queryKey: ['offices', searchState] as const,
-    queryFn: () => getOffices({
+    ...officesListQuery({
       countries: searchState.selectedCountries.join(','),
       amenities: searchState.selectedAmenities.join(','),
       amenitiesFiltering: searchState.amenitiesFiltering,

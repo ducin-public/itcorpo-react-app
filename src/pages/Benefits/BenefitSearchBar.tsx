@@ -5,11 +5,10 @@ import { ExpandableSearchBar } from '../../components/Generic/ExpandableSearchBa
 import { TextInput } from '../../components/Forms/TextInput';
 import { MultiSelect } from '../../components/Forms/MultiSelect';
 import { Dropdown } from '../../components/Forms/Dropdown';
-import { getEmployees } from '../../api/EmployeeApi.axios';
 import { BenefitSubscriptionSearchStatusDict, type BenefitSearchFilters } from './BenefitSearchFilters';
-import type { Employee } from '../../contract-types/data-contracts';
 import { NumberRangeInput } from '../../components/Forms/NumberRangeInput';
 import type { BenefitCategory } from '../../contract-types/data-contracts';
+import { employeesSearchFeedQuery } from '../../api/EmployeeQueries';
 
 interface BenefitSearchBarProps {
   searchState: BenefitSearchFilters;
@@ -24,17 +23,14 @@ const categories: Record<BenefitCategory, string> = {
 };
 
 export function BenefitSearchBar({ searchState, onCriteriaUpdate }: BenefitSearchBarProps) {
-  const { data: employees = [] } = useQuery({
-    queryKey: ['employees'], // FIXME
-    queryFn: () => getEmployees()
+  const { data: employeesOptions = {} } = useQuery({
+    ...employeesSearchFeedQuery({}), // FIXME: need to use autocompleter to get the employeeName
+    select(employees) { // FIXME: interesting (ANF)
+      return Object.fromEntries(
+        employees.map(emp => ([String(emp.id), emp.name]))
+      );
+    },
   });
-
-  const employeeOptions = Object.fromEntries(
-    employees.map((emp: Employee) => ([
-      String(emp.id),
-      `${emp.firstName} ${emp.lastName}`
-    ]))
-  );
 
   const handleChange = (updates: Partial<BenefitSearchFilters>) => {
     const newCriteria = { ...searchState, ...updates };
@@ -63,7 +59,7 @@ export function BenefitSearchBar({ searchState, onCriteriaUpdate }: BenefitSearc
           <Dropdown
             label="Beneficiary Employee"
             placeholder="Select employees..."
-            options={employeeOptions}
+            options={employeesOptions}
             value={searchState.beneficiaryEmployee}
             onChange={(beneficiaryEmployee) => handleChange({ beneficiaryEmployee })}
           />

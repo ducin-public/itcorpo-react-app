@@ -6,14 +6,15 @@ import { officeImageURL } from './officeImageURL';
 import { formatCurrency } from '../../contexts/CurrencyContext';
 import { OfficeAmenitiesList } from './OfficeAmenitiesList';
 import { useQuery } from '@tanstack/react-query';
+import { officeDetailsQuery } from '../../api/OfficeQueries';
 
 export function OfficeDetails() {
   const { code } = useParams();
+  if (!code) {
+    throw new Error('Office code is required in the URL');
+  }
 
-  const { data: office, isLoading } = useQuery({
-    queryKey: ['office', code],
-    queryFn: () => getOfficeByCode({ officeCode: code! }),
-  })
+  const { data: office, isLoading } = useQuery(officeDetailsQuery(code));
 
   if (isLoading) return <Spinner />;
   if (!office) return null;

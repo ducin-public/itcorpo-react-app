@@ -16,7 +16,10 @@ export function ProjectDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const { data: projectInvolvement, isLoading: isLoading } = useQuery(projectTeamQuery(id!));
+  const { data: projectInvolvement, isLoading: isLoading } = useQuery({
+    ...projectTeamQuery(id!),
+    placeholderData: (prev) => prev
+  });
 
   if (isLoading) return <Spinner />;
   if (!projectInvolvement) return null;

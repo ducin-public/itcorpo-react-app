@@ -15,3 +15,11 @@ export interface BenefitSearchFilters {
   feeRange: { from?: number; to?: number };
   selectedStatus: BenefitSubscriptionSearchStatus;
 }
+
+export const emptyBenefitSearchFilters: BenefitSearchFilters = {
+  serviceName: '',
+  categories: [],
+  beneficiaryEmployee: '',
+  feeRange: {},
+  selectedStatus: 'ACTIVE'
+}
