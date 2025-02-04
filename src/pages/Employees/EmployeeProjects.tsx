@@ -5,34 +5,34 @@ import { ArrowLeft, Search } from 'lucide-react';
 
 import { Spinner } from '../../components/Generic/Spinner';
 import { ButtonChoice } from '../../components/Generic/ButtonChoice';
-import { InvolvementTile } from './ImprovementTile';
+import { InvolvementTile } from './InvolvementTile';
 import { ProjectEmployeeInvolvement } from '../../contract-types/data-contracts';
 import { employeeProjectsListQuery } from '../../api/EmployeeQueries';
 import { ActionButtons } from '../../components/Generic/ActionButtons';
-import { EmployeeCard } from './EmployeeCard';
+import { EmployeeCard } from './listing/EmployeeCard';
 import { viewedEmployeesStore } from './ViewedEmployeesStore';
 import { observer } from 'mobx-react-lite';
 
 type InvolvementStatus = 'ALL' | 'ACTIVE' | 'PAST';
 
 function filterInvolvements (involvements: ProjectEmployeeInvolvement[], status: InvolvementStatus) {
-    switch (status) {
-      case 'ACTIVE':
-        return involvements.filter(involvement => !involvement.endDate);
-      case 'PAST':
-        return involvements.filter(involvement => !!involvement.endDate);
-      default:
-        return involvements;
-    }
+  switch (status) {
+    case 'ACTIVE':
+      return involvements.filter(involvement => !involvement.endDate);
+    case 'PAST':
+      return involvements.filter(involvement => !!involvement.endDate);
+    default:
+      return involvements;
+  }
 };
 
 function noDataFoundLabel(status: InvolvementStatus, employeeName: string) {
-    const allLabels = {
-        ALL: `Employee ${employeeName} was never involved in any projects`,
-        ACTIVE: `Employee ${employeeName} is currently not involved in any projects`,
-        PAST: `No past projects found for ${employeeName}`,
-    } satisfies Record<InvolvementStatus, string>
-    return allLabels[status];
+  const allLabels = {
+    ALL: `Employee ${employeeName} was never involved in any projects`,
+    ACTIVE: `Employee ${employeeName} is currently not involved in any projects`,
+    PAST: `No past projects found for ${employeeName}`,
+  } satisfies Record<InvolvementStatus, string>
+  return allLabels[status];
 }
 
 export const EmployeeProjects = observer(() => {

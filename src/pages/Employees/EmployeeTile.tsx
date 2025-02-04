@@ -4,7 +4,7 @@ import { Edit, Trash2 } from 'lucide-react';
 import type { Employee } from '../../contract-types/data-contracts';
 import { EmployeeSkills } from './EmployeeSkills';
 import { Text } from '../../components/Typography/Text';
-import { EmployeeCard } from './EmployeeCard';
+import { EmployeeCard } from './listing/EmployeeCard';
 import { formatCurrency } from '../../contexts/CurrencyContext';
 import { A } from '../../components/Typography/A';
 import { formatDate, formatDistance } from 'date-fns';

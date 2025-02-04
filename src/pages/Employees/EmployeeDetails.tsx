@@ -13,7 +13,7 @@ import { DetailsSection } from '../../components/Generic/DetailsSection';
 import { contractTypeDict, nationalityDict } from './EmployeeDictionaries';
 import { H3 } from '../../components/Typography/Headings';
 import { ActionButtons } from '../../components/Generic/ActionButtons';
-import { EmployeeCard } from './EmployeeCard';
+import { EmployeeCard } from './listing/EmployeeCard';
 import { employeeDetailsQuery } from '../../api/EmployeeQueries';
 
 const MultiParagraphText = ({ text }: { text: string }) => {

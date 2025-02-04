@@ -1,18 +1,18 @@
 import { FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { TextInput } from '../../components/Forms/TextInput';
-import { DatePicker } from '../../components/Forms/DatePicker';
-import { Dropdown } from '../../components/Forms/Dropdown';
-import { FormSection } from '../../components/Forms/FormSection';
-import { Button } from '../../components/Generic/Button';
-import { ValidationError } from '../../components/Forms/ValidationError';
-import type { Employee, EmployeeInput } from '../../contract-types/data-contracts';
-import { employeeImageURL } from './employeeImageURL';
-import { FileInput } from '../../components/Forms/FileInput';
+import { TextInput } from '../../../components/Forms/TextInput';
+import { DatePicker } from '../../../components/Forms/DatePicker';
+import { Dropdown } from '../../../components/Forms/Dropdown';
+import { FormSection } from '../../../components/Forms/FormSection';
+import { Button } from '../../../components/Generic/Button';
+import { ValidationError } from '../../../components/Forms/ValidationError';
+import type { Employee, EmployeeInput } from '../../../contract-types/data-contracts';
+import { employeeImageURL } from '../employeeImageURL';
+import { FileInput } from '../../../components/Forms/FileInput';
 import { useQuery } from '@tanstack/react-query';
-import { geoQuery } from '../../api/GeoQueries';
-import { departmentsListQuery } from '../../api/DepartmentQueries';
+import { geoQuery } from '../../../api/GeoQueries';
+import { departmentsListQuery } from '../../../api/DepartmentQueries';
 
 interface EmployeeEditFormProps {
   initialData?: EmployeeInput;

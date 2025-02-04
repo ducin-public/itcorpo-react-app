@@ -1,7 +1,7 @@
-import { employeeImageURL } from './employeeImageURL';
-import { H2, H3 } from '../../components/Typography/Headings';
-import { Text } from '../../components/Typography/Text';
-import { Employee } from '../../contract-types/data-contracts';
+import { employeeImageURL } from '../employeeImageURL';
+import { H2, H3 } from '../../../components/Typography/Headings';
+import { Text } from '../../../components/Typography/Text';
+import { Employee } from '../../../contract-types/data-contracts';
 
 type EmployeeCardProps = {
     employee: Pick<Employee, 'name' | 'position' | 'department' | 'imgURL'>;

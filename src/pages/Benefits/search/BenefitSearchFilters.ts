@@ -1,4 +1,4 @@
-import type { BenefitSubscriptionSearchStatus, BenefitCategory } from '../../contract-types/data-contracts';
+import type { BenefitSubscriptionSearchStatus, BenefitCategory } from '../../../contract-types/data-contracts';
 
 export const BenefitSubscriptionSearchStatusDict: {
   [key in BenefitSubscriptionSearchStatus]: string;

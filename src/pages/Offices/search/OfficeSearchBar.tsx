@@ -1,13 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { MultiSelect } from '../../components/Forms/MultiSelect';
-import { TextInput } from '../../components/Forms/TextInput';
-import type { OfficeAmenity, Geo } from '../../contract-types/data-contracts';
-import { getOfficeAmenities } from '../../api/OfficeApi.axios';
-import { getGeo } from '../../api/GeoApi.axios';
-import { ExpandableSearchBar } from '../../components/Generic/ExpandableSearchBar';
-import { FilteringChoice } from '../../components/Generic/FilteringChoice';
-import { geoQuery } from '../../api/GeoQueries';
+import { getOfficeAmenities } from '../../../api/OfficeApi.axios';
+import { geoQuery } from '../../../api/GeoQueries';
+
+import { MultiSelect } from '../../../components/Forms/MultiSelect';
+import { TextInput } from '../../../components/Forms/TextInput';
+import type { OfficeAmenity } from '../../../contract-types/data-contracts';
+import { ExpandableSearchBar } from '../../../components/Generic/ExpandableSearchBar';
+import { FilteringChoice } from '../../../components/Generic/FilteringChoice';
 
 export type OfficeSearchBarProps = {
   onSearchChange: (search: string) => void;

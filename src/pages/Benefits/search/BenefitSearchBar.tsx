@@ -1,14 +1,14 @@
-import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 
-import { ExpandableSearchBar } from '../../components/Generic/ExpandableSearchBar';
-import { TextInput } from '../../components/Forms/TextInput';
-import { MultiSelect } from '../../components/Forms/MultiSelect';
-import { Dropdown } from '../../components/Forms/Dropdown';
+import { employeesSearchFeedQuery } from '../../../api/EmployeeQueries';
+
+import { ExpandableSearchBar } from '../../../components/Generic/ExpandableSearchBar';
+import { TextInput } from '../../../components/Forms/TextInput';
+import { MultiSelect } from '../../../components/Forms/MultiSelect';
+import { Dropdown } from '../../../components/Forms/Dropdown';
 import { BenefitSubscriptionSearchStatusDict, type BenefitSearchFilters } from './BenefitSearchFilters';
-import { NumberRangeInput } from '../../components/Forms/NumberRangeInput';
-import type { BenefitCategory } from '../../contract-types/data-contracts';
-import { employeesSearchFeedQuery } from '../../api/EmployeeQueries';
+import { NumberRangeInput } from '../../../components/Forms/NumberRangeInput';
+import type { BenefitCategory } from '../../../contract-types/data-contracts';
 
 interface BenefitSearchBarProps {
   searchState: BenefitSearchFilters;

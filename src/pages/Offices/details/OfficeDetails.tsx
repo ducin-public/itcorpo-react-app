@@ -1,12 +1,12 @@
 import { useParams } from 'react-router-dom';
-
-import { Spinner } from '../../components/Generic/Spinner';
-import { getOfficeByCode } from '../../api/OfficeApi.axios';
-import { officeImageURL } from './officeImageURL';
-import { formatCurrency } from '../../contexts/CurrencyContext';
-import { OfficeAmenitiesList } from './OfficeAmenitiesList';
 import { useQuery } from '@tanstack/react-query';
-import { officeDetailsQuery } from '../../api/OfficeQueries';
+
+import { officeDetailsQuery } from '../../../api/OfficeQueries';
+
+import { Spinner } from '../../../components/Generic/Spinner';
+import { officeImageURL } from '../officeImageURL';
+import { formatCurrency } from '../../../contexts/CurrencyContext';
+import { OfficeAmenitiesList } from '../OfficeAmenitiesList';
 
 export function OfficeDetails() {
   const { code } = useParams();

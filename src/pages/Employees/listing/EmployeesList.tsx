@@ -1,22 +1,23 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { CircleX, LayoutList, Plus, Search } from 'lucide-react';
 
-import { Spinner } from '../../components/Generic/Spinner';
-import { useNotifications } from '../../contexts/NotificationContext';
-import { deleteEmployee, getEmployees } from '../../api/EmployeeApi.axios';
-import { Button } from '../../components/Generic/Button';
-import { Employee } from '../../contract-types/data-contracts';
-import { EmployeesSearchBar } from './EmployeesSearchBar';
-import { emptyEmployeeSearchFilters, type EmployeeSearchFilters } from './EmployeeSearchFilters';
-import { EmployeeTile } from './EmployeeTile';
-import { H1 } from '../../components/Typography/Headings';
-import { FlexText } from '../../components/Typography/FlexText';
-import { Text } from '../../components/Typography/Text';
-import { ActionButtons } from '../../components/Generic/ActionButtons';
-import { EmployeeGroup, employeeGroupDict } from './EmployeeDictionaries';
-import { employeeListQuery } from '../../api/EmployeeQueries';
+import { deleteEmployee } from '../../../api/EmployeeApi.axios';
+import { employeeListQuery } from '../../../api/EmployeeQueries';
+
+import { Spinner } from '../../../components/Generic/Spinner';
+import { useNotifications } from '../../../contexts/NotificationContext';
+import { Button } from '../../../components/Generic/Button';
+import { Employee } from '../../../contract-types/data-contracts';
+import { EmployeeSearchBar } from '../search/EmployeeSearchBar';
+import { emptyEmployeeSearchFilters, type EmployeeSearchFilters } from '../search/EmployeeSearchFilters';
+import { EmployeeTile } from '../EmployeeTile';
+import { H1 } from '../../../components/Typography/Headings';
+import { FlexText } from '../../../components/Typography/FlexText';
+import { Text } from '../../../components/Typography/Text';
+import { ActionButtons } from '../../../components/Generic/ActionButtons';
+import { EmployeeGroup, employeeGroupDict } from '../EmployeeDictionaries';
 
 interface EmployeesListProps {
   group: EmployeeGroup
@@ -86,7 +87,7 @@ export function EmployeesList({ group }: EmployeesListProps) {
       </div>
 
       <div className="mb-6">
-        <EmployeesSearchBar
+        <EmployeeSearchBar
           filters={filters}
           onFiltersChange={setFilters}
         />

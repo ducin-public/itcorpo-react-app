@@ -2,7 +2,9 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { Plus } from 'lucide-react';
 
-import { deleteProject, getProjects } from '../../../api/ProjectApi.axios';
+import { deleteProject } from '../../../api/ProjectApi.axios';
+import { projectsListQuery } from '../../../api/ProjectQueries';
+
 import { useNotifications } from '../../../contexts/NotificationContext';
 import { ProjectCard } from '../listing/ProjectCard';
 import { ProjectSearchBar } from '../search/ProjectSearchBar';
@@ -13,7 +15,6 @@ import { Spinner } from '../../../components/Generic/Spinner';
 import { H1 } from '../../../components/Typography/Headings';
 import { FlexText } from '../../../components/Typography/FlexText';
 import { Text } from '../../../components/Typography/Text';
-import { projectsListQuery } from '../../../api/ProjectQueries';
 
 export function ProjectListing() {
   const navigate = useNavigate();

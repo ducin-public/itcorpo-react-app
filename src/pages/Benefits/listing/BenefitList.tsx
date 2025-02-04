@@ -2,18 +2,19 @@ import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Plus } from 'lucide-react';
 
-import { cancelBenefit, renewBenefit } from '../../api/BenefitApi.axios';
-import { benefitSubscriptionListQuery } from '../../api/BenefitQueries';
-import { Spinner } from '../../components/Generic/Spinner';
+import { cancelBenefit, renewBenefit } from '../../../api/BenefitApi.axios';
+import { benefitSubscriptionListQuery } from '../../../api/BenefitQueries';
+
+import { Spinner } from '../../../components/Generic/Spinner';
 import { BenefitCard } from './BenefitCard';
-import { useNotifications } from '../../contexts/NotificationContext';
-import { AddBenefitModal } from './AddBenefitModal';
-import { Button } from '../../components/Generic/Button';
-import { BenefitSearchBar } from './BenefitSearchBar';
-import { BenefitSearchFilters, emptyBenefitSearchFilters } from './BenefitSearchFilters';
-import { H1 } from '../../components/Typography/Headings';
-import { FlexText } from '../../components/Typography/FlexText';
-import { Text } from '../../components/Typography/Text';
+import { useNotifications } from '../../../contexts/NotificationContext';
+import { AddBenefitModal } from '../AddBenefitModal';
+import { Button } from '../../../components/Generic/Button';
+import { BenefitSearchBar } from '../search/BenefitSearchBar';
+import { BenefitSearchFilters, emptyBenefitSearchFilters } from '../search/BenefitSearchFilters';
+import { H1 } from '../../../components/Typography/Headings';
+import { FlexText } from '../../../components/Typography/FlexText';
+import { Text } from '../../../components/Typography/Text';
 
 export function BenefitList() {
   const [isAddModalOpen, setIsAddModalOpen] = React.useState(false);

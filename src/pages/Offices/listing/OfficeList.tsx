@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Plus } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 
-import { Spinner } from '../../components/Generic/Spinner';
+import { officesListQuery } from '../../../api/OfficeQueries';
+
 import { OfficeCard } from './OfficeCard';
-import { getOffices } from '../../api/OfficeApi.axios';
-import { Button } from '../../components/Generic/Button';
-import { OfficeSearchBar } from './OfficeSearchBar';
-import { OfficeSearchFilters } from './OfficeSearchFilters';
-import { H1 } from '../../components/Typography/Headings';
-import { Text } from '../../components/Typography/Text';
-import { FlexText } from '../../components/Typography/FlexText';
-import { officesListQuery } from '../../api/OfficeQueries';
+import { Spinner } from '../../../components/Generic/Spinner';
+import { Button } from '../../../components/Generic/Button';
+import { OfficeSearchBar } from '../search/OfficeSearchBar';
+import { OfficeSearchFilters } from '../search/OfficeSearchFilters';
+import { H1 } from '../../../components/Typography/Headings';
+import { Text } from '../../../components/Typography/Text';
+import { FlexText } from '../../../components/Typography/FlexText';
 
 export const OfficeList = () => {
   const navigate = useNavigate();

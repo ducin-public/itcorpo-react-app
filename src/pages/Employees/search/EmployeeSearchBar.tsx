@@ -1,19 +1,19 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { MultiSelect } from '../../components/Forms/MultiSelect';
-import { NumberRangeInput } from '../../components/Forms/NumberRangeInput';
-import { ExpandableSearchBar } from '../../components/Generic/ExpandableSearchBar';
+import { MultiSelect } from '../../../components/Forms/MultiSelect';
+import { NumberRangeInput } from '../../../components/Forms/NumberRangeInput';
+import { ExpandableSearchBar } from '../../../components/Generic/ExpandableSearchBar';
 import type { EmployeeSearchFilters } from './EmployeeSearchFilters';
-import { TextInput } from '../../components/Forms/TextInput';
-import { FilteringChoice } from '../../components/Generic/FilteringChoice';
-import { departmentsListQuery } from '../../api/DepartmentQueries';
+import { TextInput } from '../../../components/Forms/TextInput';
+import { FilteringChoice } from '../../../components/Generic/FilteringChoice';
+import { departmentsListQuery } from '../../../api/DepartmentQueries';
 
-interface EmployeesSearchBarProps {
+interface EmployeeSearchBarProps {
   onFiltersChange: (filters: EmployeeSearchFilters) => void;
   filters: EmployeeSearchFilters;
 }
 
-export function EmployeesSearchBar({ onFiltersChange, filters }: EmployeesSearchBarProps) {
+export function EmployeeSearchBar({ onFiltersChange, filters }: EmployeeSearchBarProps) {
   const { data: departments = [] } = useQuery(departmentsListQuery);
 
   const departmentOptions = departments.reduce((acc, department) => {

@@ -1,11 +1,11 @@
 import { useParams } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { getEmployeeById, updateEmployee } from '../../api/EmployeeApi.axios';
+import { getEmployeeById, updateEmployee } from '../../../api/EmployeeApi.axios';
 import { EmployeeEditForm } from './EmployeeEditForm';
-import { Spinner } from '../../components/Generic/Spinner';
-import { useNotifications } from '../../contexts/NotificationContext';
-import type { Employee } from '../../contract-types/data-contracts';
-import { employeeDetailsQuery } from '../../api/EmployeeQueries';
+import { Spinner } from '../../../components/Generic/Spinner';
+import { useNotifications } from '../../../contexts/NotificationContext';
+import type { Employee } from '../../../contract-types/data-contracts';
+import { employeeDetailsQuery } from '../../../api/EmployeeQueries';
 
 export const EditEmployee = () => {
   const { id } = useParams<{ id: string }>();
@@ -33,7 +33,7 @@ export const EditEmployee = () => {
   return (
     <EmployeeEditForm 
       initialData={employee}
-      onSubmit={employee =>updateMutation.mutate(employee)}
+      onSubmit={employee => updateMutation.mutate(employee)}
     />
   );
 };

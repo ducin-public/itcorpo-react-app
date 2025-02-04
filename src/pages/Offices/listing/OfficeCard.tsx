@@ -1,11 +1,11 @@
-import { Edit, Users, DollarSign, Eye, Search } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { Edit, Users, DollarSign, Search } from 'lucide-react';
 
-import { OfficeAmenitiesList } from './OfficeAmenitiesList';
-import { Office } from '../../contract-types/data-contracts';
-import { officeImageURL } from './officeImageURL';
-import { formatCurrency } from '../../contexts/CurrencyContext';
-import { ActionButtons } from '../../components/Generic/ActionButtons';
+import { formatCurrency } from '../../../contexts/CurrencyContext';
+
+import { OfficeAmenitiesList } from '../OfficeAmenitiesList';
+import { Office } from '../../../contract-types/data-contracts';
+import { officeImageURL } from '../officeImageURL';
+import { ActionButtons } from '../../../components/Generic/ActionButtons';
 
 export function OfficeCard({
   office,

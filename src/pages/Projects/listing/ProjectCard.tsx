@@ -2,12 +2,12 @@ import { Eye, Edit, Trash2, Users, Calendar } from 'lucide-react';
 import { formatDate } from 'date-fns/format';
 
 import { projectStatusDict } from '../ProjectStatus';
-import type { ProjectListingItem, ProjectStatus } from '../../../contract-types/data-contracts';
+import type { Project, ProjectStatus } from '../../../contract-types/data-contracts';
 import { Chip } from '../../../components/Generic/Chip';
 import { styles, VariantType } from '../../../components/DesignLanguage';
 
 interface ProjectCardProps {
-  project: ProjectListingItem;
+  project: Project;
   onView: () => void;
   onEdit: () => void;
   onDelete: () => void;

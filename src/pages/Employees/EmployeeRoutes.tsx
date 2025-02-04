@@ -1,9 +1,9 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 
-import { EmployeesList } from './EmployeesList';
+import { EmployeesList } from './listing/EmployeesList';
 import { EmployeeDetails } from './EmployeeDetails';
 import { EmployeesPage } from './EmployeesPage';
-import { EditEmployee } from './EditEmployee';
+import { EditEmployee } from './edit/EditEmployee';
 import { EmployeeProjects } from './EmployeeProjects';
 
 export function EmployeeRoutes() {

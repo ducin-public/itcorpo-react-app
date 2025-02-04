@@ -1,12 +1,11 @@
-import React from 'react';
 import { Calendar, DollarSign, XCircle, RefreshCw, Receipt } from 'lucide-react';
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
 
-import { BenefitSubscription } from '../../contract-types/data-contracts';
-import { formatCurrency } from '../../contexts/CurrencyContext';
-import { BenefitServiceChip } from './BenefitServiceChip';
-import { styles } from '../../components/DesignLanguage';
+import { BenefitSubscription } from '../../../contract-types/data-contracts';
+import { formatCurrency } from '../../../contexts/CurrencyContext';
+import { BenefitServiceChip } from '../BenefitServiceChip';
+import { styles } from '../../../components/DesignLanguage';
 
 interface BenefitCardProps {
   benefit: BenefitSubscription;
