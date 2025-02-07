@@ -5,7 +5,7 @@ import { Pagination } from '../../components/Generic/Pagination';
 
 import { Spinner } from '../../components/Generic/Spinner';
 import { ProjectCard } from './listing/ProjectCard';
-import { useNotifications } from '../../contexts/NotificationContext';
+import { useNotifications } from '../../components/Notifications/NotificationContext';
 import { deleteProject, getProjects } from '../../api/ProjectApi.axios';
 import { ProjectSearchBar } from './search/ProjectSearchBar';
 import { Button } from '../../components/Generic/Button';
@@ -14,6 +14,7 @@ import { FlexText } from '../../components/Typography/FlexText';
 import { Text } from '../../components/Typography/Text';
 import { useProjectSearch } from './search/ProjectSearchContext';
 import { projectsListQuery } from '../../api/ProjectQueries';
+import { SpinnerOverlay } from '../../components/Generic/SpinnerOverlay';
 
 export function ProjectList() {
   const navigate = useNavigate();
@@ -66,21 +67,19 @@ export function ProjectList() {
       )}
 
       <div className="relative min-h-[200px]">
-        {(isFetching) && (
-          <Spinner size='LARGE' layout='OVERLAY' />
-        )}
-
-        <div className={`space-y-6 ${isFetching ? 'pointer-events-none' : ''}`}>
-          {response?.items.map((project) => (
-            <ProjectCard
-              key={project.id}
-              project={project}
-              onView={() => navigate(`/projects/${project.id}/details`)}
-              onEdit={() => navigate(`/projects/${project.id}/edit`)}
-              onDelete={() => deleteMutation.mutate({ projectId: project.id })}
-            />
-          ))}
-        </div>
+        <SpinnerOverlay size="LARGE" align='TOP' overlay={isFetching}>
+          <div className={`space-y-6 ${isFetching ? 'pointer-events-none' : ''}`}>
+            {response?.items.map((project) => (
+              <ProjectCard
+                key={project.id}
+                project={project}
+                onView={() => navigate(`/projects/${project.id}/details`)}
+                onEdit={() => navigate(`/projects/${project.id}/edit`)}
+                onDelete={() => deleteMutation.mutate({ projectId: project.id })}
+              />
+            ))}
+          </div>
+        </SpinnerOverlay>
       </div>
 
       {response && (

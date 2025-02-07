@@ -7,7 +7,7 @@ import { deleteEmployee } from '../../../api/EmployeeApi.axios';
 import { employeeListQuery } from '../../../api/EmployeeQueries';
 
 import { Spinner } from '../../../components/Generic/Spinner';
-import { useNotifications } from '../../../contexts/NotificationContext';
+import { useNotifications } from '../../../components/Notifications/NotificationContext';
 import { Button } from '../../../components/Generic/Button';
 import { Employee } from '../../../contract-types/data-contracts';
 import { EmployeeSearchBar } from '../search/EmployeeSearchBar';
@@ -18,6 +18,7 @@ import { FlexText } from '../../../components/Typography/FlexText';
 import { Text } from '../../../components/Typography/Text';
 import { ActionButtons } from '../../../components/Generic/ActionButtons';
 import { EmployeeGroup, employeeGroupDict } from '../EmployeeDictionaries';
+import { SpinnerOverlay } from '../../../components/Generic/SpinnerOverlay';
 
 interface EmployeesListProps {
   group: EmployeeGroup
@@ -42,19 +43,6 @@ export function EmployeesList({ group }: EmployeesListProps) {
     placeholderData: (prev) => prev
   });
 
-  const deleteMutation = useMutation({
-    mutationKey: ['employee', 'delete'],
-    mutationFn: (employeeId: Employee['id']) => deleteEmployee({ employeeId }),
-    onSuccess: (_, id) => {
-      queryClient.invalidateQueries({ queryKey: ['employees'] });
-      queryClient.removeQueries({ queryKey: ['employees', id] });
-      addNotification('notice', 'Employee successfully deleted');
-    },
-    onError: (err) => {
-      addNotification('error', `Failed to delete employee: ${err.message}`);
-    }
-  });
-
   return (
     <div className='px-2 py-2'>
       <div className="flex justify-between items-center mb-4">
@@ -63,27 +51,18 @@ export function EmployeesList({ group }: EmployeesListProps) {
           {employees && <Text>({employees.length} results)</Text>}
         </FlexText>
 
-        <span className='flex space-x-2'>
-          <Button
-            icon={Plus}
-            onClick={() => navigate('/employees/new')}
-            fill='OUTLINED'
-            className="flex items-center space-x-2"
-          >
-            Add Employee
-          </Button>
-
-          <Button
-            icon={CircleX}
-            onClick={() => {
-              setFilters(emptyEmployeeSearchFilters);
-            }}
-            fill='OUTLINED'
-            className="flex items-center space-x-2"
-          >
-            Clear Filters
-          </Button>
-        </span>
+        <ActionButtons
+          size="MEDIUM"
+          actions={[{
+            icon: Plus,
+            text: 'Add Employee',
+            onClick: () => navigate('/employees/new')
+          }, {
+            icon: CircleX,
+            text: 'Clear All Filters',
+            onClick: () => setFilters(emptyEmployeeSearchFilters)
+          }]}
+        />
       </div>
 
       <div className="mb-6">
@@ -94,34 +73,32 @@ export function EmployeesList({ group }: EmployeesListProps) {
       </div>
 
       <div className="relative min-h-[200px]">
-        {(isFetching || deleteMutation.isPending) && (
-          <Spinner size='LARGE' layout='OVERLAY' />
-        )}
-
-        <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ${isFetching ? 'pointer-events-none' : ''}`}>
-          {employees?.map((employee) => (
-            <EmployeeTile
-              key={employee.id}
-              employee={employee}
-              onEdit={() => navigate(`/employees/${employee.id}/edit`)}
-              onDelete={() => deleteMutation.mutate(employee.id)}
-              footer={
-                <ActionButtons
-                  actions={[{
-                    icon: Search,
-                    text: 'View Details',
-                    onClick: () => navigate(`/employees/${employee.id}/details`)
-                  }, {
-                    text: 'Projects involved in',
-                    icon: LayoutList,
-                    onClick: () => navigate(`/employees/${employee.id}/projects`)
-                  }]}
-                  className="mt-4"
-                />
-              }
-            />
-          ))}
-        </div>
+        <SpinnerOverlay size="LARGE" align='TOP' overlay={isFetching}>
+          <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ${isFetching ? 'pointer-events-none' : ''}`}>
+            {employees?.map((employee) => (
+              <EmployeeTile
+                key={employee.id}
+                employee={employee}
+                onEdit={() => navigate(`/employees/${employee.id}/edit`)}
+                // onDelete={() => deleteMutation.mutate(employee.id)}
+                footer={
+                  <ActionButtons
+                    actions={[{
+                      icon: Search,
+                      text: 'View Details',
+                      onClick: () => navigate(`/employees/${employee.id}/details`)
+                    }, {
+                      text: 'Projects involved in',
+                      icon: LayoutList,
+                      onClick: () => navigate(`/employees/${employee.id}/projects`)
+                    }]}
+                    className="mt-4"
+                  />
+                }
+              />
+            ))}
+          </div>
+        </SpinnerOverlay>
       </div>
     </div>
   );

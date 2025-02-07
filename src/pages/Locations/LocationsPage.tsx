@@ -69,7 +69,7 @@ function generateArcsData(): Arc[] {
 
 const arcs = generateArcsData();
 
-export const Locations = () => {
+export const LocationsPage = () => {
   return (
     <>
       <div className="flex items-center gap-3 mb-6">

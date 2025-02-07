@@ -24,7 +24,7 @@ export function BenefitChargesList() {
 
   const { data: charges, isLoading } = useQuery(benefitChargesListQuery({ employeeId: id! }));
 
-  if (isLoading) return <Spinner size="LARGE" layout="OVERLAY" />;
+  if (isLoading) return <Spinner size="LARGE" />;
   if (!charges) return null;
 
   return (

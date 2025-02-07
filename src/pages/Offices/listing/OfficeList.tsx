@@ -13,6 +13,7 @@ import { OfficeSearchFilters } from '../search/OfficeSearchFilters';
 import { H1 } from '../../../components/Typography/Headings';
 import { Text } from '../../../components/Typography/Text';
 import { FlexText } from '../../../components/Typography/FlexText';
+import { SpinnerOverlay } from '../../../components/Generic/SpinnerOverlay';
 
 export const OfficeList = () => {
   const navigate = useNavigate();
@@ -70,20 +71,18 @@ export const OfficeList = () => {
       </div>
 
       <div className="relative min-h-[200px]">
-        {isFetching && (
-          <Spinner size='LARGE' layout='OVERLAY' />
-        )}
-
-        <div className={`grid grid-cols-1 md:grid-cols-2 gap-6 ${isFetching ? 'pointer-events-none' : ''}`}>
-          {offices?.map((office) => (
-            <OfficeCard
-              key={office.city}
-              office={office}
-              onView={() => navigate(`/offices/${office.code}`)}
-              onEdit={() => navigate(`/offices/${office.code}/edit`)}
-            />
-          ))}
-        </div>
+        <SpinnerOverlay size="LARGE" align='TOP' overlay={isFetching}>
+          <div className={`grid grid-cols-1 md:grid-cols-2 gap-6 ${isFetching ? 'pointer-events-none' : ''}`}>
+            {offices?.map((office) => (
+              <OfficeCard
+                key={office.city}
+                office={office}
+                onView={() => navigate(`/offices/${office.code}`)}
+                onEdit={() => navigate(`/offices/${office.code}/edit`)}
+              />
+            ))}
+          </div>
+        </SpinnerOverlay>
       </div>
     </div>
   );

@@ -11,8 +11,7 @@ const financialSummary = {
   total: 200000,
 };
 
-export function Dashboard
-() {
+export function DashboardPage() {
   const [selectedLocation, setSelectedLocation] = useState('USA');
 
   return (

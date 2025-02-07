@@ -1,9 +1,7 @@
-import React from 'react';
 import { Outlet } from 'react-router-dom';
 
 import { Header } from './Header';
-import { Notifications } from '../../components/Notifications';
-import { Toast } from '../../components/Toast';
+import { Notifications } from '../../components/Notifications/Notifications';
 
 export function Layout() {
   return (
@@ -13,7 +11,6 @@ export function Layout() {
         <Outlet />
       </main>
       <Notifications />
-      <Toast />
     </div>
   );
 }

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { DatabaseBackup, Plus, Search, X } from 'lucide-react';
 
-import { useNotifications } from '../../../contexts/NotificationContext';
+import { useNotifications } from '../../../components/Notifications/NotificationContext';
 import { Button } from '../../../components/Generic/Button';
 import { addProjectTeamMember, removeProjectTeamMember } from '../../../api/ProjectApi.axios';
 import { getEmployees } from '../../../api/EmployeeApi.axios';

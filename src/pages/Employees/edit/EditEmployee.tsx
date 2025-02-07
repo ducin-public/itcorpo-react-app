@@ -3,9 +3,10 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { getEmployeeById, updateEmployee } from '../../../api/EmployeeApi.axios';
 import { EmployeeEditForm } from './EmployeeEditForm';
 import { Spinner } from '../../../components/Generic/Spinner';
-import { useNotifications } from '../../../contexts/NotificationContext';
+import { useNotifications } from '../../../components/Notifications/NotificationContext';
 import type { Employee } from '../../../contract-types/data-contracts';
 import { employeeDetailsQuery } from '../../../api/EmployeeQueries';
+import { SpinnerOverlay } from '../../../components/Generic/SpinnerOverlay';
 
 export const EditEmployee = () => {
   const { id } = useParams<{ id: string }>();
@@ -26,14 +27,12 @@ export const EditEmployee = () => {
     }
   });
 
-  if (isLoading) {
-    return <Spinner size="LARGE" layout="OVERLAY" />;
-  }
-
   return (
-    <EmployeeEditForm 
-      initialData={employee}
-      onSubmit={employee => updateMutation.mutate(employee)}
-    />
+    <SpinnerOverlay size="LARGE" align='TOP' overlay={isLoading}>
+      <EmployeeEditForm 
+        initialData={employee}
+        onSubmit={employee => updateMutation.mutate(employee)}
+      />
+    </SpinnerOverlay>
   );
 };

@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 
-import { useNotifications } from '../../../contexts/NotificationContext';
+import { useNotifications } from '../../../components/Notifications/NotificationContext';
 import { updateProject } from '../../../api/ProjectApi.axios';
 
 interface EditableProjectNameProps {

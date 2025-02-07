@@ -1,6 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query';
 
-import { useNotifications } from '../../../contexts/NotificationContext';
+import { useNotifications } from '../../../components/Notifications/NotificationContext';
 import { Project, ProjectStatus } from '../../../contract-types/data-contracts';
 import { updateProjectStatus } from '../../../api/ProjectApi.axios';
 import { Dropdown } from '../../../components/Forms/Dropdown';

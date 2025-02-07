@@ -7,7 +7,7 @@ import { benefitSubscriptionListQuery } from '../../../api/BenefitQueries';
 
 import { Spinner } from '../../../components/Generic/Spinner';
 import { BenefitCard } from './BenefitCard';
-import { useNotifications } from '../../../contexts/NotificationContext';
+import { useNotifications } from '../../../components/Notifications/NotificationContext';
 import { AddBenefitModal } from '../AddBenefitModal';
 import { Button } from '../../../components/Generic/Button';
 import { BenefitSearchBar } from '../search/BenefitSearchBar';
@@ -15,6 +15,7 @@ import { BenefitSearchFilters, emptyBenefitSearchFilters } from '../search/Benef
 import { H1 } from '../../../components/Typography/Headings';
 import { FlexText } from '../../../components/Typography/FlexText';
 import { Text } from '../../../components/Typography/Text';
+import { SpinnerOverlay } from '../../../components/Generic/SpinnerOverlay';
 
 export function BenefitList() {
   const [isAddModalOpen, setIsAddModalOpen] = React.useState(false);
@@ -76,20 +77,18 @@ export function BenefitList() {
       </div>
 
       <div className="relative min-h-[200px]">
-        {isFetching && 
-          <Spinner size='LARGE' layout='OVERLAY' />
-        }
-        
-        <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ${isFetching ? 'pointer-events-none opacity-50' : ''}`}>
-          {benefits?.map((benefit) => (
-            <BenefitCard
-              key={benefit.id}
-              benefit={benefit}
-              onCancel={() => handleCancel(benefit.id)}
-              onRenew={() => handleRenew(benefit.id)}
-            />
-          ))}
-        </div>
+        <SpinnerOverlay size="LARGE" align='TOP' overlay={isFetching}>
+          <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ${isFetching ? 'pointer-events-none opacity-50' : ''}`}>
+            {benefits?.map((benefit) => (
+              <BenefitCard
+                key={benefit.id}
+                benefit={benefit}
+                onCancel={() => handleCancel(benefit.id)}
+                onRenew={() => handleRenew(benefit.id)}
+              />
+            ))}
+          </div>
+        </SpinnerOverlay>
       </div>
 
       {isAddModalOpen && (

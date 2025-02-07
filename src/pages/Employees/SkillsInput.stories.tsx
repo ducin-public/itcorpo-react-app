@@ -4,7 +4,7 @@ import { action } from '@storybook/addon-actions';
 import { SkillsInput } from './SkillsInput';
 
 const meta = {
-  title: 'ITCORPO/Forms/SkillsInput',
+  title: 'ITCORPO/Employees/SkillsInput',
   component: SkillsInput,
   parameters: {
     layout: 'centered',
