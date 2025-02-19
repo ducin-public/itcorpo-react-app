@@ -12,6 +12,28 @@ projects
 - [ ] iconbutton typing issues (styles.constants) src/components/Generic/IconButton.tsx
 
 -------------
+IT CORPO react app
+TODO:
+- [ ] divider
+- [ ] avatar i patient avatar
+- [ ] tooltip
+- [ ] entry - kolory skopane
+- [ ] date picker :/
+
+            <div className="col-span-2">
+                <DateRangePicker
+                label="Active Period"
+                startDate={criteria.activePeriod?.from}
+                endDate={criteria.activePeriod?.to}
+                onStartDateChange={(date) => handleChange({ 
+                    activePeriod: { ...criteria.activePeriod, from: date } 
+                })}
+                onEndDateChange={(date) => handleChange({ 
+                    activePeriod: { ...criteria.activePeriod, to: date } 
+                })}
+                />
+            </div>
+-------------
 
 please add the FilteringChoice component (from src/components/Forms/FilteringChoice.tsx) to ProjectSearchBar (in src/pages/Projects/ProjectSearchBar.tsx) - it should be placed right after TextInput/Team Member.
 
