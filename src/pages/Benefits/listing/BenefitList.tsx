@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Plus } from 'lucide-react';
 
-import { cancelBenefit, renewBenefit } from '../../../api/BenefitApi.axios';
+import { cancelBenefitSubscription, renewBenefitSubscription } from '../../../api/BenefitApi.axios';
 import { benefitSubscriptionListQuery } from '../../../api/BenefitQueries';
 
 import { Spinner } from '../../../components/Generic/Spinner';
@@ -36,7 +36,7 @@ export function BenefitList() {
   const handleCancel = async (benefitId: string) => {
     try {
       // FIXME: mutation
-      await cancelBenefit({ benefitId });
+      await cancelBenefitSubscription({ benefitId });
       addNotification('notice', 'Benefit subscription cancelled');
     } catch (error) {
       addNotification('error', `Failed to cancel benefit: ${error}`);
@@ -46,7 +46,7 @@ export function BenefitList() {
   const handleRenew = async (benefitId: string) => {
     try {
       // FIXME: mutation
-      await renewBenefit({ benefitId });
+      await renewBenefitSubscription({ benefitId });
       addNotification('notice', 'Benefit subscription renewed');
     } catch (error) {
       addNotification('error', `Failed to renew benefit: ${error}`);
