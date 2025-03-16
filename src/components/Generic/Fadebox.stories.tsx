@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Fadebox } from './Fadebox';
 
 const meta = {
-  title: 'ITCORPO/Organisms/Fadebox',
+  title: 'UI/Notifications/Fadebox',
   component: Fadebox,
   parameters: {
     layout: 'centered',

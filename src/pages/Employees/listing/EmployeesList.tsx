@@ -1,12 +1,11 @@
 import { useState } from 'react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { CircleX, LayoutList, Plus, Search } from 'lucide-react';
 
 import { deleteEmployee } from '../../../api/EmployeeApi.axios';
 import { employeeListQuery } from '../../../api/EmployeeQueries';
 
-import { Spinner } from '../../../components/Generic/Spinner';
 import { useNotifications } from '../../../components/Notifications/NotificationContext';
 import { Button } from '../../../components/Generic/Button';
 import { Employee } from '../../../contract-types/data-contracts';

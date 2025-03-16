@@ -1,13 +1,11 @@
-import React from 'react';
 import { useForm } from 'react-hook-form';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { createBenefit } from '../../api/BenefitApi.axios';
-import { Benefit } from '../../contract-types/data-contracts';
-import { styleConstants, styles } from '../../components/DesignLanguage';
+import { styleConstants } from '../../components/DesignLanguage';
+import { BenefitSubscription } from '../../contract-types/data-contracts';
+import { useCreateBenefitSubscriptionMutation } from '../../api/BenefitQueries';
 
 interface AddBenefitForm {
-  type: Benefit['service'];
+  type: BenefitSubscription['service'];
   provider: string;
   description: string;
   monthlyFee: number;
@@ -24,22 +22,15 @@ export function AddBenefitModal({
   onSuccess: () => void;
 }) {
   const { register, handleSubmit, formState: { errors } } = useForm<AddBenefitForm>();
-  const queryClient = useQueryClient();
 
-  const mutation = useMutation({
-    mutationFn: (data: AddBenefitForm) => createBenefit(data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['benefits'] });
-      onSuccess();
-    },
-  });
+  const createMutation = useCreateBenefitSubscriptionMutation();
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
       <div className="bg-white rounded-lg p-6 w-full max-w-md">
         <h2 className="text-xl font-semibold text-gray-900 mb-4">Add New Benefit</h2>
         
-        <form onSubmit={handleSubmit((data) => mutation.mutate(data))}>
+        <form onSubmit={handleSubmit((data) => createMutation.mutate(data))}>
           <div className="space-y-4">
             <div>
               <label className={`${styleConstants.LABEL_TEXT_SIZE} block font-medium text-gray-700`}>Type</label>

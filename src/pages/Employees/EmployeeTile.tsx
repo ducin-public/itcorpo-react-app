@@ -9,9 +9,7 @@ import { formatCurrency } from '../../contexts/CurrencyContext';
 import { A } from '../../components/Typography/A';
 import { formatDate, formatDistance } from 'date-fns';
 import { SpinnerOverlay } from '../../components/Generic/SpinnerOverlay';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { deleteEmployee } from '../../api/EmployeeApi.axios';
-import { useNotifications } from '../../components/Notifications/NotificationContext';
+import { useDeleteEmployeeMutation } from '../../api/EmployeeQueries';
 
 interface EmployeeTileProps {
   employee: Employee;
@@ -26,22 +24,7 @@ export function EmployeeTile({
   // onDelete,
   footer
 }: EmployeeTileProps) {
-  const queryClient = useQueryClient();
-  const { addNotification } = useNotifications();
-
-  const deleteMutation = useMutation({
-    mutationKey: ['employee', 'delete'],
-    mutationFn: ({ employeeId }: { employeeId: Employee['id'], name: string }) =>
-      deleteEmployee({ employeeId }),
-    onSuccess: (_result, { employeeId, name }) => {
-      queryClient.invalidateQueries({ queryKey: ['employees'] });
-      queryClient.removeQueries({ queryKey: ['employees', employeeId] });
-      addNotification('notice', `Employee ${name} deleted successfully`);
-    },
-    onError: (err) => {
-      addNotification('error', `Failed to delete employee: ${err.message}`);
-    }
-  });
+  const deleteMutation = useDeleteEmployeeMutation();
 
   return (
     <SpinnerOverlay size="LARGE" align='CENTER' overlay={deleteMutation.isPending}>

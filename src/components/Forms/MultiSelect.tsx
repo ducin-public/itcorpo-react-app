@@ -22,6 +22,7 @@ const generateStyles = ({ disabled, error, value }: Pick<MultiSelectProps, 'disa
     controlStyles({ disabled, error, value: Boolean(value) }),
     'border rounded-md p-1 py-0 flex items-center flex-wrap gap-2',
     'focus:outline-none focus:ring-2 focus:ring-offset-2',
+    'z-[100] relative',
   );
 };
 

@@ -7,23 +7,23 @@ interface ActionButton {
   icon: LucideIcon;
   text: string;
   onClick: () => void;
-  size?: DesignSize
   fill?: DesignFill
 }
 
 interface ActionButtonsProps {
   actions: ActionButton[];
   className?: string;
+  size?: DesignSize
 }
 
-export const ActionButtons = ({ actions, className = '' }: ActionButtonsProps) => {
+export const ActionButtons = ({ actions, size = 'SMALL', className = '' }: ActionButtonsProps) => {
   return (
     <span className="flex space-x-2">
-      {actions.map(({ icon, text, onClick, size, fill }) => (
+      {actions.map(({ icon, text, onClick, fill }) => (
         <Button
           key={text}
           icon={icon}
-          size={size || 'SMALL'}
+          size={size}
           fill={fill || 'OUTLINED'}
           onClick={onClick}
           className={cn('my-1', className)}

@@ -81,6 +81,17 @@ export const getEmployeeById = ({ employeeId }: Employees.GetEmployeeById.Reques
 };
 
 /**
+ * GET /employees/{employeeId}/edit
+ * @see https://ducin-public.github.io/itcorpo-api/#tag/Employees/operation/getEmployeeEditData
+ * @see {@link Employees.GetEmployeeEditData.RequestParams}
+ * @returns {Promise<Employees.GetEmployeeEditData.ResponseBody>}
+ */
+export const getEmployeeEditData = ({ employeeId }: Employees.GetEmployeeEditData.RequestParams) => {
+  return apiClient.get<Employees.GetEmployeeEditData.ResponseBody>(`/employees/${employeeId}/edit`)
+    .then(res => res.data);
+}
+
+/**
  * POST /employees
  * @see https://ducin-public.github.io/itcorpo-api/#tag/Employees/operation/createEmployee
  * @see {@link EmployeeInput}

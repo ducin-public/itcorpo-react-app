@@ -1,20 +1,39 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import { Autocomplete } from './Autocomplete';
+import { Autocomplete, type Option } from './Autocomplete';
 import { ValidationError } from './ValidationError';
 import { styles } from '../DesignLanguage';
-import { getArgsPropsOrDie } from '../story-utils';
 import { cn } from '../cn';
+import { getArgsPropsOrDie } from '../story-utils';
 
-const developers = [
-  { id: 'D1', label: 'John Doe - Senior Frontend Developer' },
-  { id: 'D2', label: 'Jane Smith - DevOps Engineer' },
-  { id: 'D3', label: 'Emily Johnson - Backend Developer' },
-  { id: 'D4', label: 'Michael Brown - Solution Architect' },
-  { id: 'D5', label: 'Sarah Davis - Security Engineer' },
-  { id: 'D6', label: 'David Wilson - Full Stack Developer' }
+// Mock data simulating a database of IT team members
+const teamMembersDB: Option[] = [
+  { id: 'dev1', label: 'John Smith - Senior Frontend Developer' },
+  { id: 'dev2', label: 'Sarah Johnson - DevOps Engineer' },
+  { id: 'dev3', label: 'Michael Chen - Full Stack Developer' },
+  { id: 'dev4', label: 'Emily Brown - Backend Developer' },
+  { id: 'dev5', label: 'David Wilson - Solution Architect' },
+  { id: 'dev6', label: 'Alice Taylor - Technical Lead' },
+  { id: 'dev7', label: 'Robert Martinez - Cloud Engineer' },
+  { id: 'dev8', label: 'Lisa Anderson - Security Engineer' },
+  { id: 'dev9', label: 'James Wilson - Mobile Developer' },
+  { id: 'dev10', label: 'Emma Davis - UI/UX Developer' },
 ];
+
+// Simulated API fetch with delay and fuzzy search
+const mockFetchTeamMembers = async (phrase: string): Promise<Option[]> => {
+  // Simulate network delay between 200-500ms
+  await new Promise(resolve => setTimeout(resolve, 200 + Math.random() * 300));
+
+  if (!phrase) return [];
+
+  // Case-insensitive search in both id and label
+  return teamMembersDB.filter(member => 
+    member.label.toLowerCase().includes(phrase.toLowerCase()) ||
+    member.id.toLowerCase().includes(phrase.toLowerCase())
+  );
+};
 
 const meta = {
   title: 'UI/Forms/Autocomplete',
@@ -26,7 +45,7 @@ const meta = {
   args: {
     label: 'Team Member',
     placeholder: 'Search for team member...',
-    options: developers,
+    fetchOptions: mockFetchTeamMembers,
     value: '',
     onChange: action('onChange'),
   },
@@ -38,15 +57,15 @@ type Story = StoryObj<typeof Autocomplete>;
 
 const Template = (args: Story['args']) => {
   const [value, setValue] = useState(args?.value ?? '');
-  const options = getArgsPropsOrDie(args, 'options');
-  const label = getArgsPropsOrDie(args, 'label');
+  const label = args?.label ?? 'Team Member';
+  const fetchOptions = getArgsPropsOrDie(args, 'fetchOptions');
   return (
     <>
       <Autocomplete
         {...args}
         value={value}
         label={label}
-        options={options}
+        fetchOptions={fetchOptions}
         onChange={(newValue) => {
           setValue(newValue);
           action('onChange')(newValue);
@@ -62,7 +81,7 @@ export const Default = Template.bind({});
 export const WithValue: Story = {
   render: Template,
   args: {
-    value: 'John Doe',
+    value: 'John Smith',
   },
 };
 
@@ -83,7 +102,7 @@ export const Disabled: Story = {
 export const DisabledWithValue: Story = {
   render: Template,
   args: {
-    value: 'John Doe',
+    value: 'John Smith',
     disabled: true,
   },
 };
@@ -94,7 +113,7 @@ export const CustomRendering: Story = {
     renderInput: ({ value, onChange, onFocus, disabled, error }) => (
       <div className="flex flex-col gap-1">
         <label className={cn('text-lg font-medium', error ? styles.ALERT.text : styles.ACCENT.text)}>
-          Find Developer
+          Find Team Member
         </label>
         <input
           type="text"
@@ -113,7 +132,7 @@ export const CustomRendering: Story = {
               [styles.ACCENT.focusRing]: !error,
             }
           )}
-          placeholder="Type developer name..."
+          placeholder="Type team member name..."
         />
       </div>
     ),

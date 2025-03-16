@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { QuickActions } from './QuickActions';
 
 const meta = {
-  title: 'ITCORPO/Organisms/QuickActions',
+  title: 'ITCORPO/Fancy/QuickActions',
   component: QuickActions,
   parameters: {
     layout: 'centered',

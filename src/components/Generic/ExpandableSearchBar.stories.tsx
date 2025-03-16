@@ -24,7 +24,7 @@ const mockTechnologies = {
 } as const;
 
 const meta = {
-  title: 'UI/Organisms/ExpandableSearchBar',
+  title: 'UI/Search/ExpandableSearchBar',
   component: ExpandableSearchBar,
   parameters: {
     layout: 'centered',
@@ -57,7 +57,8 @@ export const Default: Story = {
                 label="Team Lead"
                 placeholder="Select team lead..."
                 options={mockEngineers}
-                onSelect={action('onEngineerChange')}
+                value=''
+                onChange={action('onEngineerChange')}
               />
             </div>
             <ExpandableSearchBar.ToggleButton />
@@ -155,7 +156,8 @@ const SearchWrapper = () => {
                 label="Team Lead"
                 placeholder="Select team lead..."
                 options={mockEngineers}
-                onSelect={(option) => {
+                value=''
+                onChange={(option) => {
                   setSearch(prev => {
                     const engineer = mockEngineers.find(d => d.id === option.id) ?? null;
                     const updated = { ...prev, engineer };

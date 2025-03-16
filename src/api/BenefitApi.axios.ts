@@ -65,7 +65,7 @@ export const getBenefitsCount = (criteria: Benefits.GetBenefitsCount.RequestQuer
  * @see {@link BenefitService}
  * @returns {Promise<Benefits.CreateBenefit.ResponseBody>}
  */
-export const createBenefit = (benefitData: Benefits.CreateBenefit.RequestBody) => {
+export const createBenefitSubscription = (benefitData: Benefits.CreateBenefit.RequestBody) => {
   return apiClient.post<Benefits.CreateBenefit.ResponseBody>('/benefits', benefitData)
     .then(res => res.data);
 };
@@ -77,7 +77,7 @@ export const createBenefit = (benefitData: Benefits.CreateBenefit.RequestBody) =
  * @see {@link BenefitService}
  * @returns {Promise<Benefits.UpdateBenefit.ResponseBody>}
  */
-export const updateBenefit = ({ benefitId }: Benefits.UpdateBenefit.RequestParams, benefitData: Benefits.UpdateBenefit.RequestBody) => {
+export const updateBenefitSubscription = ({ benefitId }: Benefits.UpdateBenefit.RequestParams, benefitData: Benefits.UpdateBenefit.RequestBody) => {
   return apiClient.put<Benefits.UpdateBenefit.ResponseBody>(`/benefits/${benefitId}`, benefitData)
     .then(res => res.data);
 };
@@ -89,7 +89,7 @@ export const updateBenefit = ({ benefitId }: Benefits.UpdateBenefit.RequestParam
  * @see {@link BenefitService}
  * @returns {Promise<Benefits.UpdateBenefitSubscriptionStatus.ResponseBody>}
  */
-export const cancelBenefit = ({ benefitId }: Benefits.UpdateBenefitSubscriptionStatus.RequestParams) => {
+export const cancelBenefitSubscription = ({ benefitId }: Benefits.UpdateBenefitSubscriptionStatus.RequestParams) => {
   const requestBody: BenefitOperationBody = { operation: "CANCEL" };
   return apiClient.patch<Benefits.UpdateBenefitSubscriptionStatus.ResponseBody>(`/benefits/${benefitId}`, requestBody).then(res => res.data);
 };
@@ -101,7 +101,7 @@ export const cancelBenefit = ({ benefitId }: Benefits.UpdateBenefitSubscriptionS
  * @see {@link BenefitService}
  * @returns {Promise<Benefits.UpdateBenefitSubscriptionStatus.ResponseBody>}
  */
-export const renewBenefit = ({ benefitId }: Benefits.UpdateBenefitSubscriptionStatus.RequestParams) => {
+export const renewBenefitSubscription = ({ benefitId }: Benefits.UpdateBenefitSubscriptionStatus.RequestParams) => {
   const requestBody: BenefitOperationBody = { operation: "RENEW" };
   return apiClient.patch<Benefits.UpdateBenefitSubscriptionStatus.ResponseBody>(`/benefits/${benefitId}`, requestBody).then(res => res.data);
 };

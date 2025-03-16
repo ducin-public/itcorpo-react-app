@@ -1,25 +1,20 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { Plus } from 'lucide-react';
 import { Pagination } from '../../components/Generic/Pagination';
 
-import { Spinner } from '../../components/Generic/Spinner';
 import { ProjectCard } from './listing/ProjectCard';
-import { useNotifications } from '../../components/Notifications/NotificationContext';
-import { deleteProject, getProjects } from '../../api/ProjectApi.axios';
 import { ProjectSearchBar } from './search/ProjectSearchBar';
 import { Button } from '../../components/Generic/Button';
 import { H1 } from '../../components/Typography/Headings';
 import { FlexText } from '../../components/Typography/FlexText';
 import { Text } from '../../components/Typography/Text';
 import { useProjectSearch } from './search/ProjectSearchContext';
-import { projectsListQuery } from '../../api/ProjectQueries';
+import { projectsListQuery, useDeleteProjectMutation } from '../../api/ProjectQueries';
 import { SpinnerOverlay } from '../../components/Generic/SpinnerOverlay';
 
 export function ProjectList() {
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
-  const { addNotification } = useNotifications();
   const { queryParams, params, setPage } = useProjectSearch();
 
   const { data: response, isFetching } = useQuery({
@@ -27,16 +22,7 @@ export function ProjectList() {
     placeholderData: (prev) => prev
   });
 
-  const deleteMutation = useMutation({
-    mutationFn: deleteProject,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['projects'] });
-      addNotification('notice', 'Project successfully deleted');
-    },
-    onError: (error) => {
-      addNotification('error', `Failed to delete project: ${error}`);
-    },
-  });
+  const deleteMutation = useDeleteProjectMutation();
 
   return (
     <div className="px-2 py-2">

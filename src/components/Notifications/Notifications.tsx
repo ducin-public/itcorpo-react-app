@@ -1,6 +1,7 @@
-import React from 'react';
-import { useNotifications } from '../contexts/NotificationContext';
 import { XCircle, AlertCircle, Info, Bell } from 'lucide-react';
+
+import { useNotifications } from './NotificationContext';
+import { cn } from '../cn';
 
 const icons = {
   error: XCircle,
@@ -20,15 +21,18 @@ export function Notifications() {
   const { notifications, removeNotification } = useNotifications();
 
   return (
-    <div className="fixed top-4 right-4 z-50 space-y-2">
+    <div className="fixed top-4 right-4 z-50 space-y-2 flex flex-col items-end w-1/2">
       {notifications.map((notification) => {
         const Icon = icons[notification.type];
         return (
           <div
             key={notification.id}
-            className={`flex items-center p-4 rounded-lg border ${colors[notification.type]} shadow-lg`}
+            className={cn(
+              `flex items-center p-4 rounded-lg border shadow-lg w-fit max-w-full`,
+              colors[notification.type]
+            )}
           >
-            <Icon className="h-5 w-5 mr-3" />
+            <Icon className="h-5 w-5 mr-3 flex-shrink-0" />
             <p className="font-medium">{notification.message}</p>
             <button
               onClick={() => removeNotification(notification.id)}

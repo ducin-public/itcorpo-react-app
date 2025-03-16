@@ -1,16 +1,16 @@
-- [ ] wszystko do query options
+- [ ] office/benefit: list -> page
+- [ ] src/pages/Benefits/AddBenefitModal.tsx - porazka... skorzystac z `react-hook-form`
+- [ ] src/components/Notifications.tsx oraz NotificationsProvider powinny być przy sobie (!) a wyświetlanie jest w Layout (src/pages/Layout/Layout.tsx)...
+- [ ] employees (i moze inne) - missing pagination + liczenie ile jest wszyzstkich stron
 - [ ] ExpandableSearchBar.ExpandedContent -> ExpandableSearchBar.ExpandedContentLine
 - [ ] src/pages/Projects/ProjectSearchBar.tsx button choice inline label
-
-
-emp search
-- [ ] dept - single
-projects
+emp search:
+- [ ] department - single
+projects:
 - [ ] status vs statuses
 -------------
-- [ ] bug in phone, repro: type manually
+- [ ] bug in phone input, repro: type manually
 - [ ] iconbutton typing issues (styles.constants) src/components/Generic/IconButton.tsx
-
 -------------
 IT CORPO react app
 TODO:
