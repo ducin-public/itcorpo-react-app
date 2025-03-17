@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Plus } from 'lucide-react';
 
-import { cancelBenefitSubscription, getBenefitSubscriptions, renewBenefitSubscription } from '../../../api/BenefitApi.axios';
+import { getBenefitSubscriptions } from '../../../api/BenefitApi.axios';
 
-import { Spinner } from '../../../components/Generic/Spinner';
 import { BenefitCard } from './BenefitCard';
-import { useNotifications } from '../../../components/Notifications/NotificationContext';
 import { AddBenefitModal } from '../AddBenefitModal';
 import { Button } from '../../../components/Generic/Button';
 import { BenefitSearchBar } from '../search/BenefitSearchBar';
@@ -19,7 +17,6 @@ import { BenefitSubscription } from '../../../contract-types/data-contracts';
 export function BenefitList() {
   const [isAddModalOpen, setIsAddModalOpen] = React.useState(false);
   const [searchState, setSearchState] = useState<BenefitSearchFilters>(emptyBenefitSearchFilters);
-  const { addNotification } = useNotifications();
   const [benefits, setBenefits] = useState<BenefitSubscription[]>([]);
   const [isFetching, setIsFetching] = useState(true);
   useEffect(() => {
@@ -73,7 +70,6 @@ export function BenefitList() {
           onClose={() => setIsAddModalOpen(false)}
           onSuccess={() => {
             setIsAddModalOpen(false);
-            addNotification('notice', 'Benefit successfully added');
           }}
         />
       )}

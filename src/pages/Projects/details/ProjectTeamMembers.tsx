@@ -1,10 +1,7 @@
 import { useState } from 'react';
 import { DatabaseBackup, Plus, Search, X } from 'lucide-react';
 
-import { useNotifications } from '../../../components/Notifications/NotificationContext';
 import { Button } from '../../../components/Generic/Button';
-import { addProjectTeamMember, removeProjectTeamMember } from '../../../api/ProjectApi.axios';
-import { getEmployees } from '../../../api/EmployeeApi.axios';
 import { Employee, Project, ProjectEmployeeInvolvement } from '../../../contract-types/data-contracts';
 import { employeeImageURL } from '../../Employees/employeeImageURL';
 
