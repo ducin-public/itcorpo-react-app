@@ -18,6 +18,8 @@ import { Text } from '../../../components/Typography/Text';
 import { ActionButtons } from '../../../components/Generic/ActionButtons';
 import { EmployeeGroup, employeeGroupDict } from '../EmployeeDictionaries';
 import { SpinnerOverlay } from '../../../components/Generic/SpinnerOverlay';
+import { Checkbox } from '../../../components/Forms/Checkbox';
+import { formatCurrency } from '../../../contexts/CurrencyContext';
 
 interface EmployeesListProps {
   group: EmployeeGroup
@@ -25,9 +27,8 @@ interface EmployeesListProps {
 
 export function EmployeesList({ group }: EmployeesListProps) {
   const navigate = useNavigate();
-  const { addNotification } = useNotifications();
-  const queryClient = useQueryClient();
   const [filters, setFilters] = useState<EmployeeSearchFilters>(emptyEmployeeSearchFilters);
+  const [showExtendedSalary, setShowExtendedSalary] = useState(false);
 
   const { data: employees, isFetching } = useQuery({
     ...employeeListQuery({
@@ -41,6 +42,15 @@ export function EmployeesList({ group }: EmployeesListProps) {
     }),
     placeholderData: (prev) => prev
   });
+
+  const calculateTotalSalary = () => {
+    if (!employees) return 0;
+    return employees.reduce((acc, employee) => acc + (employee.employment.currentSalary || 0), 0);
+  };
+
+  const monthlySalary = calculateTotalSalary();
+  const quarterlySalary = monthlySalary * 3;
+  const yearlySalary = monthlySalary * 12;
 
   return (
     <div className='px-2 py-2'>
@@ -69,6 +79,43 @@ export function EmployeesList({ group }: EmployeesListProps) {
           filters={filters}
           onFiltersChange={setFilters}
         />
+      </div>
+
+      <div className="mb-6 bg-white rounded-lg shadow p-4">
+        <div className="flex items-center mb-3">
+          <Checkbox
+            id="show-extended-salary"
+            checked={showExtendedSalary}
+            onChange={(checked) => setShowExtendedSalary(checked)}
+            label="Show extended salary information"
+          />
+        </div>
+          
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="bg-gray-50 p-3 rounded-md">
+            <Text className="text-gray-600 text-sm">Monthly Total:</Text>
+            <Text className={`font-semibold text-lg`}>
+              {formatCurrency(monthlySalary)}
+            </Text>
+          </div>
+          
+          {showExtendedSalary && (
+            <>
+              <div className="bg-gray-50 p-3 rounded-md">
+                <Text className="text-gray-600 text-sm">Quarterly Total:</Text>
+                <Text className={`font-semibold text-lg`}>
+                  {formatCurrency(quarterlySalary)}
+                </Text>
+              </div>
+              <div className="bg-gray-50 p-3 rounded-md">
+                <Text className="text-gray-600 text-sm">Yearly Total:</Text>
+                <Text className={`font-semibold text-lg`}>
+                  {formatCurrency(yearlySalary)}
+                </Text>
+              </div>
+            </>
+          )}
+        </div>
       </div>
 
       <div className="relative min-h-[200px]">
