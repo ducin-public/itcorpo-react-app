@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
 import { ArrowLeft, Search } from 'lucide-react';
 
 import { Spinner } from '../../components/Generic/Spinner';
 import { ButtonChoice } from '../../components/Generic/ButtonChoice';
 import { InvolvementTile } from './InvolvementTile';
-import { ProjectEmployeeInvolvement } from '../../contract-types/data-contracts';
-import { employeeProjectsListQuery } from '../../api/EmployeeQueries';
+import { Employee, ProjectEmployeeInvolvement } from '../../contract-types/data-contracts';
 import { ActionButtons } from '../../components/Generic/ActionButtons';
 import { EmployeeCard } from './listing/EmployeeCard';
 import { viewedEmployeesStore } from './ViewedEmployeesStore';
 import { observer } from 'mobx-react-lite';
+import { getEmployeeProjects } from '../../api/EmployeeApi.axios';
+import { Employees } from '../../contract-types/EmployeesRoute';
 
 type InvolvementStatus = 'ALL' | 'ACTIVE' | 'PAST';
 
@@ -41,7 +41,15 @@ export const EmployeeProjects = observer(() => {
   const employeeId = Number(id!);
   const [status, setStatus] = useState<InvolvementStatus>('ACTIVE');
 
-  const { data: involvements, isLoading } = useQuery(employeeProjectsListQuery(employeeId));
+  const [involvements, setInvolvements] = useState<Employees.GetEmployeeProjects.ResponseBody>({} as any);
+  const [isFetching, setIsFetching] = useState(true);
+  useEffect(() => {
+    setIsFetching(true);
+    getEmployeeProjects({ employeeId: Number(id!) }).then((involvements) => {
+      setInvolvements(involvements);
+      setIsFetching(false);
+    });
+  }, [])
 
   useEffect(() => {
     if (involvements?.employee) {
@@ -49,7 +57,7 @@ export const EmployeeProjects = observer(() => {
     }
   }, [involvements]);
 
-  if (isLoading) return <Spinner />;
+  if (isFetching) return <Spinner />;
   if (!involvements) return null;
 
   const { employee, projects } = involvements;

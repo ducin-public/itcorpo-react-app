@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
 
 import type { BenefitCharge } from '../../contract-types/data-contracts';
@@ -8,7 +7,6 @@ import { getBenefitCharges } from '../../api/BenefitApi.axios';
 import { formatCurrency } from '../../contexts/CurrencyContext';
 import { styles } from '../../components/DesignLanguage';
 import { Spinner } from '../../components/Generic/Spinner';
-import { benefitChargesListQuery } from '../../api/BenefitQueries';
 
 const statusStyles: Record<BenefitCharge['status'], keyof typeof styles> = {
   'PENDING': 'WARNING',
@@ -22,9 +20,17 @@ export function BenefitChargesList() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
-  const { data: charges, isLoading } = useQuery(benefitChargesListQuery({ employeeId: id! }));
+  const [charges, setCharges] = useState<BenefitCharge[]>([]);
+  const [isFetching, setIsFetching] = useState(true);
+  useEffect(() => {
+    setIsFetching(true);
+    getBenefitCharges().then((benefits) => {
+      setCharges(benefits);
+      setIsFetching(false);
+    });
+  }, [])
 
-  if (isLoading) return <Spinner size="LARGE" />;
+  if (isFetching) return <Spinner size="LARGE" />;
   if (!charges) return null;
 
   return (

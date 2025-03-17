@@ -1,12 +1,12 @@
 import { useParams } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
-
-import { officeDetailsQuery } from '../../../api/OfficeQueries';
 
 import { Spinner } from '../../../components/Generic/Spinner';
 import { officeImageURL } from '../officeImageURL';
 import { formatCurrency } from '../../../contexts/CurrencyContext';
 import { OfficeAmenitiesList } from '../OfficeAmenitiesList';
+import { useEffect, useState } from 'react';
+import { getOfficeByCode } from '../../../api/OfficeApi.axios';
+import { Office } from '../../../contract-types/data-contracts';
 
 export function OfficeDetails() {
   const { code } = useParams();
@@ -14,9 +14,17 @@ export function OfficeDetails() {
     throw new Error('Office code is required in the URL');
   }
 
-  const { data: office, isLoading } = useQuery(officeDetailsQuery(code));
+  const [office, setOffice] = useState<Office>();
+  const [isFetching, setIsFetching] = useState(true);
+  useEffect(() => {
+    setIsFetching(true);
+    getOfficeByCode({ officeCode: code }).then((office) => {
+      setOffice(office);
+      setIsFetching(false);
+    });
+  }, [])
 
-  if (isLoading) return <Spinner />;
+  if (isFetching) return <Spinner />;
   if (!office) return null;
 
   return (

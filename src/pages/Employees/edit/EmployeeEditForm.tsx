@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { TextInput } from '../../../components/Forms/TextInput';
@@ -7,12 +7,10 @@ import { Dropdown } from '../../../components/Forms/Dropdown';
 import { FormSection } from '../../../components/Forms/FormSection';
 import { Button } from '../../../components/Generic/Button';
 import { ValidationError } from '../../../components/Forms/ValidationError';
-import type { Employee, EmployeeInput } from '../../../contract-types/data-contracts';
-import { employeeImageURL } from '../employeeImageURL';
+import type { Department, EmployeeInput, Geo } from '../../../contract-types/data-contracts';
 import { FileInput } from '../../../components/Forms/FileInput';
-import { useQuery } from '@tanstack/react-query';
-import { geoQuery } from '../../../api/GeoQueries';
-import { departmentsListQuery } from '../../../api/DepartmentQueries';
+import { getGeo } from '../../../api/GeoApi.axios';
+import { getDepartments } from '../../../api/DepartmentApi.axios';
 
 interface EmployeeEditFormProps {
   initialData?: EmployeeInput;
@@ -26,8 +24,21 @@ export const EmployeeEditForm = ({ initialData, onSubmit }: EmployeeEditFormProp
   const [errorMessages, setErrorMessages] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const { data: geoData } = useQuery(geoQuery);
-  const { data: departmentsData } = useQuery(departmentsListQuery);
+  const [geoData, setGeoData] = useState<Geo>({});
+  const [departments, setDepartments] = useState<Department[]>([]);
+  const [isFetching, setIsFetching] = useState(true);
+  useEffect(() => {
+    setIsFetching(true);
+    getGeo().then((geo) => {
+      setGeoData(geo);
+      setIsFetching(false);
+    });
+
+    getDepartments().then((departments) => {
+      setDepartments(departments);
+      setIsFetching(false);
+    });
+  }, [])
 
   const validateForm = (): boolean => {
     const newErrors: Record<string, boolean> = {};
@@ -101,7 +112,7 @@ export const EmployeeEditForm = ({ initialData, onSubmit }: EmployeeEditFormProp
 
     setIsSubmitting(true);
     try {
-      await onSubmit(formData as EmployeeInput); // FIXME
+      await onSubmit(formData as EmployeeInput);
       navigate(-1);
     } catch (error) {
       console.error('Error submitting form:', error);
@@ -145,7 +156,7 @@ export const EmployeeEditForm = ({ initialData, onSubmit }: EmployeeEditFormProp
               label="Nationality"
               options={geoData ?? {}}
               value={formData.nationality || ''}
-              onChange={(value) => setFormData({ ...formData, nationality: value as any })} // FIXME
+              onChange={(value) => setFormData({ ...formData, nationality: value as any })}
               error={errors.nationality}
             />
             {errors.nationality && (

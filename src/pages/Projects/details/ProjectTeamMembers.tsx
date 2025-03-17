@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
 import { DatabaseBackup, Plus, Search, X } from 'lucide-react';
 
 import { useNotifications } from '../../../components/Notifications/NotificationContext';
@@ -18,62 +17,6 @@ export function ProjectTeamMembers({ project, team }: ProjectTeamMembersProps) {
   const [isSearching, setIsSearching] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState<Employee[]>([]);
-  const queryClient = useQueryClient();
-  const { addNotification } = useNotifications();
-
-  const handleSearch = async (term: string) => {
-    setSearchTerm(term);
-    if (term.length < 2) {
-      setSearchResults([]);
-      return;
-    }
-
-    try {
-      const allEmployees = await getEmployees();
-      const filtered = allEmployees.filter(
-        emp => 
-          !team.find(e => e.employeeId === emp.id) &&
-          `${emp.name}`.toLowerCase().includes(term.toLowerCase())
-      );
-      setSearchResults(filtered);
-    } catch (error) {
-      addNotification('error', 'Failed to search employees');
-    }
-  };
-
-  const handleAddProjectMember = async (employee: Employee) => {
-    try {
-      await addProjectTeamMember({
-        projectId: project.id
-      }, {
-        employeeId: employee.id,
-        projectId: project.id,
-        // FIXME: remove hardcoded values
-        engagementLevel: 'FULL_TIME',
-        startDate: new Date() + '',
-        // endDate: null,
-      }); // FIXME; add mutation (invalidate query, but also modify project/id state)
-      queryClient.invalidateQueries({ queryKey: ['project', project.id] });
-      addNotification('notice', `${employee.name} added to the project`);
-      setSearchTerm('');
-      setSearchResults([]);
-    } catch (error) {
-      addNotification('error', 'Failed to add employee to project');
-    }
-  };
-
-  const handleRemoveProjectMember = async (employeeId: Employee['id']) => {
-    try {
-      await removeProjectTeamMember({
-        projectId: project.id,
-        memberId: employeeId,
-      }) // FIXME; add mutation (invalidate query, but also modify project/id state)
-      queryClient.invalidateQueries({ queryKey: ['project', project.id] });
-      addNotification('notice', 'Employee removed from project');
-    } catch (error) {
-      addNotification('error', 'Failed to remove employee from project');
-    }
-  };
 
   return (
     <div>
@@ -94,7 +37,7 @@ export function ProjectTeamMembers({ project, team }: ProjectTeamMembersProps) {
               type="text"
               placeholder="Search employees..."
               value={searchTerm}
-              onChange={(e) => handleSearch(e.target.value)}
+              onChange={(e) => console.log(e.target.value)}
               className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg w-full focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
             />
           </div>
@@ -105,7 +48,7 @@ export function ProjectTeamMembers({ project, team }: ProjectTeamMembersProps) {
                 <div
                   key={employee.id}
                   className="p-3 hover:bg-gray-50 cursor-pointer flex items-center justify-between"
-                  onClick={() => handleAddProjectMember(employee)}
+                  onClick={() => console.log(employee)}
                 >
                   <div className="flex items-center space-x-3">
                     <img
@@ -145,7 +88,7 @@ export function ProjectTeamMembers({ project, team }: ProjectTeamMembersProps) {
               <p className="text-sm text-gray-600">{employee.employeePosition}</p>
             </div>
             <button
-              onClick={() => handleRemoveProjectMember(employee.employeeId)}
+              onClick={() => console.log(employee.employeeId)}
               className="opacity-0 group-hover:opacity-100 text-gray-400 hover:text-red-600"
             >
               <X className="h-5 w-5" />

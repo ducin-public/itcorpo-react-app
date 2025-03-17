@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import React, { useEffect, useState } from 'react';
 import { Plus } from 'lucide-react';
 
-import { cancelBenefitSubscription, renewBenefitSubscription } from '../../../api/BenefitApi.axios';
-import { benefitSubscriptionListQuery } from '../../../api/BenefitQueries';
+import { cancelBenefitSubscription, getBenefitSubscriptions, renewBenefitSubscription } from '../../../api/BenefitApi.axios';
 
 import { Spinner } from '../../../components/Generic/Spinner';
 import { BenefitCard } from './BenefitCard';
@@ -16,42 +14,21 @@ import { H1 } from '../../../components/Typography/Headings';
 import { FlexText } from '../../../components/Typography/FlexText';
 import { Text } from '../../../components/Typography/Text';
 import { SpinnerOverlay } from '../../../components/Generic/SpinnerOverlay';
+import { BenefitSubscription } from '../../../contract-types/data-contracts';
 
 export function BenefitList() {
   const [isAddModalOpen, setIsAddModalOpen] = React.useState(false);
   const [searchState, setSearchState] = useState<BenefitSearchFilters>(emptyBenefitSearchFilters);
   const { addNotification } = useNotifications();
-  
-  const { data: benefits, isFetching } = useQuery({
-    ...benefitSubscriptionListQuery({
-      serviceName: searchState.serviceName || undefined,
-      employeeId: searchState.beneficiaryEmployee,
-      feeFrom: searchState.feeRange.from?.toString(),
-      feeTo: searchState.feeRange.to?.toString(),
-      status: searchState.selectedStatus ?? 'ALL'
-    }),
-    placeholderData: (prev) => prev
-  });
-
-  const handleCancel = async (benefitId: string) => {
-    try {
-      // FIXME: mutation
-      await cancelBenefitSubscription({ benefitId });
-      addNotification('notice', 'Benefit subscription cancelled');
-    } catch (error) {
-      addNotification('error', `Failed to cancel benefit: ${error}`);
-    }
-  };
-
-  const handleRenew = async (benefitId: string) => {
-    try {
-      // FIXME: mutation
-      await renewBenefitSubscription({ benefitId });
-      addNotification('notice', 'Benefit subscription renewed');
-    } catch (error) {
-      addNotification('error', `Failed to renew benefit: ${error}`);
-    }
-  };
+  const [benefits, setBenefits] = useState<BenefitSubscription[]>([]);
+  const [isFetching, setIsFetching] = useState(true);
+  useEffect(() => {
+    setIsFetching(true);
+    getBenefitSubscriptions().then((benefits) => {
+      setBenefits(benefits);
+      setIsFetching(false);
+    });
+  }, [])
 
   return (
     <div className='px-2 py-2'>
@@ -83,8 +60,8 @@ export function BenefitList() {
               <BenefitCard
                 key={benefit.id}
                 benefit={benefit}
-                onCancel={() => handleCancel(benefit.id)}
-                onRenew={() => handleRenew(benefit.id)}
+                onCancel={() => alert(benefit.id)}
+                onRenew={() => alert(benefit.id)}
               />
             ))}
           </div>

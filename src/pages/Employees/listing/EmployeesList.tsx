@@ -1,13 +1,9 @@
-import { useState } from 'react';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CircleX, LayoutList, Plus, Search } from 'lucide-react';
 
-import { deleteEmployee } from '../../../api/EmployeeApi.axios';
-import { employeeListQuery } from '../../../api/EmployeeQueries';
+import { getEmployees } from '../../../api/EmployeeApi.axios';
 
-import { useNotifications } from '../../../components/Notifications/NotificationContext';
-import { Button } from '../../../components/Generic/Button';
 import { Employee } from '../../../contract-types/data-contracts';
 import { EmployeeSearchBar } from '../search/EmployeeSearchBar';
 import { emptyEmployeeSearchFilters, type EmployeeSearchFilters } from '../search/EmployeeSearchFilters';
@@ -30,18 +26,16 @@ export function EmployeesList({ group }: EmployeesListProps) {
   const [filters, setFilters] = useState<EmployeeSearchFilters>(emptyEmployeeSearchFilters);
   const [showExtendedSalary, setShowExtendedSalary] = useState(false);
 
-  const { data: employees, isFetching } = useQuery({
-    ...employeeListQuery({
-      group,
-      employeeName: filters.searchTerm,
-      departmentId: filters.departments[0],
-      skills: filters.skills,
-      skillsFiltering: filters.skillsFiltering,
-      salaryFrom: filters.minSalary?.toString(),
-      salaryTo: filters.maxSalary?.toString(),
-    }),
-    placeholderData: (prev) => prev
-  });
+  const [employees, setEmployees] = useState<Employee[]>([]);
+  const [isFetching, setIsFetching] = useState(true);
+  useEffect(() => {
+    setIsFetching(true);
+    getEmployees().then((benefits) => {
+      setEmployees(benefits);
+      setIsFetching(false);
+    });
+  }, [])
+  
 
   const calculateTotalSalary = () => {
     if (!employees) return 0;
@@ -126,7 +120,6 @@ export function EmployeesList({ group }: EmployeesListProps) {
                 key={employee.id}
                 employee={employee}
                 onEdit={() => navigate(`/employees/${employee.id}/edit`)}
-                // onDelete={() => deleteMutation.mutate(employee.id)}
                 footer={
                   <ActionButtons
                     actions={[{

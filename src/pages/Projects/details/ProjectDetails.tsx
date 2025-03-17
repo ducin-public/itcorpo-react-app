@@ -1,5 +1,4 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
 import { format, formatDistance } from 'date-fns';
 import { ArrowLeft } from 'lucide-react';
 
@@ -10,18 +9,26 @@ import { ProjectStatusChange } from './ProjectStatusChange';
 import { Spinner } from '../../../components/Generic/Spinner';
 import { DetailsSection } from '../../../components/Generic/DetailsSection';
 import { ActionButtons } from '../../../components/Generic/ActionButtons';
-import { projectTeamQuery } from '../../../api/ProjectQueries';
+import { getProjectTeam } from '../../../api/ProjectApi.axios';
+import { useEffect, useState } from 'react';
+import { Project, ProjectEmployeeInvolvement } from '../../../contract-types/data-contracts';
 
 export function ProjectDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const { data: projectInvolvement, isLoading: isLoading } = useQuery({
-    ...projectTeamQuery(id!),
-    placeholderData: (prev) => prev
-  });
+  const [projectInvolvement, setProjectInvolvement] = useState<{ project: Project; team: ProjectEmployeeInvolvement[]; }>({} as any);
+  const [isFetching, setIsFetching] = useState(true);
+  useEffect(() => {
+    setIsFetching(true);
+    getProjectTeam({ projectId: id! }).then((res) => {
+      setProjectInvolvement(res);
+      setIsFetching(false);
+    });
+  }, [])
+  //getProjectTeam
 
-  if (isLoading) return <Spinner />;
+  if (isFetching) return <Spinner />;
   if (!projectInvolvement) return null;
 
   const { project, team } = projectInvolvement;

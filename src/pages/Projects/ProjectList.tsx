@@ -1,4 +1,3 @@
-import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { Plus } from 'lucide-react';
 import { Pagination } from '../../components/Generic/Pagination';
@@ -10,19 +9,24 @@ import { H1 } from '../../components/Typography/Headings';
 import { FlexText } from '../../components/Typography/FlexText';
 import { Text } from '../../components/Typography/Text';
 import { useProjectSearch } from './search/ProjectSearchContext';
-import { projectsListQuery, useDeleteProjectMutation } from '../../api/ProjectQueries';
 import { SpinnerOverlay } from '../../components/Generic/SpinnerOverlay';
+import { useEffect, useState } from 'react';
+import { getProjects } from '../../api/ProjectApi.axios';
+import { Project } from '../../contract-types/data-contracts';
 
 export function ProjectList() {
   const navigate = useNavigate();
   const { queryParams, params, setPage } = useProjectSearch();
 
-  const { data: response, isFetching } = useQuery({
-    ...projectsListQuery(queryParams),
-    placeholderData: (prev) => prev
-  });
-
-  const deleteMutation = useDeleteProjectMutation();
+  const [response, setResponse] = useState<{ items: Project[]; totalCount: number; totalPages: number; }>({ items: [], totalCount: 0, totalPages: 0 });
+  const [isFetching, setIsFetching] = useState(true);
+  useEffect(() => {
+    setIsFetching(true);
+    getProjects().then((response) => {
+      setResponse(response);
+      setIsFetching(false);
+    });
+  }, [])
 
   return (
     <div className="px-2 py-2">
@@ -61,7 +65,7 @@ export function ProjectList() {
                 project={project}
                 onView={() => navigate(`/projects/${project.id}/details`)}
                 onEdit={() => navigate(`/projects/${project.id}/edit`)}
-                onDelete={() => deleteMutation.mutate({ projectId: project.id })}
+                onDelete={() => console.log({ projectId: project.id })}
               />
             ))}
           </div>

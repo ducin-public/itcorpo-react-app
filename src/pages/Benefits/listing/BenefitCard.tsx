@@ -9,8 +9,8 @@ import { styles } from '../../../components/DesignLanguage';
 
 interface BenefitCardProps {
   benefit: BenefitSubscription;
-  onCancel?: () => Promise<void>;
-  onRenew?: () => Promise<void>;
+  onCancel?: () => void;
+  onRenew?: () => void;
 }
 
 export function BenefitCard({

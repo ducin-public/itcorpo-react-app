@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
 import { ArrowLeft, LayoutList } from 'lucide-react';
 import { format, formatDistance } from 'date-fns';
 import { observer } from 'mobx-react-lite';
@@ -14,7 +13,7 @@ import { contractTypeDict, nationalityDict } from './EmployeeDictionaries';
 import { H3 } from '../../components/Typography/Headings';
 import { ActionButtons } from '../../components/Generic/ActionButtons';
 import { EmployeeCard } from './listing/EmployeeCard';
-import { employeeDetailsQuery } from '../../api/EmployeeQueries';
+import { Employee } from '../../contract-types/data-contracts';
 
 const MultiParagraphText = ({ text }: { text: string }) => {
   return (
@@ -31,7 +30,15 @@ export const EmployeeDetails = observer(() => {
   const employeeId = Number(id!);
   const navigate = useNavigate();
 
-  const { data: employee, isLoading } = useQuery(employeeDetailsQuery(employeeId));
+  const [employee, setEmployee] = useState<Employee>({} as any);
+  const [isFetching, setIsFetching] = useState(true);
+  useEffect(() => {
+    setIsFetching(true);
+    getEmployeeById({ employeeId: Number(id!) }).then((e) => {
+      setEmployee(e);
+      setIsFetching(false);
+    });
+  }, [])
 
   useEffect(() => {
     if (employee) {
@@ -39,7 +46,7 @@ export const EmployeeDetails = observer(() => {
     }
   }, [employee]);
 
-  if (isLoading) return <Spinner />;
+  if (isFetching) return <Spinner />;
   if (!employee) return null;
 
   const personalInformationLines = [

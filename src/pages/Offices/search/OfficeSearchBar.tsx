@@ -1,13 +1,13 @@
-import { useQuery } from '@tanstack/react-query';
 
 import { getOfficeAmenities } from '../../../api/OfficeApi.axios';
-import { geoQuery } from '../../../api/GeoQueries';
 
 import { MultiSelect } from '../../../components/Forms/MultiSelect';
 import { TextInput } from '../../../components/Forms/TextInput';
-import type { OfficeAmenity } from '../../../contract-types/data-contracts';
+import type { Geo, OfficeAmenity } from '../../../contract-types/data-contracts';
 import { ExpandableSearchBar } from '../../../components/Generic/ExpandableSearchBar';
 import { FilteringChoice } from '../../../components/Generic/FilteringChoice';
+import { useEffect, useState } from 'react';
+import { getGeo } from '../../../api/GeoApi.axios';
 
 export type OfficeSearchBarProps = {
   onSearchChange: (search: string) => void;
@@ -30,12 +30,17 @@ export const OfficeSearchBar = ({
   amenitiesFiltering,
   searchPhrase,
 }: OfficeSearchBarProps) => {
-  const { data: geoData } = useQuery(geoQuery);
+  const [geoData, setGeoData] = useState<Geo>({});
+  const [amenities, setAmenities] = useState<OfficeAmenity[]>([]);
+  useEffect(() => {
+    getGeo().then((geo) => {
+      setGeoData(geo);
+    });
 
-  const { data: amenities = [] } = useQuery<OfficeAmenity[]>({
-    queryKey: ['amenities'],
-    queryFn: getOfficeAmenities
-  });
+    getOfficeAmenities().then((amenities) => {
+      setAmenities(amenities);
+    })
+  }, [])
 
   const amenityOptions = amenities.reduce((acc, amenity) => {
     acc[amenity.code] = amenity.name;
@@ -54,7 +59,7 @@ export const OfficeSearchBar = ({
         />
         <MultiSelect
           label="Countries"
-          options={geoData ? geoData : {}} // FIXME
+          options={geoData ? geoData : {}}
           placeholder='Select countries...'
           value={selectedCountries}
           onChange={onCountriesChange}

@@ -1,12 +1,12 @@
-import { useQuery } from '@tanstack/react-query';
-
 import { MultiSelect } from '../../../components/Forms/MultiSelect';
 import { NumberRangeInput } from '../../../components/Forms/NumberRangeInput';
 import { ExpandableSearchBar } from '../../../components/Generic/ExpandableSearchBar';
 import type { EmployeeSearchFilters } from './EmployeeSearchFilters';
 import { TextInput } from '../../../components/Forms/TextInput';
 import { FilteringChoice } from '../../../components/Generic/FilteringChoice';
-import { departmentsListQuery } from '../../../api/DepartmentQueries';
+import { useEffect, useState } from 'react';
+import { Department } from '../../../contract-types/data-contracts';
+import { getDepartments } from '../../../api/DepartmentApi.axios';
 
 interface EmployeeSearchBarProps {
   onFiltersChange: (filters: EmployeeSearchFilters) => void;
@@ -14,7 +14,15 @@ interface EmployeeSearchBarProps {
 }
 
 export function EmployeeSearchBar({ onFiltersChange, filters }: EmployeeSearchBarProps) {
-  const { data: departments = [] } = useQuery(departmentsListQuery);
+  const [departments, setDepartments] = useState<Department[]>([]);
+  const [isFetching, setIsFetching] = useState(true);
+  useEffect(() => {
+    setIsFetching(true);
+    getDepartments().then((departments) => {
+      setDepartments(departments);
+      setIsFetching(false);
+    });
+  }, [])
 
   const departmentOptions = departments.reduce((acc, department) => {
     acc[department.id] = department.name;

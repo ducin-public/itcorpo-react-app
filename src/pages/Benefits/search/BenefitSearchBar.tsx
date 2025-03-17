@@ -1,14 +1,12 @@
-import { useQuery } from '@tanstack/react-query';
-
-import { employeesSearchFeedQuery } from '../../../api/EmployeeQueries';
-
 import { ExpandableSearchBar } from '../../../components/Generic/ExpandableSearchBar';
 import { TextInput } from '../../../components/Forms/TextInput';
 import { MultiSelect } from '../../../components/Forms/MultiSelect';
 import { Dropdown } from '../../../components/Forms/Dropdown';
 import { BenefitSubscriptionSearchStatusDict, type BenefitSearchFilters } from './BenefitSearchFilters';
 import { NumberRangeInput } from '../../../components/Forms/NumberRangeInput';
-import type { BenefitCategory } from '../../../contract-types/data-contracts';
+import type { BenefitCategory, EmployeeSearchFeed } from '../../../contract-types/data-contracts';
+import { useEffect, useState } from 'react';
+import { getEmployeesSearchFeed } from '../../../api/EmployeeApi.axios';
 
 interface BenefitSearchBarProps {
   searchState: BenefitSearchFilters;
@@ -23,19 +21,25 @@ const categories: Record<BenefitCategory, string> = {
 };
 
 export function BenefitSearchBar({ searchState, onCriteriaUpdate }: BenefitSearchBarProps) {
-  const { data: employeesOptions = {} } = useQuery({
-    ...employeesSearchFeedQuery({}), // FIXME: need to use autocompleter to get the employeeName
-    select(employees) { // FIXME: interesting (ANF)
-      return Object.fromEntries(
-        employees.map(emp => ([String(emp.id), emp.name]))
-      );
-    },
-  });
+  const [employees, setEmployees] = useState<EmployeeSearchFeed[]>([]);
+  const [isFetching, setIsFetching] = useState(true);
+  useEffect(() => {
+    setIsFetching(true);
+    getEmployeesSearchFeed().then((employees) => {
+
+      setEmployees(employees);
+      setIsFetching(false);
+    });
+  }, [])
 
   const handleChange = (updates: Partial<BenefitSearchFilters>) => {
     const newCriteria = { ...searchState, ...updates };
     onCriteriaUpdate(newCriteria);
   };
+
+  const employeesOptions = Object.fromEntries(
+    employees.map(emp => ([String(emp.id), emp.name]))
+  );
 
   return (
     <div className="space-y-4">

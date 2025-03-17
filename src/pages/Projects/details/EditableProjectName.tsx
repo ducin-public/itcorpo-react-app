@@ -1,8 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
-
-import { useNotifications } from '../../../components/Notifications/NotificationContext';
-import { updateProject } from '../../../api/ProjectApi.axios';
+import { useState, useRef } from 'react';
 
 interface EditableProjectNameProps {
   id: string;
@@ -13,26 +9,6 @@ export function EditableProjectName({ id, name }: EditableProjectNameProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [value, setValue] = useState(name);
   const inputRef = useRef<HTMLInputElement>(null);
-  const queryClient = useQueryClient();
-  const { addNotification } = useNotifications();
-
-  useEffect(() => {
-    if (isEditing && inputRef.current) {
-      inputRef.current.focus();
-      inputRef.current.select();
-    }
-  }, [isEditing]);
-
-  const handleSubmit = async () => {
-    try {
-      await updateProject({ projectId: id }, { name: value }); // FIXME: PATCH vs PUT
-      queryClient.invalidateQueries({ queryKey: ['project', id] });
-      addNotification('notice', 'Project name updated successfully');
-      setIsEditing(false);
-    } catch (error) {
-      addNotification('error', 'Failed to update project name');
-    }
-  };
 
   if (isEditing) {
     return (
@@ -41,9 +17,9 @@ export function EditableProjectName({ id, name }: EditableProjectNameProps) {
         type="text"
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        onBlur={handleSubmit}
+        onBlur={console.log}
         onKeyDown={(e) => {
-          if (e.key === 'Enter') handleSubmit();
+          if (e.key === 'Enter') console.log();
           if (e.key === 'Escape') setIsEditing(false);
         }}
         className="text-2xl font-bold text-gray-900 border-b-2 border-indigo-500 focus:outline-none"

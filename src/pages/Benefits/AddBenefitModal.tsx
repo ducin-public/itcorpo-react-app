@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form';
 
 import { styleConstants } from '../../components/DesignLanguage';
 import { BenefitSubscription } from '../../contract-types/data-contracts';
-import { useCreateBenefitSubscriptionMutation } from '../../api/BenefitQueries';
+import { createBenefitSubscription } from '../../api/BenefitApi.axios';
 
 interface AddBenefitForm {
   type: BenefitSubscription['service'];
@@ -23,14 +23,12 @@ export function AddBenefitModal({
 }) {
   const { register, handleSubmit, formState: { errors } } = useForm<AddBenefitForm>();
 
-  const createMutation = useCreateBenefitSubscriptionMutation();
-
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
       <div className="bg-white rounded-lg p-6 w-full max-w-md">
         <h2 className="text-xl font-semibold text-gray-900 mb-4">Add New Benefit</h2>
         
-        <form onSubmit={handleSubmit((data) => createMutation.mutate(data))}>
+        <form onSubmit={handleSubmit((data) => console.log(data))}>
           <div className="space-y-4">
             <div>
               <label className={`${styleConstants.LABEL_TEXT_SIZE} block font-medium text-gray-700`}>Type</label>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Edit, Trash2 } from 'lucide-react';
 
 import type { Employee } from '../../contract-types/data-contracts';
@@ -9,7 +9,6 @@ import { formatCurrency } from '../../contexts/CurrencyContext';
 import { A } from '../../components/Typography/A';
 import { formatDate, formatDistance } from 'date-fns';
 import { SpinnerOverlay } from '../../components/Generic/SpinnerOverlay';
-import { useDeleteEmployeeMutation } from '../../api/EmployeeQueries';
 
 interface EmployeeTileProps {
   employee: Employee;
@@ -24,10 +23,10 @@ export function EmployeeTile({
   // onDelete,
   footer
 }: EmployeeTileProps) {
-  const deleteMutation = useDeleteEmployeeMutation();
+  const [isPending, setIsPending] = useState(false)
 
   return (
-    <SpinnerOverlay size="LARGE" align='CENTER' overlay={deleteMutation.isPending}>
+    <SpinnerOverlay size="LARGE" align='CENTER' overlay={isPending}>
       <div className="bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow">
         <div className="flex items-start justify-between">
 
@@ -41,7 +40,7 @@ export function EmployeeTile({
               <Edit className="h-5 w-5" />
             </button>
             <button
-              onClick={() => deleteMutation.mutate({
+              onClick={() => console.log({
                 employeeId: employee.id,
                 name: employee.name
               })}

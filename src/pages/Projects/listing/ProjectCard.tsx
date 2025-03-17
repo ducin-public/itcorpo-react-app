@@ -64,7 +64,7 @@ export function ProjectCard({ project, onView, onEdit, onDelete }: ProjectCardPr
         >{projectStatusDict[project.status]}</Chip>
         <div className="flex items-center">
           <Users className="h-4 w-4 mr-1" />
-          <span>{project.teamSize} members</span> {/* FIXME */}
+          <span>{project.teamSize} members</span>
         </div>
         {project.endDate && <div className="flex items-center">
           <Calendar className="h-4 w-4 mr-1" />
